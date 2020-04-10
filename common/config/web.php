@@ -10,7 +10,7 @@ $logPrefix = function ($message) {
 $config = [
     'id' => 'basic',
     'runtimePath' => dirname(dirname(__DIR__)). '/runtime',
-
+    'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'bootstrap' => ['log'],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',

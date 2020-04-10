@@ -1,14 +1,11 @@
 <?php
-
-namespace a\controllers;
-
-use yii\web\Controller;
+namespace backend\controllers;
 
 
-class SiteController extends Controller
-{
-    public function actionIndex()
-    {
+class SiteController extends BaseController{
+
+    public function actionIndex(){
         echo "1";
     }
+
 }
