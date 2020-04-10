@@ -18,15 +18,15 @@ class LoginFormCest
     {
         $I->amLoggedInAs(100);
         $I->amOnPage('/');
-        $I->see('Logout (admin)');
+        $I->see('Logout (backend)');
     }
 
     // demonstrates `amLoggedInAs` method
     public function internalLoginByInstance(\FunctionalTester $I)
     {
-        $I->amLoggedInAs(\app\models\User::findByUsername('admin'));
+        $I->amLoggedInAs(\app\models\User::findByUsername('backend'));
         $I->amOnPage('/');
-        $I->see('Logout (admin)');
+        $I->see('Logout (backend)');
     }
 
     public function loginWithEmptyCredentials(\FunctionalTester $I)
@@ -40,7 +40,7 @@ class LoginFormCest
     public function loginWithWrongCredentials(\FunctionalTester $I)
     {
         $I->submitForm('#login-form', [
-            'LoginForm[username]' => 'admin',
+            'LoginForm[username]' => 'backend',
             'LoginForm[password]' => 'wrong',
         ]);
         $I->expectTo('see validations errors');
@@ -50,10 +50,10 @@ class LoginFormCest
     public function loginSuccessfully(\FunctionalTester $I)
     {
         $I->submitForm('#login-form', [
-            'LoginForm[username]' => 'admin',
-            'LoginForm[password]' => 'admin',
+            'LoginForm[username]' => 'backend',
+            'LoginForm[password]' => 'backend',
         ]);
-        $I->see('Logout (admin)');
+        $I->see('Logout (backend)');
         $I->dontSeeElement('form#login-form');              
     }
 }

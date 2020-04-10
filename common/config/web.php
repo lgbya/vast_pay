@@ -2,10 +2,15 @@
 
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
-
+$logPrefix = function ($message) {
+    $user = Yii::$app->has('user', true) ? Yii::$app->get('user') : null;
+    $userID = $user ? $user->getId(false) : '-';
+    return "[$userID]";
+};
 $config = [
     'id' => 'basic',
-    'basePath' => dirname(__DIR__),
+    'runtimePath' => dirname(dirname(__DIR__)). '/runtime',
+
     'bootstrap' => ['log'],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
@@ -39,18 +44,31 @@ $config = [
                 [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
+                    'logFile' => '@runtime/logs/'.$main['id'].'/'.date('Ym').'/app.error.log',
+                    'logVars' => [],
+                    'prefix' => $logPrefix,
+                ],
+                [
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['info'],
+                    'logFile' => '@runtime/logs/'. $main['id']. '/'.date('Ym').'/app.info.log',
+                    'logVars' => [],
+                    'prefix' => $logPrefix,
                 ],
             ],
         ],
         'db' => $db,
-        /*
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+            'enableStrictParsing' => true,
             'rules' => [
+                '/' => 'site/index',
+                '<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
+                '<module:\w+>/<controller:\w+>/<action:\w+>'=>'<module>/<controller>/<action>',
+                '<module:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>'=>'<module>/<controller>/<action>',
             ],
         ],
-        */
     ],
     'params' => $params,
 ];
