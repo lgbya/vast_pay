@@ -3,16 +3,18 @@
 use yii\captcha\Captcha;
 use yii\helpers\Html;
 use yii\helpers\Url;
-use \yii\widgets\ActiveForm;
+use \yii\bootstrap\ActiveForm;
 ?>
+<?php $this->beginPage() ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?= Yii::$app->language ?>">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- Meta, title, CSS, favicons, etc. -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <?php $this->registerCsrfMetaTags() ?>
 
     <title>浩瀚支付</title>
 
@@ -28,51 +30,57 @@ use \yii\widgets\ActiveForm;
     <link href="/style/build/css/custom.min.css" rel="stylesheet">
 </head>
 
-<body class="login">
-<div>
-    <div class="login_wrapper">
-        <div class="animate form login_form">
+<body class="login" >
+<?php $this->beginBody() ?>
+
+<div  class="container">
+    <div class="login_wrapper" style="max-width: 533px;right: 1.15%;margin-top:8.6%">
+        <div class="animate form login_form" style="background-color: #fff;border-radius:16px">
             <section class="login_content">
-                <?php $form = ActiveForm::begin(['id'=>'login-form']); ?>
-                <form id="reportForm"  method="post"  data-parsley-validate  >
-                    <h1>浩瀚支付 管理后台</h1>
-                    <div>
-                        <input type="text" name="name" class="form-control" value="admin" placeholder="登录名称" required="required" />
-                    </div>
-                    <div>
-                        <input type="password" name="password" class="form-control" value="123" placeholder="登录密码" required="required" />
-                    </div>
-                    <div>
-                        <input type="text" name="captcha" class="form-control" placeholder="验证码" value="" required="required" style="float:left;width: 205px;" />
-                        <?= Captcha::widget([
-                                'name'=>'captchaimg',
-                                'captchaAction'=>'login/captcha',
-                                'imageOptions'=>[
-                                        'id'=>'captchaimg',
-                                        'title'=>'换一个',
-                                        'alt'=>'换一个',
-                                        'style'=>'cursor:pointer;margin-left:25px;'
-                                ],
-                                'template'=>'{image}'
-                        ]);?>
+                <?php
+                $form = ActiveForm::begin([
+                    'id'=>'contact-form',
+                    'layout' => 'horizontal',
+                    'action'=>[Url::to('/login/login')],
+                    'fieldConfig' => [
+                        'labelOptions' => ['class' => 'col-lg-2 control-label'],
+                        'template' => '{label}<div class="col-lg-9" >{input}</div> <div class="col-lg-12" >{error}</div>',
+                    ],
 
-                    </div>
-                    <br>
-                    <div>
-                        <button type="submit" class="btn btn-default submit">登录</button>
-                    </div>
+                ]);
+                ?>
+                <h1>浩瀚支付 管理后台</h1>
 
+                <?= $form->field($objectForm, 'login_name')->textInput() ?>
+
+                <?= $form->field($objectForm, 'login_password')->passwordInput() ?>
+
+                <?= $form->field($objectForm, 'verify_code')->widget(Captcha::className(), [
+                    'captchaAction'=>Url::to('site/captcha'),
+                    'imageOptions'=>[
+                        'id'=>'captcha-img',
+                        'title'=>'换一个',
+                        'alt'=>'换一个',
+                    ],
+                    'template' => '<div class="row"><div class="col-lg-8" >{input}</div><div class="col-lg-4 " ">{image}</div></div>',
+                ]) ?>
+                <div class="form-group">
+                    <div class="col-lg-offset-1 col-lg-12">
+                        <?= Html::submitButton('登录/Login ☜(ˆ▽ˆ)', ['class' => 'btn btn-primary btn-lg', 'name' => 'login-button']) ?>
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+                <div class="separator">
                     <div class="clearfix"></div>
-
-                    <div class="separator">
-                        <div class="clearfix"></div>
-                        <br />
-                        <div>
-                            <h1> Vast Pay </h1>
-                            <p>©2020 All Rights Reserved. Vast Pay! is a PHP code. Privacy and Terms</p>
-                        </div>
+                    <br />
+                    <div>
+                        <p>©2020 All Rights Reserved. 【Vast Pay】 is a PHP code. Privacy and Terms</p>
                     </div>
-                </form>
+                </div>
+                <?php ActiveForm::end(); ?>
+
+                <!--                </form>-->
             </section>
         </div>
     </div>
@@ -94,11 +102,17 @@ use \yii\widgets\ActiveForm;
 <script src="/style/vendors/pnotify/dist/pnotify.nonblock.js"></script>
 <script src="/style/js/common.js"></script>
 <script src="/style/js/captcha.js"></script>
-<script >
-    $('#reportForm').on('submit', function(){
-        submitHref("#reportForm", "/manage/index/check_login", "/manage/index/index");
-        event.preventDefault(); //阻止form表单默认提交
-    })
+<script>
+    $(function(){
+        $(document).on('beforeSubmit', 'form#contact-form', function () {
+            return submitHref($(this));
+        });
+    });
+
+
+
 </script>
+<?php $this->endBody() ?>
 </body>
 </html>
+<?php $this->endPage() ?>

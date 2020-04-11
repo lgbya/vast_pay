@@ -2,21 +2,12 @@
 namespace backend\controllers;
 
 
+use common\models\AdminLoginForm;
+
 class LoginController extends BaseController {
 
     public $layout = false;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function actions(){
-        return [
-            'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
-                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
-            ],
-        ];
-    }
 
     /**
      * 登录页面
@@ -24,7 +15,10 @@ class LoginController extends BaseController {
      * @return string
      */
     public function actionIndex(){
-        return $this->render('index',[]);
+        $ofAdminLogin = new AdminLoginForm();
+        return $this->render('index',[
+            'objectForm' => $ofAdminLogin,
+        ]);
     }
 
     /**
