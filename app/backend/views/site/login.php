@@ -1,10 +1,12 @@
 <?php
 use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\captcha\Captcha;
 use yii\bootstrap\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
-/* @var $model \common\models\LoginForm */
+/* @var $formValidate \common\models\form\AdminLoginForm */
 
 $this->title = 'Sign In';
 
@@ -21,7 +23,7 @@ $fieldOptions2 = [
 
 <div class="login-box">
     <div class="login-logo">
-        <a href="#"><b>Admin</b>LTE</a>
+        <a href="#"><b><?= Yii::$app->params['app_name'];?></b>后台</a>
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">
@@ -30,18 +32,30 @@ $fieldOptions2 = [
         <?php $form = ActiveForm::begin(['id' => 'login-form', 'enableClientValidation' => false]); ?>
 
         <?= $form
-            ->field($model, 'username', $fieldOptions1)
+            ->field($formValidate, 'username', $fieldOptions1)
             ->label(false)
-            ->textInput(['placeholder' => $model->getAttributeLabel('username')]) ?>
+            ->textInput(['placeholder' => $formValidate->getAttributeLabel('username')]) ?>
 
         <?= $form
-            ->field($model, 'password', $fieldOptions2)
+            ->field($formValidate, 'password', $fieldOptions2)
             ->label(false)
-            ->passwordInput(['placeholder' => $model->getAttributeLabel('password')]) ?>
+            ->passwordInput(['placeholder' => $formValidate->getAttributeLabel('password')]) ?>
 
+        <?= $form
+            ->field($formValidate, 'verify_code')
+            ->label(false)
+            ->widget(Captcha::className(), [
+            'captchaAction'=>Url::to('site/captcha'),
+            'imageOptions'=>[
+                'title'=>'换一个',
+                'alt'=>'换一个',
+            ],
+            'options' => ['placeholder' => $formValidate->getAttributeLabel('verify_code')],
+            'template' => '<div class="row"><div class="col-lg-8" >{input}</div><div>{image}</div></div>',
+        ]) ?>
         <div class="row">
             <div class="col-xs-8">
-                <?= $form->field($model, 'rememberMe')->checkbox() ?>
+                <?= $form->field($formValidate, 'remember_me')->checkbox() ?>
             </div>
             <!-- /.col -->
             <div class="col-xs-4">

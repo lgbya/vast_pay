@@ -9,7 +9,7 @@ return [
             'defaultRoles' => ['guest'],
         ],
         'user' => [
-            'identityClass' => 'mdm\admin\models\User',
+            'identityClass' => 'common\models\Admin',
             'enableAutoLogin' => true,
         ],
     ],

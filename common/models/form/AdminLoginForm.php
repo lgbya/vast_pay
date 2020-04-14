@@ -4,20 +4,21 @@ namespace common\models\form;
 
 use Yii;
 use yii\base\Model;
-use common\models\User;
+use common\models\Admin;
 /**
- * LoginForm is the model behind the login form.
+ * AdminLoginForm is the model behind the login form.
  *
- * @property User|null $user This property is read-only.
+ * @property Admin|null $user This property is read-only.
  *
  */
-class LoginForm extends Model
+class AdminLoginForm extends Model
 {
     public $username;
     public $password;
-    public $rememberMe = true;
+    public $remember_me = true;
+    public $verify_code;
 
-    private $_user = false;
+    private $_admin = false;
 
 
     /**
@@ -27,11 +28,13 @@ class LoginForm extends Model
     {
         return [
             // username and password are both required
-            [['username', 'password'], 'required'],
+            [['username', 'password', 'verify_code'], 'required'],
             // rememberMe must be a boolean value
-            ['rememberMe', 'boolean'],
+            ['remember_me', 'boolean'],
             // password is validated by validatePassword()
             ['password', 'validatePassword'],
+            ['verify_code', 'captcha'],
+
         ];
     }
 
@@ -45,9 +48,9 @@ class LoginForm extends Model
     public function validatePassword($attribute, $params)
     {
         if (!$this->hasErrors()) {
-            $user = $this->getUser();
+            $oqAdmin = $this->getAdmin();
 
-            if (!$user || !$user->validatePassword($this->password)) {
+            if (!$oqAdmin || !$oqAdmin->validateLoginPassword($this->password)) {
                 $this->addError($attribute, 'Incorrect username or password.');
             }
         }
@@ -60,7 +63,7 @@ class LoginForm extends Model
     public function login()
     {
         if ($this->validate()) {
-            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600*24*30 : 0);
+            return Yii::$app->user->login($this->getAdmin(), $this->remember_me ? 3600*24*30 : 0);
         }
         return false;
     }
@@ -68,14 +71,14 @@ class LoginForm extends Model
     /**
      * Finds user by [[username]]
      *
-     * @return User|null
+     * @return Admin|null
      */
-    public function getUser()
+    public function getAdmin()
     {
-        if ($this->_user === false) {
-            $this->_user = User::findByUsername($this->username);
+        if ($this->_admin === false) {
+            $this->_admin = Admin::findByLoginName($this->username);
         }
 
-        return $this->_user;
+        return $this->_admin;
     }
 }

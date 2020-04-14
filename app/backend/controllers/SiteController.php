@@ -7,8 +7,7 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
-use common\models\form\LoginForm;
-use common\models\ContactForm;
+use common\models\form\AdminLoginForm;
 
 class SiteController extends Controller
 {
@@ -53,8 +52,8 @@ class SiteController extends Controller
                 'backColor'=>0xf7f7f7,
                 'maxLength' => 4,
                 'minLength' => 4,
-                'height' => 40,
-                'width' => 115,
+                'height' => 36,
+                'width' => 102,
                 'offset'=>6,        //设置字符偏移量 有效果
             ],
         ];
@@ -77,18 +76,21 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
+
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
 
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+        $ofAdminLogin = new AdminLoginForm();
+        if ($ofAdminLogin->load(Yii::$app->request->post()) && $ofAdminLogin->login()) {
             return $this->goBack();
         }
 
-        $model->password = '';
+        $ofAdminLogin->password = '';
         return $this->render('login', [
-            'model' => $model,
+            'formValidate' => $ofAdminLogin,
+//            'searchModel'=>,
+//            'dataProvider' => ,
         ]);
     }
 
@@ -103,8 +105,5 @@ class SiteController extends Controller
 
         return $this->goHome();
     }
-
-
-
 
 }

@@ -9,6 +9,7 @@ $logPrefix = function ($message) {
 };
 $config = [
     'id' => 'basic',
+    'name' => '浩瀚支付',
     'runtimePath' => dirname(dirname(__DIR__)). '/runtime',
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'bootstrap' => ['log'],
