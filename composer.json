@@ -22,7 +22,10 @@
         "codeception/specify": "^1.0",
         "codeception/verify": "^1.3",
         "dmstr/yii2-adminlte-asset": "2.*",
-        "mdmsoft/yii2-admin": "~2.0"
+        "mdmsoft/yii2-admin": "~2.0",
+        "kartik-v/yii2-grid": "^3.3",
+        "kartik-v/yii2-widgets": "^3.4",
+        "kartik-v/yii2-date-range": "^1.7"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",
@@ -67,7 +70,7 @@
     "repositories": [
         {
             "type": "composer",
-            "url": "https://asset-packagist.org"
+            "url": "https://mirrors.aliyun.com/composer/"
         }
     ]
 }

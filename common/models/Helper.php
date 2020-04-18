@@ -20,4 +20,13 @@ class Helper
             'data'      =>  $data,
         ];
     }
+
+    static public function cuttingDateRange($dateString, $delimiter ='到' ){
+        $lDate = explode($delimiter, $dateString);
+        if (count($lDate) != 2){
+            return [];
+        }
+
+        return [strtotime($lDate[0]), strtotime($lDate[1])];
+    }
 }
