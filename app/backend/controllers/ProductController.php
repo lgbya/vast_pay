@@ -5,15 +5,13 @@ namespace backend\controllers;
 use Yii;
 use common\models\Product;
 use common\models\ProductSearch;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\data\Pagination;
 
 /**
  * ProductController implements the CRUD actions for Product model.
  */
-class ProductController extends Controller
+class ProductController extends BaseController
 {
     /**
      * {@inheritdoc}

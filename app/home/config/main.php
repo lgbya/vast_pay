@@ -4,6 +4,11 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'home\controllers',
     'components' => [
+        'user' => [
+            'identityClass' => 'common\models\User',
+            'enableAutoLogin' => true,
+        ],
+
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
