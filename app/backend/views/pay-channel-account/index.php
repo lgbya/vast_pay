@@ -1,18 +1,24 @@
 <?php
 
+use yii\helpers\Url;
 use yii\helpers\Html;
 use kartik\grid\GridView;
-use \common\models\Product;
-use yii\widgets\Pjax;
+use common\models\PayChannelAccount;
+use kartik\select2\Select2;
+
 /* @var $this yii\web\View */
-/* @var $searchModel common\models\ProductSearch */
+/* @var $searchModel common\models\PayChannelAccountSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = '产品列表';
-$this->params['breadcrumbs'][] = $this->title;
-?>
+$this->title = Yii::t('app', '支付子账号列表:   {pay_channel_name}', [
+        'pay_channel_name'=>$payChannelName,
+]);
 
-<?php Pjax::begin(); ?>
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', '支付通道列表'), 'url' => Url::to(['/pay-channel/index'])];
+$this->params['breadcrumbs'][] = $this->title;
+
+//echo "<pre>";var_dump($this->params['breadcrumbs']);exit;
+?>
 <div class="row">
     <div class="col-xs-12">
         <div class="box">
@@ -21,8 +27,12 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
             <div class="box-body table-responsive">
                 <div class="box-tools">
-                    <?= Html::a('新增产品', ['create'], ['class' => 'btn btn-primary']) ?>
+                    <?= Html::a(Yii::t('app', '新增支付子账号'),
+                        Url::to(['create', 'pay_channel_id'=>$payChannelId]),
+                        ['class' => 'btn btn-primary'])
+                    ?>
                 </div>
+
                 <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
                 <?= GridView::widget([
@@ -31,13 +41,14 @@ $this->params['breadcrumbs'][] = $this->title;
                     'columns' => [
                         ['class' => 'yii\grid\SerialColumn'],
                         'id',
-                        'name',
+                        'account',
+                        'weight',
                         [
                             'attribute'=>'status',
                             'value' => function($data){
-                                return Product::enumState('status', $data->status);
+                                return PayChannelAccount::enumState('status', $data->status);
                             },
-                            'filter' => Product::enumState('status'),
+                            'filter' => PayChannelAccount::enumState('status'),
                         ],
                         [
                             'attribute' => 'created_at',
@@ -57,10 +68,9 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                     ],
                 ]); ?>
+
             </div>
         </div>
     </div>
 </div>
-<?php Pjax::end(); ?>
-
 

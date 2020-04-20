@@ -11,11 +11,12 @@ $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id
 $this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="product-update">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
-
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title"><?= Html::encode($this->title) ?></h3>
+        </div>
+        <?= $this->render('_form', [
+            'model' => $model,
+        ]) ?>
+    </div>
 </div>

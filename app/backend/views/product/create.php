@@ -10,11 +10,12 @@ $this->params['breadcrumbs'][] = ['label' => '产品列表', 'url' => ['index']]
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="product-create">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
-
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title"><?= Html::encode($this->title) ?></h3>
+        </div>
+        <?= $this->render('_form', [
+            'model' => $model,
+        ]) ?>
+    </div>
 </div>

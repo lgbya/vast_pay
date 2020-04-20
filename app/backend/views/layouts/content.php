@@ -5,21 +5,27 @@ use dmstr\widgets\Alert;
 ?>
 <div class="content-wrapper">
     <section class="content-header">
-        <?php if (isset($this->blocks['content-header'])) { ?>
-            <h1><?= $this->blocks['content-header'] ?></h1>
-        <?php } else { ?>
-            <h1>
-                <?php
-                if ($this->title !== null) {
-                    echo \yii\helpers\Html::encode($this->title);
-                } else {
-                    echo \yii\helpers\Inflector::camel2words(
-                        \yii\helpers\Inflector::id2camel($this->context->module->id)
-                    );
-                    echo ($this->context->module->id !== \Yii::$app->id) ? '<small>Module</small>' : '';
-                } ?>
-            </h1>
-        <?php } ?>
+        <a href="" class="rfHeaderFont">
+            <i class="glyphicon glyphicon-refresh"></i> 刷新
+        </a>
+        <a href="javascript:history.go(-1)" class="rfHeaderFont">
+            <i class="fa fa-mail-reply"></i> 返回
+        </a>
+<!--        --><?php //if (isset($this->blocks['content-header'])) { ?>
+<!--            <h1>--><?//= $this->blocks['content-header'] ?><!--</h1>-->
+<!--        --><?php //} else { ?>
+<!--            <h1>-->
+<!--                --><?php
+//                if ($this->title !== null) {
+//                    echo \yii\helpers\Html::encode($this->title);
+//                } else {
+//                    echo \yii\helpers\Inflector::camel2words(
+//                        \yii\helpers\Inflector::id2camel($this->context->module->id)
+//                    );
+//                    echo ($this->context->module->id !== \Yii::$app->id) ? '<small>Module</small>' : '';
+//                } ?>
+<!--            </h1>-->
+<!--        --><?php //} ?>
 
         <?=
         Breadcrumbs::widget(

@@ -70,6 +70,18 @@ class Product extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getIdToNameList(){
+        $query = self::find();
+        $oqlProduct = $query->select(['id','name'])->andFilterWhere(['is_del'=> Product::DEL_STATE_NO])->all();
+
+        $lsIdToName = [];
+        foreach ($oqlProduct as $k => $v){
+            $lsIdToName[$v->id] = $v->name;
+        }
+
+        return $lsIdToName;
+    }
+
     static public function enumState($type = null, $field = null){
         $lsEnum =  [
             'status'=>[
@@ -85,15 +97,4 @@ class Product extends \yii\db\ActiveRecord
         return $lsEnum;
     }
 
-    public function getIdToNameList(){
-        $query = self::find();
-        $oqlProduct = $query->select(['id','name'])->andFilterWhere(['is_del'=> Product::DEL_STATE_NO])->all();
-
-        $lsIdToName = [];
-        foreach ($oqlProduct as $k => $v){
-            $lsIdToName[$v->id] = $v->name;
-        }
-
-        return $lsIdToName;
-    }
 }

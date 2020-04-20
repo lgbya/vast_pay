@@ -1,8 +1,9 @@
 <?php
 
 use yii\helpers\Html;
-use kartik\grid\GridView;
+use yii\helpers\Url;
 use yii\widgets\Pjax;
+use kartik\grid\GridView;
 use common\models\PayChannel;
 use common\models\Product;
 
@@ -13,82 +14,100 @@ use common\models\Product;
 $this->title = '支付通道列表';
 $this->params['breadcrumbs'][] = $this->title;
 $omProduct = new Product();
-$lProductIdToName = $omProduct->getIdToNameList();
 ?>
-<div class="pay-channel-index">
+<?php Pjax::begin(); ?>
 
-    <h1><?= Html::encode($this->title) ?></h1>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title"><?= $this->title; ?></h3>
+            </div>
+            <div class="box-body table-responsive">
+                <div class="box-tools">
+                    <?= Html::a('新增支付通道', ['create'], ['class' => 'btn btn-primary']) ?>
+                </div>
 
-    <p>
-        <?= Html::a('新增支付通道', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+                <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <?php Pjax::begin(); ?>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+                <?= GridView::widget([
+                    'dataProvider' => $dataProvider,
+                    'filterModel' => $searchModel,
+                    'columns' => [
+                        ['class' => 'yii\grid\SerialColumn'],
+                        [
+                            'attribute'=>'id',
+                            'headerOptions' => ['width' => '100'],
+                        ],
+                        [
+                            'attribute' => 'product_id',
+                            'headerOptions' => ['width' => '100'],
+                             'value' => 'product.name'
+                        ],
+                        [
+                            'attribute'=>'name',
+                            'headerOptions' => ['width' => '100'],
+                        ],
+                        [
+                            'attribute'=>'code',
+                            'headerOptions' => ['width' => '100'],
+                        ],
+                        [
+                            'attribute'=>'rate',
+                            'headerOptions' => ['width' => '100'],
+                        ],
+                        [
+                            'attribute'=>'cost',
+                            'headerOptions' => ['width' => '100'],
+                        ],
+                        [
+                            'attribute'=>'weight',
+                            'headerOptions' => ['width' => '100'],
+                        ],
+                        [
+                            'attribute'=>'status',
+                            'value' => function($data){
+                                return PayChannel::enumState('status', $data->status);
+                            },
+                            'filter' => PayChannel::enumState('status'),
+                        ],
+                        [
+                            'attribute' => 'created_at',
+                            'format' => ['date', 'php:Y-m-d H:i:s'],
+                            'filterType' =>GridView::FILTER_DATE_RANGE,
+                            'filterWidgetOptions'=> Yii::$app->params['filterDateRangeOptions'],
+                        ],
+                        [
+                            'attribute' => 'updated_at',
+                            'format' => ['date', 'php:Y-m-d H:i:s'],
+                            'filterType' =>GridView::FILTER_DATE_RANGE,
+                            'filterWidgetOptions'=> Yii::$app->params['filterDateRangeOptions'],
+                        ],
+                        [
+                            'header' => "操作",
+                            'class' => 'yii\grid\ActionColumn',
+                            'template' => '{accounts}{view}{update}{delete}',
+                            'buttons' => [
+                                'accounts' => function ($url, $model) {
+                                    return Html::a(
+                                            '<span class="glyphicon glyphicon-list"></span>',
+                                            Url::to([
+                                                    '/pay-channel-account/index',
+                                                    'pay_channel_id'=>$model->id,
+                                                    'pay_channel_name'=>$model->name,
+                                            ]),
+                                            ['title' => '子账号列表']
+                                        ) . " ";
+                                },
+                            ],
+                        ],
+                    ],
+                ]); ?>
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-            [
-                'attribute'=>'id',
-                'headerOptions' => ['width' => '100'],
-            ],
-            [
-                'attribute'=>'product_id',
-                'headerOptions' => ['width' => '100'],
-                'value' => function($data) use ($lProductIdToName){
-                    return $lProductIdToName[$data->product_id];
-                },
-                'filter' => $lProductIdToName,
-            ],
-            [
-                'attribute'=>'name',
-                'headerOptions' => ['width' => '100'],
-            ],
-            [
-                'attribute'=>'code',
-                'headerOptions' => ['width' => '100'],
-            ],
-            [
-                'attribute'=>'rate',
-                'headerOptions' => ['width' => '100'],
-            ],
-            [
-                'attribute'=>'cost',
-                'headerOptions' => ['width' => '100'],
-            ],
-            [
-                'attribute'=>'weight',
-                'headerOptions' => ['width' => '100'],
-            ],
-            [
-                'attribute'=>'status',
-                'value' => function($data){
-                    return PayChannel::enumState('status', $data->status);
-                },
-                'filter' => PayChannel::enumState('status'),
-            ],
-            [
-                'attribute' => 'created_at',
-                'format' => ['date', 'php:Y-m-d H:i:s'],
-                'filterType' =>GridView::FILTER_DATE_RANGE,
-                'filterWidgetOptions'=> Yii::$app->params['filterDateRangeOptions'],
-            ],
-            [
-                'attribute' => 'updated_at',
-                'format' => ['date', 'php:Y-m-d H:i:s'],
-                'filterType' =>GridView::FILTER_DATE_RANGE,
-                'filterWidgetOptions'=> Yii::$app->params['filterDateRangeOptions'],
-            ],
-            [
-                'header' => "操作",
-                'class' => 'yii\grid\ActionColumn',
-            ],
-        ],
-    ]); ?>
-
-    <?php Pjax::end(); ?>
-
+            </div>
+        </div>
+    </div>
 </div>
+
+<?php Pjax::end(); ?>
+

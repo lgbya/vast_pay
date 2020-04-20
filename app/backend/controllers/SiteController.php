@@ -7,7 +7,7 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
-use common\models\form\AdminLoginForm;
+use common\models\AdminLoginForm;
 
 class SiteController extends Controller
 {

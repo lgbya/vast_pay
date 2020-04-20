@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
-use yii\widgets\ActiveForm;
+use yii\bootstrap\ActiveForm;
 use common\models\PayChannel;
 use common\models\Product;
 
@@ -12,35 +12,38 @@ use common\models\Product;
 $omProduct = new Product();
 ?>
 
-<div class="pay-channel-form">
+<?php $form = ActiveForm::begin(['layout'=> 'horizontal']); ?>
+<?php echo $form->errorSummary($model); ?>
 
-    <?php $form = ActiveForm::begin(); ?>
+<div class="box-body">
+    <div class="pay-channel-form">
 
-    <?= $form->field($model, 'product_id')->dropDownList(
-        ArrayHelper::merge([''=>'请选择'],$omProduct->getIdToNameList())
-    ) ?>
+        <?= $form->field($model, 'product_id')->dropDownList(
+            ArrayHelper::merge([''=>'请选择'], $omProduct->getIdToNameList())
+        ) ?>
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+        <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
+        <?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'rate')->Input('number') ?>
+        <?= $form->field($model, 'rate')->Input('number') ?>
 
-    <?= $form->field($model, 'cost')->Input('number') ?>
+        <?= $form->field($model, 'cost')->Input('number') ?>
 
-    <?= $form->field($model, 'weight')->Input('number') ?>
+        <?= $form->field($model, 'weight')->Input('number') ?>
 
-    <?= $form->field($model, 'request_url')->textInput(['maxlength' => true]) ?>
+        <?= $form->field($model, 'request_url')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'status')->dropDownList(
-            PayChannel::enumState('status')
-    ) ?>
-
-
-    <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= $form->field($model, 'status')->dropDownList(
+                PayChannel::enumState('status')
+        ) ?>
     </div>
-
-    <?php ActiveForm::end(); ?>
-
 </div>
+
+<div class="box-footer text-center">
+    <?= Html::submitButton(Yii::t('app', '保存'), ['class' => 'btn btn-primary']) ?>
+    <span class="btn btn-white" onclick="history.go(-1)">返回</span>
+</div>
+
+<?php ActiveForm::end(); ?>
+
