@@ -11,7 +11,7 @@ use common\models\Product;
 /* @var $searchModel common\models\ProductSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = '支付通道列表';
+$this->title = '支付通道回收站';
 $this->params['breadcrumbs'][] = $this->title;
 $omProduct = new Product();
 ?>
@@ -24,9 +24,6 @@ $omProduct = new Product();
                 <h3 class="box-title"><?= $this->title; ?></h3>
             </div>
             <div class="box-body table-responsive">
-                <div class="box-tools">
-                    <?= Html::a('新增支付通道', ['create'], ['class' => 'btn btn-primary']) ?>
-                </div>
 
                 <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
@@ -42,7 +39,7 @@ $omProduct = new Product();
                         [
                             'attribute' => 'product_id',
                             'headerOptions' => ['width' => '100'],
-                             'value' => 'product.name'
+                            'value' => 'product.name'
                         ],
                         [
                             'attribute'=>'name',
@@ -86,27 +83,16 @@ $omProduct = new Product();
                         [
                             'header' => "操作",
                             'class' => 'yii\grid\ActionColumn',
-                            'template' => '{accounts}{recycle-bin}{view}{update}{delete}',
+                            'template' => '{restore}',
                             'buttons' => [
-                                'accounts' => function ($url, $model) {
+                                'restore' => function ($url, $model) {
                                     return Html::a(
-                                            '<i class="fa fa-list" aria-hidden="true"></i>',
+                                            '<i class="fa fa-window-restore"></i>',
                                             Url::to([
-                                                    '/pay-channel-account/index',
-                                                    'pay_channel_id'=>$model->id,
-                                                    'pay_channel_name'=>$model->name,
+                                                '/pay-channel/restore',
+                                                'id'=>$model->id,
                                             ]),
-                                            ['title' => '子账号列表']
-                                        ) . " ";
-                                },
-                                'recycle-bin'=>function ($url, $model) {
-                                    return Html::a(
-                                            '<i class="fa fa-recycle" aria-hidden="true"></i>',
-                                            Url::to([
-                                                '/pay-channel-account/recycle-bin',
-                                                'pay_channel_id'=>$model->id,
-                                            ]),
-                                            ['title' => '子账号回收站']
+                                            ['title' => '还原']
                                         ) . " ";
                                 },
                             ],

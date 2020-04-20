@@ -29,10 +29,6 @@ class PayChannelAccountController extends Controller
         ];
     }
 
-    /**
-     * Lists all PayChannelAccount models.
-     * @return mixed
-     */
     public function actionIndex()
     {
         $osPayChannelAccount = new PayChannelAccountSearch();
@@ -40,9 +36,9 @@ class PayChannelAccountController extends Controller
         $payChannelId = $lsQueryParam['pay_channel_id'];
         $payChannelName =  $lsQueryParam['pay_channel_name'];
 
-        $lsQueryParam['PayChannelAccount']['pay_channel_id'] = $payChannelId;
-        $lsQueryParam['PayChannelAccount']['is_del'] = PayChannelAccount::DEL_STATE_NO;
-        $dataProvider = $osPayChannelAccount->search(Yii::$app->request->queryParams);
+        $lsQueryParam['PayChannelAccountSearch']['pay_channel_id'] = $payChannelId;
+        $lsQueryParam['PayChannelAccountSearch']['is_del'] = PayChannelAccount::DEL_STATE_NO;
+        $dataProvider = $osPayChannelAccount->search($lsQueryParam);
         return $this->render('index', [
             'payChannelId' => $payChannelId,
             'payChannelName' => $payChannelName,
@@ -51,12 +47,6 @@ class PayChannelAccountController extends Controller
         ]);
     }
 
-    /**
-     * Displays a single PayChannelAccount model.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     public function actionView($id)
     {
         return $this->render('view', [
@@ -64,17 +54,12 @@ class PayChannelAccountController extends Controller
         ]);
     }
 
-    /**
-     * Creates a new PayChannelAccount model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
     public function actionCreate()
     {
         $gPayChannelId = Yii::$app->request->get('pay_channel_id', '');
         $lPost = Yii::$app->request->post();
         if ($lPost !== []){
-            $lPost['PayChannelAccount']['pay_channel_id'] = $gPayChannelId;
+            $lPost['PayChannelAccountSearch']['pay_channel_id'] = $gPayChannelId;
         }
         $omPayChannelAccount = new PayChannelAccount();
         if ($omPayChannelAccount->load($lPost) && $omPayChannelAccount->save()) {
@@ -86,13 +71,6 @@ class PayChannelAccountController extends Controller
         ]);
     }
 
-    /**
-     * Updates an existing PayChannelAccount model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     public function actionUpdate($id)
     {
         $oqPayChannelAccount = $this->findModel($id);
@@ -106,13 +84,6 @@ class PayChannelAccountController extends Controller
         ]);
     }
 
-    /**
-     * Deletes an existing PayChannelAccount model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     public function actionDelete($id)
     {
         $oqPayChannelAccount = $this->findModel($id);
@@ -121,14 +92,33 @@ class PayChannelAccountController extends Controller
         return $this->redirect(['index']);
     }
 
+    public function actionRecycleBin()
+    {
+        $osPayChannelAccount = new PayChannelAccountSearch();
+        $lsQueryParam = Yii::$app->request->queryParams;
+        $payChannelId = $lsQueryParam['pay_channel_id'];
+        $payChannelName =  $lsQueryParam['pay_channel_name'];
 
-    /**
-     * Finds the PayChannelAccount model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return PayChannelAccount the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
+        $lsQueryParam['PayChannelAccountSearch']['pay_channel_id'] = $payChannelId;
+        $lsQueryParam['PayChannelAccountSearch']['is_del'] = PayChannelAccount::DEL_STATE_YES;
+        $dataProvider = $osPayChannelAccount->search($lsQueryParam);
+
+        return $this->render('recycle-bin', [
+            'payChannelId' => $payChannelId,
+            'payChannelName' => $payChannelName,
+            'searchModel' => $osPayChannelAccount,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionRestore($id)
+    {
+        $oqPayChannelAccount = $this->findModel($id);
+        $oqPayChannelAccount->is_del = PayChannelAccount::DEL_STATE_NO;
+        $oqPayChannelAccount->save();
+        return $this->redirect(['index']);
+    }
+
     protected function findModel($id)
     {
         if (($model = PayChannelAccount::findOne($id)) !== null) {

@@ -29,10 +29,6 @@ class PayChannelController extends Controller
         ];
     }
 
-    /**
-     * Lists all PayChannel models.
-     * @return mixed
-     */
     public function actionIndex()
     {
         $osPayChannel = new PayChannelSearch();
@@ -46,12 +42,6 @@ class PayChannelController extends Controller
         ]);
     }
 
-    /**
-     * Displays a single PayChannel model.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     public function actionView($id)
     {
         return $this->render('view', [
@@ -59,11 +49,6 @@ class PayChannelController extends Controller
         ]);
     }
 
-    /**
-     * Creates a new PayChannel model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
     public function actionCreate()
     {
         $oqPayChannel = new PayChannel();
@@ -77,13 +62,6 @@ class PayChannelController extends Controller
         ]);
     }
 
-    /**
-     * Updates an existing PayChannel model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     public function actionUpdate($id)
     {
         $oqPayChannel = $this->findModel($id);
@@ -97,13 +75,6 @@ class PayChannelController extends Controller
         ]);
     }
 
-    /**
-     * Deletes an existing PayChannel model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     public function actionDelete($id)
     {
         $oqPayChannel = $this->findModel($id);
@@ -112,13 +83,27 @@ class PayChannelController extends Controller
         return $this->redirect(['index']);
     }
 
-    /**
-     * Finds the PayChannel model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return PayChannel the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
+    public function actionRecycleBin()
+    {
+        $osPayChannel = new PayChannelSearch();
+        $lsQueryParam = Yii::$app->request->queryParams;
+        $lsQueryParam['PayChannelSearch']['is_del'] = PayChannel::DEL_STATE_YES;
+        $dataProvider = $osPayChannel->search($lsQueryParam);
+
+        return $this->render('recycle-bin', [
+            'searchModel' => $osPayChannel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionRestore($id)
+    {
+        $oqPayChannel = $this->findModel($id);
+        $oqPayChannel->is_del = PayChannel::DEL_STATE_NO;
+        $oqPayChannel->save();
+        return $this->redirect(['index']);
+    }
+
     protected function findModel($id)
     {
         if (($model = PayChannel::findOne($id)) !== null) {
