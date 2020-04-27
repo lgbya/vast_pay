@@ -6,7 +6,7 @@ use Yii;
 use yii\filters\AccessControl;
 use yii\web\Response;
 use yii\filters\VerbFilter;
-use common\models\AdminLoginForm;
+use common\models\UserLoginForm;
 
 class SiteController extends BaseController
 {
@@ -80,14 +80,14 @@ class SiteController extends BaseController
             return $this->goHome();
         }
 
-        $ofAdminLogin = new AdminLoginForm();
-        if ($ofAdminLogin->load(Yii::$app->request->post()) && $ofAdminLogin->login()) {
+        $ofUserLogin = new UserLoginForm();
+        if ($ofUserLogin->load(Yii::$app->request->post()) && $ofUserLogin->login()) {
             return $this->goBack();
         }
 
-        $ofAdminLogin->password = '';
+        $ofUserLogin->password = '';
         return $this->render('login', [
-            'formValidate' => $ofAdminLogin,
+            'formValidate' => $ofUserLogin,
 //            'searchModel'=>,
 //            'dataProvider' => ,
         ]);

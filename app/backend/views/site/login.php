@@ -6,7 +6,7 @@ use yii\bootstrap\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
-/* @var $formValidate \common\models\form\AdminLoginForm */
+/* @var $formValidate \common\models\AdminLoginForm */
 
 $this->title = 'Sign In';
 

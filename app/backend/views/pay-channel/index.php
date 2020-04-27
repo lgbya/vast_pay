@@ -42,7 +42,7 @@ $omProduct = new Product();
                         [
                             'attribute' => 'product_id',
                             'headerOptions' => ['width' => '100'],
-                             'value' => 'product.name'
+                            'value' => 'product.name'
                         ],
                         [
                             'attribute'=>'name',

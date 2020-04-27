@@ -85,11 +85,13 @@ class PayChannel extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getProduct(){
+    public function getProduct()
+    {
         return $this->hasOne(Product::className(),['id'=>'product_id']);
     }
 
-    public function getIdToNameList(){
+    public function getIdToNameList()
+    {
         $query = self::find();
         $oqlPayChannel = $query->select(['id','name'])
             ->andFilterWhere(['is_del'=> PayChannelAccount::DEL_STATE_NO])
@@ -103,7 +105,8 @@ class PayChannel extends \yii\db\ActiveRecord
         return $lsIdToName;
     }
 
-    static public function enumState($type = null, $field = null){
+    public static function enumState($type = null, $field = null)
+    {
         $lsEnum =  [
             'status'=>[
                 self::STATUS_ON=>'开启',

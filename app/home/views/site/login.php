@@ -2,10 +2,12 @@
 
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
-/* @var $model app\models\LoginForm */
+/* @var $model common\models\UserLoginForm */
 
+use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use yii\captcha\Captcha;
 
 $this->title = 'Login';
 $this->params['breadcrumbs'][] = $this->title;
@@ -19,16 +21,29 @@ $this->params['breadcrumbs'][] = $this->title;
         'id' => 'login-form',
         'layout' => 'horizontal',
         'fieldConfig' => [
-            'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-8\">{error}</div>",
+            'template' => "{label}\n<div class=\"col-lg-3\" >{input}</div>\n<div class=\"col-lg-8\">{error}</div>",
             'labelOptions' => ['class' => 'col-lg-1 control-label'],
         ],
     ]); ?>
+    <?php echo $form->errorSummary($formValidate); ?>
 
-        <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
+        <?= $form->field($formValidate, 'username')->textInput(['autofocus' => true]) ?>
 
-        <?= $form->field($model, 'password')->passwordInput() ?>
+        <?= $form->field($formValidate, 'password')->passwordInput() ?>
 
-        <?= $form->field($model, 'rememberMe')->checkbox([
+<!--        --><?//= $form
+//            ->field($formValidate, 'verify_code')
+//            ->label(null, ['class' => 'col-lg-1 control-label'])
+//            ->widget(Captcha::className(), [
+//                'captchaAction'=>Url::to('site/captcha'),
+//                'imageOptions'=>[
+//                    'title'=>'换一个',
+//                    'alt'=>'换一个',
+//                ],
+//                'options' => ['placeholder' => $formValidate->getAttributeLabel('verify_code')],
+//                'template' => "<div class=\"row\"><div class=\"col-lg-6\" >{input}</div>\n<div class=\"col-lg-3\" >{image}</div></div>",
+//            ]) ?>
+        <?= $form->field($formValidate, 'remember_me')->checkbox([
             'template' => "<div class=\"col-lg-offset-1 col-lg-3\">{input} {label}</div>\n<div class=\"col-lg-8\">{error}</div>",
         ]) ?>
 
@@ -41,7 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php ActiveForm::end(); ?>
 
     <div class="col-lg-offset-1" style="color:#999;">
-        You may login with <strong>admin/admin</strong> or <strong>demo/demo</strong>.<br>
-        To modify the username/password, please check out the code <code>app\models\User::$users</code>.
+        ©2020 All Rights Reserved. <strong><?= Yii::$app->name ?></strong> is a <strong> php </strong>code. Privacy and Terms<br>
+
     </div>
 </div>

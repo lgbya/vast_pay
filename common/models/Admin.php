@@ -11,7 +11,7 @@ use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
 /**
- * User model
+ * Admin model
  *
  * @property integer $id
  * @property string $username

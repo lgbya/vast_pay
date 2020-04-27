@@ -82,7 +82,8 @@ class Product extends \yii\db\ActiveRecord
         return $lsIdToName;
     }
 
-    static public function enumState($type = null, $field = null){
+    public static function enumState($type = null, $field = null)
+    {
         $lsEnum =  [
             'status'=>[
                 self::STATUS_ON=>'开启',

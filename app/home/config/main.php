@@ -1,6 +1,6 @@
 <?php
 return [
-    'id' => 'backend',
+    'id' => 'home',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'home\controllers',
     'components' => [
