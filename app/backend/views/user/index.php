@@ -77,7 +77,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'pay_product_list' => function($url, $model){
                                     return Html::a(
                                             '<i class="fa fa-product-hunt"  aria-hidden="true"></i>',
-                                            Url::to(['/user/pay-product-list', 'id'=>$model->id,]),
+                                            Url::to(['/user/pay-product-allot', 'id'=>$model->id,]),
                                             ['title' => '支付产品',]
                                         );
                                 },

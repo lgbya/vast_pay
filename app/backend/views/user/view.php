@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use kartik\grid\GridView;
 use kartik\dialog\Dialog;
 use yii\web\YiiAsset;
 use common\models\User;
@@ -48,6 +49,8 @@ echo Dialog::widget();
                             break;
                     }
                 ?>
+                <?= Html::a(Yii::t('app', '分配支付产品'), ['pay-product-allot', 'id' => $model->id], ['class' => 'btn btn-info']) ?>
+
             </p>
 
             <?= DetailView::widget([
@@ -79,7 +82,32 @@ echo Dialog::widget();
                     ],
                 ],
             ]) ?>
-
+            <h3 class="box-title">支付产品分配列表</h3>
+            <?= GridView::widget([
+                'dataProvider' => $dataProvider,
+                'columns' => [
+                    [
+                        'attribute' => 'payChannel.product.name',
+                        'value' => 'payChannel.product.name'
+                    ],
+                    [
+                        'attribute' => 'payChannel.name',
+                        'value' => 'payChannel.name'
+                    ],
+                    [
+                        'attribute' => 'payChannel.rate',
+                        'value' => 'payChannel.rate'
+                    ],
+                    [
+                        'attribute' => 'payChannel.cost',
+                        'value' => 'payChannel.cost'
+                    ],
+                    [
+                        'attribute' => 'created_at',
+                        'format' => ['date', 'php:Y-m-d H:i:s'],
+                    ],
+                ],
+            ]); ?>
         </div>
     </div>
 </div>

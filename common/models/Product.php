@@ -82,6 +82,11 @@ class Product extends \yii\db\ActiveRecord
         return $lsIdToName;
     }
 
+    public function getPayChannels()
+    {
+        return $this->hasMany(PayChannel::className(), ['product_id' => 'id']);
+    }
+
     public static function enumState($type = null, $field = null)
     {
         $lsEnum =  [
