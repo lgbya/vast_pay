@@ -12,8 +12,8 @@ use yii\behaviors\TimestampBehavior;
  * @property int $product_id
  * @property string $name
  * @property string $code
- * @property int $rate 收取费率，单位:万分之一
- * @property int $cost 成本费率，单位:万分之一
+ * @property int $profit_rate 收取费率，单位:万分之一
+ * @property int $cost_rate 成本费率，单位:万分之一
  * @property int $weight 权重
  * @property string $request_url 请求url
  * @property int $status 状态:1-开启,0-关闭
@@ -44,9 +44,9 @@ class PayChannel extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['product_id', 'name', 'code', 'cost','rate', 'request_url'], 'required'],
+            [['product_id', 'name', 'code', 'cost_rate','profit_rate', 'request_url'], 'required'],
             ['code','unique'],
-            [['product_id', 'rate', 'cost', 'weight', 'status', 'is_del'], 'integer'],
+            [['product_id', 'profit_rate', 'cost', 'weight', 'status', 'is_del'], 'integer'],
             ['status', 'in', 'range'=>[self::STATUS_OFF, self::STATUS_ON]],
             ['request_url', 'url', 'defaultScheme' => 'http'],
             [['name'], 'string', 'max' => 255],
@@ -64,8 +64,8 @@ class PayChannel extends \yii\db\ActiveRecord
             'product_id' => '产品类型',
             'name' => '通道名称',
             'code' => '通道Code',
-            'rate' => '收取费率(单位:万分之一)',
-            'cost' => '成本费率(单位:万分之一)',
+            'profit_rate' => '收取费率(单位:万分之一)',
+            'cost_rate' => '成本费率(单位:万分之一)',
             'weight' => '权重',
             'request_url' => '请求url',
             'status' => '状态',

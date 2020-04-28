@@ -26,9 +26,9 @@ $omProduct = new Product();
 
         <?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
 
-        <?= $form->field($model, 'rate')->Input('number') ?>
+        <?= $form->field($model, 'profit_rate')->Input('number') ?>
 
-        <?= $form->field($model, 'cost')->Input('number') ?>
+        <?= $form->field($model, 'cost_rate')->Input('number') ?>
 
         <?= $form->field($model, 'weight')->Input('number') ?>
 

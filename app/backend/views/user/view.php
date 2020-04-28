@@ -95,12 +95,12 @@ echo Dialog::widget();
                         'value' => 'payChannel.name'
                     ],
                     [
-                        'attribute' => 'payChannel.rate',
-                        'value' => 'payChannel.rate'
+                        'attribute' => 'payChannel.profit_rate',
+                        'value' => 'payChannel.profit_rate'
                     ],
                     [
-                        'attribute' => 'payChannel.cost',
-                        'value' => 'payChannel.cost'
+                        'attribute' => 'payChannel.cost_rate',
+                        'value' => 'payChannel.cost_rate'
                     ],
                     [
                         'attribute' => 'created_at',

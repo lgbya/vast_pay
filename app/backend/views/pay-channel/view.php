@@ -41,8 +41,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                     'name',
                     'code',
-                    'rate',
-                    'cost',
+                    'profit_rate',
+                    'cost_rate',
                     'weight',
                     'request_url:url',
                     [

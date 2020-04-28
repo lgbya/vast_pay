@@ -18,7 +18,7 @@ class PayChannelSearch extends PayChannel
     public function rules()
     {
         return [
-            [['id', 'product_id', 'rate', 'cost', 'weight', 'status', 'created_at', 'updated_at', 'is_del'], 'integer'],
+            [['id', 'product_id', 'profit_rate', 'cost_rate', 'weight', 'status', 'created_at', 'updated_at', 'is_del'], 'integer'],
             [['name', 'code', 'request_url'], 'safe'],
         ];
     }
@@ -67,8 +67,8 @@ class PayChannelSearch extends PayChannel
         $query->andFilterWhere([
             'id' => $this->id,
             'product_id' => $this->product_id,
-            'rate' => $this->rate,
-            'cost' => $this->cost,
+            'profit_rate' => $this->profit_rate,
+            'cost_rate' => $this->cost_rate,
             'weight' => $this->weight,
             'status' => $this->status,
             'is_del' => $this->is_del,

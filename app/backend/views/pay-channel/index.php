@@ -53,12 +53,12 @@ $omProduct = new Product();
                             'headerOptions' => ['width' => '100'],
                         ],
                         [
-                            'attribute'=>'rate',
-                            'headerOptions' => ['width' => '100'],
+                            'attribute'=>'profit_rate',
+                            'headerOptions' => ['width' => '50'],
                         ],
                         [
-                            'attribute'=>'cost',
-                            'headerOptions' => ['width' => '100'],
+                            'attribute'=>'cost_rate',
+                            'headerOptions' => ['width' => '50'],
                         ],
                         [
                             'attribute'=>'weight',

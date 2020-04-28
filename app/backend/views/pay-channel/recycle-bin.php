@@ -50,11 +50,11 @@ $omProduct = new Product();
                             'headerOptions' => ['width' => '100'],
                         ],
                         [
-                            'attribute'=>'rate',
+                            'attribute'=>'profit_rate',
                             'headerOptions' => ['width' => '100'],
                         ],
                         [
-                            'attribute'=>'cost',
+                            'attribute'=>'cost_rate',
                             'headerOptions' => ['width' => '100'],
                         ],
                         [
