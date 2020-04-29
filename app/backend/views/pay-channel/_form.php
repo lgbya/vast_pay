@@ -19,7 +19,7 @@ $omProduct = new Product();
     <div class="pay-channel-form">
 
         <?= $form->field($model, 'product_id')->dropDownList(
-            ArrayHelper::merge([''=>'请选择'], $omProduct->getIdToNameList())
+            ArrayHelper::merge([''=>'请选择'], $omProduct->getIdToNameList(Product::DEL_STATE_NO))
         ) ?>
 
         <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>

@@ -90,11 +90,11 @@ class PayChannel extends \yii\db\ActiveRecord
         return $this->hasOne(Product::className(),['id'=>'product_id']);
     }
 
-    public function getIdToNameList()
+    public function getIdToNameList($isDel = Null)
     {
-        $query = self::find();
-        $oqlPayChannel = $query->select(['id','name'])
-            ->andFilterWhere(['is_del'=> PayChannelAccount::DEL_STATE_NO])
+        $oqlPayChannel = self::find()
+            ->select(['id','name'])
+            ->andFilterWhere(['is_del'=> $isDel])
             ->all();
 
         $lsIdToName = [];

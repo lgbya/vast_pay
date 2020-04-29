@@ -27,7 +27,7 @@ return [
         ],
         'options' => [
             'placeholder' => '请选择...',
-            'style'=>'width:240px',
+            'style'=>'width:160px',
         ],
     ],
 ];

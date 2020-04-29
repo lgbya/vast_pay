@@ -70,9 +70,10 @@ class Product extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getIdToNameList(){
+    public function getIdToNameList($isDel = null)
+    {
         $query = self::find();
-        $oqlProduct = $query->select(['id','name'])->andFilterWhere(['is_del'=> Product::DEL_STATE_NO])->all();
+        $oqlProduct = $query->select(['id','name'])->andFilterWhere(['is_del'=> $isDel])->all();
 
         $lsIdToName = [];
         foreach ($oqlProduct as $k => $v){

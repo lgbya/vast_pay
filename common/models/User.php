@@ -74,6 +74,48 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->auth_key;
     }
 
+    public static function addMoney($id, $money, $type, $extra='')
+    {
+        return self::changeMoney($id, abs($money), $type, $extra);
+    }
+
+    public static function subMoney($id,  $money, $type, $extra='')
+    {
+        return self::changeMoney($id, -abs($money), $type, $extra);
+    }
+
+    protected static function changeMoney($id,  $money, $type, $extra)
+    {
+        //判断调用方法是否开启事务
+        $transaction = Yii::$app->db->getTransaction();
+
+        if ($transaction === null){
+            $transaction = Yii::$app->db->beginTransaction();
+        }
+
+        $oqUser = self::findOne($id);
+        if ($oqUser === null){
+            $transaction->rollBack();
+            return false;
+        }
+
+        $omChangeUserMoneyLog = new ChangeUserMoneyLog();
+        $omChangeUserMoneyLog->user_id = $id;
+        $omChangeUserMoneyLog->change_money = $money;
+        $omChangeUserMoneyLog->before_money = $oqUser->money;
+        $omChangeUserMoneyLog->after_money = $oqUser->money + $money;
+        $omChangeUserMoneyLog->type = $type;
+        $omChangeUserMoneyLog->extra = $extra;
+        if ($omChangeUserMoneyLog->save() === false){
+            $transaction->rollBack();
+            return false;
+        }
+        if ($transaction === null){
+            $transaction->commit();
+        }
+
+        return $oqUser->updateCounters(['money' => $money]);
+    }
 
 
     public static function enumState($type = null, $field = null)

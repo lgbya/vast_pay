@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="box-header with-border">
                 <h3 class="box-title"><?= $this->title; ?></h3>
             </div>
-            <div class="box-body table-responsive">
+            <div class="box-body">
                 <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
                 <?= GridView::widget([

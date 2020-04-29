@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="box-header with-border">
                 <h3 class="box-title"><?= $this->title; ?></h3>
             </div>
-            <div class="box-body table-responsive">
+            <div class="box-body">
                 <div class="box-tools">
                     <?= Html::a(Yii::t('app', '新增支付子账号'),
                         Url::to(['create', 'pay_channel_id'=>$payChannelId]),
