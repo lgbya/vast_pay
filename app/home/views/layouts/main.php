@@ -72,13 +72,19 @@ AppAsset::register($this);
             <?= $this->render('left.php') ?>
             <div class="col-sm-10">
                 <div class = "box">
-                    <?= $content ?>
+                    <div class="box-body">
+                        <?= $content ?>
+                    </div>
+<!--                    <div class="box-footer">-->
+<!--                        --><?//= $this->render('footer.php') ?>
+<!--                    </div>-->
                 </div>
             </div>
         </div>
     </div>
 </div>
 <?= $this->render('footer.php') ?>
+
 
 
 <?php $this->endBody() ?>

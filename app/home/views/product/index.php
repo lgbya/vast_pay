@@ -1,42 +1,34 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
 use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\ProductSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Products');
+$this->title = Yii::t('app', '产品列表');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="product-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Create Product'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
     <?php Pjax::begin(); ?>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <table  class="table table-striped table-bordered detail-view">
+        <tbody>
+        <tr>
+            <th>产品名称</th>
+            <th>费率(单位:万分之一)</th>
+        </tr>
+        <? foreach ($lsProduct as $k => $v):?>
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'name',
-            'status',
-            'created_at',
-            'updated_at',
-            //'is_del',
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+        <tr>
+            <td><?= $v['name'];?></td>
+            <td><?= $v['min_cost_rate'];?>~<?= $v['max_cost_rate'];?></td>
+        </tr>
+        <? endforeach; ?>
+        </tbody>
+    </table>
 
     <?php Pjax::end(); ?>
 

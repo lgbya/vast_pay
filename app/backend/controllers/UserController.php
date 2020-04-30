@@ -124,8 +124,8 @@ class UserController extends Controller
             }
         }
 
-        $oqlProduct = Product::find()->andFilterWhere(['is_del'=>Product::DEL_STATE_NO])->all();
-        $lsUserProductChannelId = $omUserToPayChannel->getUserProductChannelIds($id);
+        $oqlProduct = Product::find()->andFilterWhere(['is_del'=>Product::DEL_STATE_NO, 'status'=>Product::STATUS_OFF])->all();
+        $lsUserProductChannelId = $omUserToPayChannel->getNormalProductToChannelIds($id);
         return $this->render('pay-product-allot', [
             'model'         => $omUserToPayChannel,
             'oqUser'        => $oqUser,

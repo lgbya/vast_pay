@@ -55,21 +55,35 @@ class UserToPayChannel extends \yii\db\ActiveRecord
         return $this->hasOne(PayChannel::className(), ['id'=>'pay_channel_id']);
     }
 
-    public function getUserProductChannelIds($userId)
+
+    public function getNormalProductToChannelIds($userId )
     {
-        $oqlUserPayChannel = self::find()->andFilterWhere(['user_id'=>$userId])->all();
+
+        $oqlUserToPayChannel = $this->getNormalUserChannels($userId);
         $lsChannelIds = [];
-        foreach ($oqlUserPayChannel as $k => $v){
-            $lsChannelIds[$v->payChannel->product_id][] = $v->payChannel->id;
+        foreach ($oqlUserToPayChannel as $k => $v){
+            $lsChannelIds[$v['product_id']][] = $v['id'];
         }
         return $lsChannelIds;
     }
 
+    public function getNormalUserChannels($userId )
+    {
+
+        $payChannelTableName = PayChannel::tableName();
+        return UserToPayChannel::find()
+            ->alias('u')
+            ->select('c.*')
+            ->leftJoin( "{$payChannelTableName} c", 'c.id = u.pay_channel_id ')
+            ->andWhere(['u.user_id'=>$userId])
+            ->andWhere(['c.status'=>PayChannel::STATUS_ON])
+            ->andWhere(['c.is_del'=>PayChannel::DEL_STATE_NO])
+            ->asArray()
+            ->all();
+    }
+
     public function insertUserPayChannels($userId = 0, $lPayChannelId = []){
-        if ($lPayChannelId == [] || $userId <= 0){
-            $this->addError('pay_channel_id','支付产品分配失败！请选择支付产品');
-            return false;
-        }
+
         $db = Yii::$app->db;
         $transaction = $db->beginTransaction();
         try {
@@ -82,27 +96,32 @@ class UserToPayChannel extends \yii\db\ActiveRecord
                 $transaction->rollBack();
                 return false;
             }
+            if ($lPayChannelId !== [] ){
+                $lsData = [];
+                foreach($lPayChannelId as $k => $v){
+                    $lsData[] = [
+                        'user_id'=> $userId,
+                        'pay_channel_id' => $v,
+                        'created_at'=>time(),
+                        'updated_at'=>time(),
+                    ];
+                }
+                $lField = ['user_id', 'pay_channel_id', 'created_at', 'updated_at' ];
+                $result = $db->createCommand()
+                    ->batchInsert(UserToPayChannel::tableName(), $lField, $lsData)
+                    ->execute();
+                if ($result === false){
+                    $this->addError('pay_channel_id','支付产品分配失败！请联系管理员');
+                    $transaction->rollBack();
+                    return false;
+                }
+                $transaction->commit();
+                return true;
+            }else{
+                $transaction->commit();
+                return true;
+            }
 
-            $lsData = [];
-            foreach($lPayChannelId as $k => $v){
-                $lsData[] = [
-                    'user_id'=> $userId,
-                    'pay_channel_id' => $v,
-                    'created_at'=>time(),
-                    'updated_at'=>time(),
-                ];
-            }
-            $lField = ['user_id', 'pay_channel_id', 'created_at', 'updated_at' ];
-            $result = $db->createCommand()
-                ->batchInsert(UserToPayChannel::tableName(), $lField, $lsData)
-                ->execute();
-            if ($result === false){
-                $this->addError('pay_channel_id','支付产品分配失败！请联系管理员');
-                $transaction->rollBack();
-                return false;
-            }
-            $transaction->commit();
-            return true;
         } catch(\Exception $e) {
             Yii::error($e);
             $transaction->rollBack();

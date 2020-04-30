@@ -12,7 +12,7 @@ return [
         [
             'label'=>'支付产品',
             'content'=>[
-                ['name'=>'产品列表','url'=>'aaa'],
+                ['name'=>'产品列表','url'=>'/product/index'],
             ]
         ]
     ],

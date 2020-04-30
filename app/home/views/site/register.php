@@ -70,8 +70,8 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
 
     <? endif; ?>
-    <div class="col-lg-offset-1" style="color:#999;">
-        ©2020 All Rights Reserved. <strong><?= Yii::$app->name ?></strong> is a <strong> php </strong>code. Privacy and Terms<br>
-
-    </div>
+<!--    <div class="col-lg-offset-1" style="color:#999;">-->
+<!--        ©2020 All Rights Reserved. <strong>--><?//= Yii::$app->name ?><!--</strong> is a <strong> php </strong>code. Privacy and Terms<br>-->
+<!---->
+<!--    </div>-->
 </div>

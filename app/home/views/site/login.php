@@ -58,8 +58,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php ActiveForm::end(); ?>
 
-    <div class="col-lg-offset-1" style="color:#999;">
-        ©2020 All Rights Reserved. <strong><?= Yii::$app->name ?></strong> is a <strong> php </strong>code. Privacy and Terms<br>
-
-    </div>
+<!--    <div class="col-lg-offset-1" style="color:#999;">-->
+<!--        ©2020 All Rights Reserved. <strong>--><?//= Yii::$app->name ?><!--</strong> is a <strong> php </strong>code. Privacy and Terms<br>-->
+<!---->
+<!--    </div>-->
 </div>

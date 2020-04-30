@@ -83,9 +83,16 @@ class Product extends \yii\db\ActiveRecord
         return $lsIdToName;
     }
 
-    public function getPayChannels()
+    public function getPayChannels($isDel = null, $status=null)
     {
         return $this->hasMany(PayChannel::className(), ['product_id' => 'id']);
+    }
+
+    public function getAllNormalProducts(){
+        return self::find()
+            ->andWhere(['is_del'=>Product::DEL_STATE_NO])
+            ->andWhere(['status'=>Product::STATUS_ON])
+            ->all();
     }
 
     public static function enumState($type = null, $field = null)
