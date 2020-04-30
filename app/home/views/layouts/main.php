@@ -4,10 +4,12 @@
 /* @var $content string */
 
 use common\widgets\Alert;
+use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
+use yii\bootstrap\Collapse;
 use home\assets\AppAsset;
 
 AppAsset::register($this);
@@ -26,7 +28,7 @@ AppAsset::register($this);
 <body>
 <?php $this->beginBody() ?>
 
-<div class="wrap">
+<div class="wrap" >
     <?php
     NavBar::begin([
         'brandLabel' => Yii::$app->name,
@@ -38,31 +40,58 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
+            ['label' => '主页', 'url' => ['/site/index']],
 
             Yii::$app->user->isGuest ? (
-            ['label' => 'Login', 'url' => ['/site/login']]
+            ['label' => '登录', 'url' => ['/site/login']]
             ) : (
                 '<li>'
                 . Html::beginForm(['/site/logout'], 'post')
                 . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->username . ')',
+                    '注销 (' . Yii::$app->user->identity->username . ')',
                     ['class' => 'btn btn-link logout']
                 )
                 . Html::endForm()
                 . '</li>'
-            )
+            ),
+
+            Yii::$app->user->isGuest ? (
+            ['label' => '注册', 'url' => ['/site/register']]
+            ) : '',
         ],
     ]);
     NavBar::end();
     ?>
 
-    <div class="container">
+
+    <div class="container" >
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= Alert::widget() ?>
-        <?= $content ?>
+        <div class="row">
+            <div class="col-sm-2">
+                <div id="manager-menu" class="list-group">
+                    <?php
+                    $lsItemConf = Yii::$app->params['menuList'];
+
+                    $lsItem = [];
+                    foreach($lsItemConf as $k => $v){
+                        $lsItem[$k]['label'] = $v['label'];
+                        foreach($v['content'] as $k2 => $v2){
+                            $lsItem[$k]['content'][] = '<a href="'. $v2['url'] . '">' . $v2['name'] . '</a>';
+                        }
+                    }
+                    echo Collapse::widget(['items' => $lsItem,]);
+                    ?>
+                </div>
+            </div>
+            <div class="col-sm-10">
+                <div class = "box">
+                    <?= $content ?>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

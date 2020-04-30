@@ -46,7 +46,7 @@ class PayChannel extends \yii\db\ActiveRecord
         return [
             [['product_id', 'name', 'code', 'cost_rate','profit_rate', 'request_url'], 'required'],
             ['code','unique'],
-            [['product_id', 'profit_rate', 'cost', 'weight', 'status', 'is_del'], 'integer'],
+            [['product_id', 'profit_rate', 'cost_rate', 'weight', 'status', 'is_del'], 'integer'],
             ['status', 'in', 'range'=>[self::STATUS_OFF, self::STATUS_ON]],
             ['request_url', 'url', 'defaultScheme' => 'http'],
             [['name'], 'string', 'max' => 255],

@@ -1,4 +1,6 @@
 <?php
+$params = require __DIR__ . '/params.php';
+
 return [
     'id' => 'home',
     'basePath' => dirname(__DIR__),
@@ -28,5 +30,12 @@ return [
                 ],
             ],
         ],
-    ]
+    ],
+    'modules' => [
+        'gridview' =>  [
+            'class' => '\kartik\grid\Module',
+        ],
+    ],
+    'params' => $params,
+
 ];

@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use Faker\Provider\Uuid;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\db\ActiveRecord;
@@ -17,8 +18,12 @@ use yii\behaviors\TimestampBehavior;
  * @property string $password_hash
  * @property string|null $password_reset_token
  * @property string $email
+ * @property string $account
+ * @property string $pay_md5_key
  * @property int $money 现金,单位:分
  * @property int $status
+ * @property int $pre_login_at
+ * @property int $register_at
  * @property int $created_at
  * @property int $updated_at
  */
@@ -26,6 +31,7 @@ class User extends ActiveRecord implements IdentityInterface
 {
 
     const STATUS_INACTIVE = 0;
+    const STATUS_REGISTER_AUDIT = 1;
     const STATUS_ACTIVE = 10;
 
     public static function tableName()
@@ -117,6 +123,36 @@ class User extends ActiveRecord implements IdentityInterface
         return $oqUser->updateCounters(['money' => $money]);
     }
 
+    public function generateAccount()
+    {
+        $prefix = Yii::$app->getSecurity()->generateRandomString(5);
+        $suffix = date('YmdHis') + self::find()->count() + 1;
+        return $prefix . $suffix;
+    }
+
+    public function generatePayMd5Key()
+    {
+        return md5( Yii::$app->getSecurity()->generateRandomString() );
+    }
+
+    public function generatePassword($password)
+    {
+        return Yii::$app->security->generatePasswordHash($password);
+    }
+
+    public function generateAuthKey()
+    {
+        return Yii::$app->security->generateRandomString();
+    }
+
+    /**
+     * Generates new password reset token
+     */
+    public function generatePasswordResetToken()
+    {
+        return Yii::$app->security->generateRandomString() . '_' . time();
+    }
+
 
     public static function enumState($type = null, $field = null)
     {
@@ -124,6 +160,7 @@ class User extends ActiveRecord implements IdentityInterface
             'status'=>[
                 self::STATUS_INACTIVE=>'封禁',
                 self::STATUS_ACTIVE=>'正常',
+                self::STATUS_REGISTER_AUDIT =>'注册审核中',
             ],
         ];
 

@@ -31,18 +31,18 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?= $form->field($formValidate, 'password')->passwordInput() ?>
 
-<!--        --><?//= $form
-//            ->field($formValidate, 'verify_code')
-//            ->label(null, ['class' => 'col-lg-1 control-label'])
-//            ->widget(Captcha::className(), [
-//                'captchaAction'=>Url::to('site/captcha'),
-//                'imageOptions'=>[
-//                    'title'=>'换一个',
-//                    'alt'=>'换一个',
-//                ],
-//                'options' => ['placeholder' => $formValidate->getAttributeLabel('verify_code')],
-//                'template' => "<div class=\"row\"><div class=\"col-lg-6\" >{input}</div>\n<div class=\"col-lg-3\" >{image}</div></div>",
-//            ]) ?>
+        <?= $form
+            ->field($formValidate, 'verify_code')
+            ->label('验证码', ['class' => 'col-lg-1 control-label'])
+            ->widget(Captcha::className(), [
+                'captchaAction'=>Url::to('site/captcha'),
+                'imageOptions'=>[
+                    'title'=>'换一个',
+                    'alt'=>'换一个',
+                ],
+                'options' => ['placeholder' => $formValidate->getAttributeLabel('verify_code')],
+                'template' => "<div class=\"row\"><div class=\"col-lg-6\" >{input}</div>\n<div class=\"col-lg-3\" >{image}</div></div>",
+            ]) ?>
         <?= $form->field($formValidate, 'remember_me')->checkbox([
             'template' => "<div class=\"col-lg-offset-1 col-lg-3\">{input} {label}</div>\n<div class=\"col-lg-8\">{error}</div>",
         ]) ?>

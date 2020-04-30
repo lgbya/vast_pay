@@ -32,7 +32,7 @@ class PayChannelController extends BaseController
     {
         $osPayChannel = new PayChannelSearch();
         $lsQueryParam = Yii::$app->request->queryParams;
-        $lsQueryParam['PayChannel']['is_del'] = PayChannel::DEL_STATE_NO;
+        $lsQueryParam['PayChannelSearch']['is_del'] = PayChannel::DEL_STATE_NO;
         $dataProvider = $osPayChannel->search($lsQueryParam);
 
         return $this->render('index', [
