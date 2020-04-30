@@ -9,7 +9,7 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\captcha\Captcha;
 
-$this->title = 'Login';
+$this->title = '用户登录';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-login">
@@ -49,7 +49,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <div class="form-group">
             <div class="col-lg-offset-1 col-lg-11">
-                <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+                <?= Html::submitButton('登录', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+
+                <?= Html::a('注册', ['register'], ['class' => 'btn btn-default', 'name' => 'login-button']) ?>
+
             </div>
         </div>
 

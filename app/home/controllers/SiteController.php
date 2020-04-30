@@ -2,6 +2,7 @@
 
 namespace home\controllers;
 
+use common\models\UserRegisterForm;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Response;
@@ -58,21 +59,32 @@ class SiteController extends BaseController
         ];
     }
 
-    /**
-     * Displays homepage.
-     *
-     * @return string
-     */
     public function actionIndex()
     {
         return $this->render('index');
     }
 
-    /**
-     * Login action.
-     *
-     * @return Response|string
-     */
+
+    public function actionRegister()
+    {
+
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
+        $registerHint = false;
+        $ofUserRegister = new UserRegisterForm();
+        if ($ofUserRegister->load(Yii::$app->request->post()) && $ofUserRegister->register()) {
+            $registerHint = '注册成功，等待管理员审核中!!!';
+        }
+
+        $ofUserRegister->password = '';
+        return $this->render('register', [
+            'formValidate' => $ofUserRegister,
+            'registerHint'=>$registerHint,
+        ]);
+    }
+
     public function actionLogin()
     {
 
@@ -88,16 +100,9 @@ class SiteController extends BaseController
         $ofUserLogin->password = '';
         return $this->render('login', [
             'formValidate' => $ofUserLogin,
-//            'searchModel'=>,
-//            'dataProvider' => ,
         ]);
     }
 
-    /**
-     * Logout action.
-     *
-     * @return Response
-     */
     public function actionLogout()
     {
         Yii::$app->user->logout();
