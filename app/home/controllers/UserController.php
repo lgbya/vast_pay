@@ -37,6 +37,11 @@ class UserController extends BaseController
         ]);
     }
 
+    public function actionSaveLoginPassword(){
+
+
+    }
+
 
     protected function findModel()
     {
