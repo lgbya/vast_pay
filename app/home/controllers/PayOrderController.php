@@ -61,8 +61,7 @@ class PayOrderController extends BaseController
 
     protected function findModel($id)
     {
-        $model = PayOrder::find()->where(['id'=>$id, 'user_id'=> $this->user_id])->one();
-        if ($model !== null) {
+        if (($model = PayOrder::findOne(['id'=>$id, 'user_id'=> $this->user_id])) !== null) {
             return $model;
         }
 

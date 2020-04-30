@@ -23,7 +23,6 @@ use yii\behaviors\TimestampBehavior;
  * @property int $money 现金,单位:分
  * @property int $status
  * @property int $pre_login_at
- * @property int $register_at
  * @property int $created_at
  * @property int $updated_at
  */
@@ -52,14 +51,16 @@ class User extends ActiveRecord implements IdentityInterface
     public function attributeLabels()
     {
         return [
-            'id'        => 'ID',
-            'username'  => '用户名',
-            'email'     => '邮箱',
-            'money'     => '余额',
-            'status'    => '状态',
-            'account'   =>'交易账号',
-            'created_at'=> '创建时间',
-            'updated_at'=> '修改时间',
+            'id'            =>  'ID',
+            'username'      =>  '用户名',
+            'email'         =>  '邮箱',
+            'money'         =>  '余额',
+            'status'        =>  '状态',
+            'account'       =>  '交易账号',
+            'pay_md5_key'   =>  '支付md5秘钥',
+            'pre_login_at'  =>  '上次登录时间',
+            'created_at'    =>  '创建时间',
+            'updated_at'    =>  '修改时间',
         ];
     }
 

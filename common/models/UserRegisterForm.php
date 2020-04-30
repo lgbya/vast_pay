@@ -68,7 +68,6 @@ class UserRegisterForm extends Model
         $omUser->email = $this->email;
         $omUser->account = $omUser->generateAccount();
         $omUser->pay_md5_key = $omUser->generatePayMd5Key();
-        $omUser->register_at = time();
         $omUser->status = User::STATUS_REGISTER_AUDIT;
 
         if ($omUser->save() === false){

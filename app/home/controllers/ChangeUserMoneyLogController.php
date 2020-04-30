@@ -49,8 +49,7 @@ class ChangeUserMoneyLogController extends BaseController
 
     protected function findModel($id)
     {
-        $model = ChangeUserMoneyLog::find()->where(['id'=>$id, 'user_id'=> $this->user_id])->one();
-        if ($model !== null) {
+        if (($model = ChangeUserMoneyLog::findOne(['id'=>$id, 'user_id'=> $this->user_id])) !== null) {
             return $model;
         }
 
