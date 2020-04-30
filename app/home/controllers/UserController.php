@@ -2,6 +2,7 @@
 
 namespace home\controllers;
 
+use common\models\UserSavePasswordForm;
 use Yii;
 use common\models\User;
 use common\models\UserSearch;
@@ -39,7 +40,16 @@ class UserController extends BaseController
 
     public function actionSaveLoginPassword(){
 
+        $successHint = false;
+        $ofUserSavePassword = new UserSavePasswordForm();
+        if ($ofUserSavePassword->load(Yii::$app->request->post()) && $ofUserSavePassword->saveLoginPassword($this->user_id)) {
+            $successHint = '注册成功，等待管理员审核中!!!';
+        }
 
+        return $this->render('save-login-password', [
+            'formValidate' => $ofUserSavePassword,
+            'successHint'=>$successHint,
+        ]);
     }
 
 
