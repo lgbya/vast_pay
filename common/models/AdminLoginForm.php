@@ -20,10 +20,6 @@ class AdminLoginForm extends Model
 
     private $_admin = false;
 
-
-    /**
-     * @return array the validation rules.
-     */
     public function rules()
     {
         return [
@@ -38,13 +34,6 @@ class AdminLoginForm extends Model
         ];
     }
 
-    /**
-     * Validates the password.
-     * This method serves as the inline validation for password.
-     *
-     * @param string $attribute the attribute currently being validated
-     * @param array $params the additional name-value pairs given in the rule
-     */
     public function validatePassword($attribute, $params)
     {
         if (!$this->hasErrors()) {
@@ -56,23 +45,19 @@ class AdminLoginForm extends Model
         }
     }
 
-    /**
-     * Logs in a user using the provided username and password.
-     * @return bool whether the user is logged in successfully
-     */
     public function login()
     {
+        $oqAdmin = $this->getAdmin();
         if ($this->validate()) {
-            return Yii::$app->user->login($this->getAdmin(), $this->remember_me ? 3600*24*30 : 0);
+            $result = Yii::$app->user->login($oqAdmin, $this->remember_me ? 3600*24*30 : 0);
+            $oqAdmin->pre_login_at = time();
+            $oqAdmin->pre_login_ip = Yii::$app->request->userIP;
+            $oqAdmin->save();
+            return $result;
         }
         return false;
     }
 
-    /**
-     * Finds user by [[username]]
-     *
-     * @return Admin|null
-     */
     public function getAdmin()
     {
         if ($this->_admin === false) {

@@ -22,22 +22,19 @@ class UserSavePasswordForm extends Model
     public function attributeLabels()
     {
         return [
-            'password' => '密码',
+            'password' => '新密码',
             'confirm_password' => '确认密码',
         ];
     }
 
 
-    public function saveLoginPassword($user_id)
+    public function saveLoginPassword($userId)
     {
         if (!$this->validate()) {
             return  false;
         }
-        $oqUser = User::findOne($user_id);
-        $oqUser->auth_key = $oqUser->generateAuthKey();
-        $oqUser->password_hash = $oqUser->generatePassword($this->password);
-        $oqUser->password_reset_token = $oqUser->generatePasswordResetToken();
-
+        $oqUser = User::findOne($userId);
+        $oqUser->generateLoginPassword($this->password);
         if ($oqUser->save() === false){
             $this->addError('username', '修改密码失败，请联系管理员！！！');
             return false;
@@ -45,5 +42,18 @@ class UserSavePasswordForm extends Model
         return true;
     }
 
+    public function savePayPassword($userId)
+    {
+        if (!$this->validate()) {
+            return  false;
+        }
+        $oqUser = User::findOne($userId);
+        $oqUser->generatePayPassword($this->password);
+        if ($oqUser->save() === false){
+            $this->addError('username', '修改密码失败，请联系管理员！！！');
+            return false;
+        }
+        return true;
+    }
 
 }

@@ -1,5 +1,6 @@
 <?php
 
+require __DIR__ . '/const.php';
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 $logPrefix = function ($message) {

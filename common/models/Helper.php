@@ -6,12 +6,12 @@ use yii\web\Response;
 
 class Helper
 {
-    static public function showJsonSuccess($data = [])
+    public static function showJsonSuccess($data = [])
     {
         return self::showJsonError(0, "success", $data);
     }
 
-    static public function showJsonError($error ,  $message = "", $data = [])
+    public static  function showJsonError($error ,  $message = "", $data = [])
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
         return [
@@ -21,7 +21,7 @@ class Helper
         ];
     }
 
-    static public function cuttingDateRange($dateString, $delimiter ='到' ){
+    public static  function cuttingDateRange($dateString, $delimiter ='到' ){
         $lDate = explode($delimiter, $dateString);
         if (count($lDate) != 2){
             return [];
@@ -29,4 +29,25 @@ class Helper
 
         return [strtotime($lDate[0]), strtotime($lDate[1])];
     }
+
+     public static function  formatMoney($money, $len=2, $sign='￥'){
+         $money = $money/100;
+         $negative = $money > 0 ? '' : '-';
+         $intMoney = intval(abs($money));
+         $len = intval(abs($len));
+         $decimal = '';//小数
+         if ($len > 0) {
+             $decimal = '.'.substr(sprintf('%01.'.$len.'f', $money),-$len);
+         }
+         $tmpMoney = strrev($intMoney);
+         $strLen = strlen($tmpMoney);
+         $formatMoney = '';
+         for ($i = 3; $i < $strLen; $i += 3) {
+             $formatMoney .= substr($tmpMoney,0,3).',';
+             $tmpMoney = substr($tmpMoney,3);
+         }
+         $formatMoney .= $tmpMoney;
+         $formatMoney = strrev($formatMoney);
+         return $sign.$negative.$formatMoney.$decimal;
+     }
 }

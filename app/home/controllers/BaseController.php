@@ -5,7 +5,8 @@ use Yii;
 use yii\web\Controller;
 
 
-class BaseController extends Controller{
+class BaseController extends Controller
+{
 
     public $user_id = null;
 

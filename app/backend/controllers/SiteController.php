@@ -10,9 +10,7 @@ use common\models\AdminLoginForm;
 
 class SiteController extends BaseController
 {
-    /**
-     * {@inheritdoc}
-     */
+
     public function behaviors()
     {
         return [
@@ -36,9 +34,6 @@ class SiteController extends BaseController
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function actions()
     {
         return [
@@ -58,21 +53,27 @@ class SiteController extends BaseController
         ];
     }
 
-    /**
-     * Displays homepage.
-     *
-     * @return string
-     */
     public function actionIndex()
     {
-        return $this->render('index');
+
+        $lAppInfo = [
+            'ip地址'    => Yii::$app->request->userIP,
+            '域名'      => Yii::$app->request->hostInfo,
+            'php版本'   => PHP_VERSION,
+            'ZEND版本'  => zend_version(),
+            'MYSQL支持' => function_exists('mysqli_close') ? '是' : '否',
+            '服务器操作系统' => PHP_OS,
+            '服务器端信息'  => $_SERVER['SERVER_SOFTWARE'],
+            '最大上传限制'  => get_cfg_var('upload_max_filesize') ?: '不允许上传附件',
+            '最大执行时间'  => get_cfg_var("max_execution_time") . '秒',
+        ];
+
+        return $this->render('index',[
+            'lAppInfo'=>$lAppInfo,
+            'oqAdmin' => $this->_admin,
+        ]);
     }
 
-    /**
-     * Login action.
-     *
-     * @return Response|string
-     */
     public function actionLogin()
     {
 
@@ -88,16 +89,9 @@ class SiteController extends BaseController
         $ofAdminLogin->password = '';
         return $this->render('login', [
             'formValidate' => $ofAdminLogin,
-//            'searchModel'=>,
-//            'dataProvider' => ,
         ]);
     }
 
-    /**
-     * Logout action.
-     *
-     * @return Response
-     */
     public function actionLogout()
     {
         Yii::$app->user->logout();

@@ -4,50 +4,42 @@
 
 $this->title = 'My Yii Application';
 ?>
-<div class="site-index">
 
-    <div class="jumbotron">
-        <h1>Congratulations!</h1>
 
-        <p class="lead">You have successfully created your Yii-powered application.</p>
 
-        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
-    </div>
+<div class="row">
+    <div class="col-xs-12">
 
-    <div class="body-content">
-
-        <div class="row">
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">服务器信息</h3>
             </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
+            <div class="box-body">
+                <div class="product-view">
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
+                    <div class="login-info-box">
+                        <div class="login-info-box1">
+                            <p class="f-20 text-success">欢迎回来
+                                <span class="f-14"><?= $oqAdmin->username; ?></span>!
+                            </p>
+                            <p>上次登录IP：<?= $oqAdmin->pre_login_ip; ?></p>
+                            <p>上次登录时间：<?= date('Y-m-d H:i:s', $oqAdmin->pre_login_at); ?></p>
+                        </div>
+                    </div>
+                    <table id="w0" class="table table-striped table-bordered detail-view">
+                        <thear></thear>
+                        <tbody>
+                        <? foreach($lAppInfo as $k=>$v):?>
+                            <tr>
+                                <th width="45%"><?= $k ?></th>
+                                <td><?= $v?></td>
+                            </tr>
+                        <? endforeach;?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-
     </div>
 </div>
+

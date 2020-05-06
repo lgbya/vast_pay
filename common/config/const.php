@@ -1,0 +1,2 @@
+<?php
+define('VERIFY_PAY_PASSWORD', 'VERIFY_PAY_PASSWORD');

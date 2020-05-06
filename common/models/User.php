@@ -17,6 +17,8 @@ use yii\behaviors\TimestampBehavior;
  * @property string $auth_key
  * @property string $password_hash
  * @property string|null $password_reset_token
+ * @property string $pay_password_hash
+ * @property string|null $pay_password_reset_token
  * @property string $email
  * @property string $account
  * @property string $pay_md5_key
@@ -81,6 +83,77 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->auth_key;
     }
 
+    public function generateLoginPassword($password)
+    {
+        $this->auth_key = $this->generateAuthKey();
+        $this->password_hash = $this->generatePassword($password);
+        $this->password_reset_token = $this->generatePasswordResetToken();
+        return $this;
+    }
+
+    public function generatePayPassword($password)
+    {
+        $this->pay_password_hash = $this->generatePassword($password);
+        $this->pay_password_reset_token = $this->generatePasswordResetToken();
+        return $this;
+    }
+
+    public function generateAccount()
+    {
+        $prefix = Yii::$app->getSecurity()->generateRandomString(5);
+        $suffix = date('YmdHis') + self::find()->count() + 1;
+        return $prefix . $suffix;
+    }
+
+    public function generatePayMd5Key()
+    {
+        return md5( Yii::$app->getSecurity()->generateRandomString() );
+    }
+
+
+    public function generateAuthKey()
+    {
+        return Yii::$app->security->generateRandomString();
+    }
+
+    public function generatePassword($password)
+    {
+        return Yii::$app->security->generatePasswordHash($password);
+    }
+
+    public function generatePasswordResetToken()
+    {
+        return Yii::$app->security->generateRandomString() . '_' . time();
+    }
+
+    public static function enumState($type = null, $field = null)
+    {
+        $lsEnum =  [
+            'status'=>[
+                self::STATUS_INACTIVE=>'封禁',
+                self::STATUS_ACTIVE=>'正常',
+                self::STATUS_REGISTER_AUDIT =>'注册审核中',
+            ],
+        ];
+
+        if (isset($lsEnum[$type])){
+            return $lsEnum[$type][$field] ? : $lsEnum[$type] ;
+        }
+
+        return $lsEnum;
+    }
+
+    public function validateAuthKey($authKey)
+    {
+        return $this->getAuthKey() === $authKey;
+    }
+
+    public function validatePassword($password)
+    {
+        return Yii::$app->security->validatePassword($password, $this->password_hash);
+    }
+
+
     public static function addMoney($id, $money, $type, $extra='')
     {
         return self::changeMoney($id, abs($money), $type, $extra);
@@ -122,64 +195,6 @@ class User extends ActiveRecord implements IdentityInterface
         }
 
         return $oqUser->updateCounters(['money' => $money]);
-    }
-
-    public function generateAccount()
-    {
-        $prefix = Yii::$app->getSecurity()->generateRandomString(5);
-        $suffix = date('YmdHis') + self::find()->count() + 1;
-        return $prefix . $suffix;
-    }
-
-    public function generatePayMd5Key()
-    {
-        return md5( Yii::$app->getSecurity()->generateRandomString() );
-    }
-
-    public function generatePassword($password)
-    {
-        return Yii::$app->security->generatePasswordHash($password);
-    }
-
-    public function generateAuthKey()
-    {
-        return Yii::$app->security->generateRandomString();
-    }
-
-    /**
-     * Generates new password reset token
-     */
-    public function generatePasswordResetToken()
-    {
-        return Yii::$app->security->generateRandomString() . '_' . time();
-    }
-
-
-    public static function enumState($type = null, $field = null)
-    {
-        $lsEnum =  [
-            'status'=>[
-                self::STATUS_INACTIVE=>'封禁',
-                self::STATUS_ACTIVE=>'正常',
-                self::STATUS_REGISTER_AUDIT =>'注册审核中',
-            ],
-        ];
-
-        if (isset($lsEnum[$type])){
-            return $lsEnum[$type][$field] ? : $lsEnum[$type] ;
-        }
-
-        return $lsEnum;
-    }
-
-    public function validateAuthKey($authKey)
-    {
-        return $this->getAuthKey() === $authKey;
-    }
-
-    public function validatePassword($password)
-    {
-        return Yii::$app->security->validatePassword($password, $this->password_hash);
     }
 
     public static function findIdentity($id)

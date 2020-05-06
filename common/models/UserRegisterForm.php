@@ -62,9 +62,8 @@ class UserRegisterForm extends Model
 
         $omUser = new User();
         $omUser->username = $this->username;
-        $omUser->auth_key = $omUser->generateAuthKey();
-        $omUser->password_hash = $omUser->generatePassword($this->password);
-        $omUser->password_reset_token = $omUser->generatePasswordResetToken();
+        $omUser->generateLoginPassword($this->password);
+        $omUser->generatePayPassword($this->password);
         $omUser->email = $this->email;
         $omUser->account = $omUser->generateAccount();
         $omUser->pay_md5_key = $omUser->generatePayMd5Key();

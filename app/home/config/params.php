@@ -6,7 +6,9 @@ return [
             'label'=>'商户信息',
             'content'=>[
                 ['name'=>'基本信息','url'=>'/user/base-info'],
+                ['name'=>'交易信息','url'=>'/user/pay-info'],
                 ['name'=>'修改登录密码','url'=>'/user/save-login-password'],
+                ['name'=>'修改支付密码','url'=>'/user/save-pay-password'],
             ]
         ],
         [

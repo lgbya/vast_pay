@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model common\models\User */
 
 $this->title = $model->username;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', '基本信息'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', '基本信息'), 'url' => ['/user/base-info']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
@@ -19,8 +19,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'username',
             'email:email',
-            'account',
-            'pay_md5_key',
+//            'account',
+//            'pay_md5_key',
             'money',
             'status',
             [

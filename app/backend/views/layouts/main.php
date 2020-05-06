@@ -16,11 +16,12 @@ if (Yii::$app->controller->action->id === 'login') {
     );
 } else {
 
-    if (class_exists('backend\assets\AppAsset')) {
-        backend\assets\AppAsset::register($this);
-    } else {
-        app\assets\AppAsset::register($this);
+    if (Yii::$app->user->isGuest) {
+          Yii::$app->controller->redirect('/site/login');
     }
+
+    backend\assets\AppAsset::register($this);
+
 
     dmstr\web\AdminLteAsset::register($this);
 

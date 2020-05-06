@@ -5,6 +5,7 @@ use yii\helpers\Url;
 use kartik\grid\GridView;
 use yii\widgets\Pjax;
 use common\models\PayOrder;
+use common\models\Helper;
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\PayOrderSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -19,8 +20,22 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="box-header with-border">
                 <h3 class="box-title"><?= $this->title; ?></h3>
             </div>
+            <div class="login-info-box">
+                <div class="login-info-box1">
+                    <h4>
+                        <span style="padding-left: 10px"><b>原金额总额</b>：<?= $payMoneyCount; ?></span>
+                        <span style="color:red;"><b>-</b></span>
+                        <span style="padding-left: 10px"><b>用户获取总额</b>：<?= $userMoneyCount; ?></span>
+                        <span style="color:red;"><b>-</b></span>
+                        <span style="padding-left: 10px"><b>成本总额</b>：<?= $costMoneyCount; ?></span>
+                        <span style="color:red;"><b>=</b></span>
+                        <span style="padding-left: 10px"><b>利润总额</b>：<?= $profitMoneyCount; ?></span>
+                    </h4>
+
+                </div>
+            </div>
+
             <div class="box-body ">
-                <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
                     'filterModel' => $searchModel,
@@ -65,18 +80,30 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                         [
                             'attribute'=>'pay_money',
+                            'value' => function($data) {
+                                return Helper::formatMoney($data->pay_money);
+                            },
                             'headerOptions' => ['width' => '80'],
                         ],
                         [
                             'attribute'=>'user_money',
+                            'value' => function($data) {
+                                return Helper::formatMoney($data->user_money);
+                            },
                             'headerOptions' => ['width' => '80'],
                         ],
                         [
                             'attribute'=>'cost_money',
+                            'value' => function($data) {
+                                return Helper::formatMoney($data->cost_money);
+                            },
                             'headerOptions' => ['width' => '80'],
                         ],
                         [
                             'attribute'=>'profit_money',
+                            'value' => function($data) {
+                                return Helper::formatMoney($data->profit_money);
+                            },
                             'headerOptions' => ['width' => '80'],
                         ],
                         [

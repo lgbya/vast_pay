@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use common\models\ChangeUserMoneyLog;
+use common\models\Helper;
 use common\models\PayChannel;
 use common\models\Product;
 use common\models\User;
@@ -37,6 +38,11 @@ class PayOrderController extends Controller
         $osPayOrder = new PayOrderSearch();
         $dataProvider = $osPayOrder->search(Yii::$app->request->queryParams);
 
+        $payMoneyCount = $dataProvider->query->sum('pay_money');
+        $userMoneyCount = $dataProvider->query->sum('user_money');
+        $costMoneyCount = $dataProvider->query->sum('cost_money');
+        $profitMoneyCount = $dataProvider->query->sum('profit_money');
+
         $omProduct = new Product();
         $lProductIdToName = $omProduct->getIdToNameList();
 
@@ -48,6 +54,10 @@ class PayOrderController extends Controller
             'dataProvider' => $dataProvider,
             'lProductIdToName' => $lProductIdToName,
             'lChannelIdToName' => $lChannelIdToName,
+            'payMoneyCount' => Helper::formatMoney($payMoneyCount),
+            'userMoneyCount' => Helper::formatMoney($userMoneyCount),
+            'costMoneyCount' => Helper::formatMoney($costMoneyCount),
+            'profitMoneyCount'=>Helper::formatMoney($profitMoneyCount),
         ]);
     }
 
