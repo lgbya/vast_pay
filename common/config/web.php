@@ -30,6 +30,20 @@ $config = [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
+
+//        'mailer' => [
+//            'class' => 'yii\swiftmailer\Mailer',
+//            'viewPath' => '@app/mailer',
+//            'useFileTransport' => false,
+//            'transport' => [
+//                'class' => 'Swift_SmtpTransport',
+//                'host' => 'smtp.live.com',
+//                'username' => 'jellybool@outlook.com',
+//                'password' => 'your-password',
+//                'port' => '587',
+//                'encryption' => 'tls',
+//            ],
+//        ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
             // send all mails to a file by default. You have to set
@@ -69,6 +83,7 @@ $config = [
             ],
         ],
     ],
+
     'params' => $params,
 ];
 

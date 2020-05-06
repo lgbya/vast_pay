@@ -68,19 +68,23 @@ AppAsset::register($this);
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= Alert::widget() ?>
-        <div class="row">
-            <?= $this->render('left.php') ?>
-            <div class="col-sm-10">
+            <? if (Yii::$app->controller->action->id !== 'login' && Yii::$app->controller->action->id !== 'register'):?>
+                <?= $this->render('left.php') ?>
+                <div class="col-sm-10">
+                    <div class = "box">
+                        <div class="box-body">
+                            <?= $content ?>
+                        </div>
+                    </div>
+                </div>
+            <?else:?>
                 <div class = "box">
                     <div class="box-body">
                         <?= $content ?>
                     </div>
-<!--                    <div class="box-footer">-->
-<!--                        --><?//= $this->render('footer.php') ?>
-<!--                    </div>-->
                 </div>
-            </div>
-        </div>
+            <? endif; ?>
+
     </div>
 </div>
 <?= $this->render('footer.php') ?>

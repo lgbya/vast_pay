@@ -39,6 +39,7 @@ class UserLoginForm extends Model
             'username' => '用户名',
             'password' => '密码',
             'verify_code' => '验证码',
+            'remember_me' => '记住我',
         ];
     }
 
@@ -46,6 +47,11 @@ class UserLoginForm extends Model
     {
         if (!$this->hasErrors()) {
             $user = $this->getUser();
+            if (!$user || $user->status === User::STATUS_REGISTER_AUDIT){
+                $this->addError($attribute, '账号未通过审核！！！');
+                return false;
+            }
+
             if (!$user || !$user->validatePassword($this->password)) {
                 $this->addError($attribute, '用户名或密码错误.');
             }

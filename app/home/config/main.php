@@ -35,6 +35,13 @@ return [
         'gridview' =>  [
             'class' => '\kartik\grid\Module',
         ],
+
+//        'user' => [
+//            'class' => 'dektrium\user\Module',
+//            'confirmWithin' => 21600,
+//            'cost' => 12,
+//            'admins' => ['admin']
+//        ],
     ],
     'params' => $params,
 
