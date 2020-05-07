@@ -7,16 +7,11 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'home\controllers',
     'as access' => [
-        'class' => 'mdm\admin\components\AccessControl',
-        'allowActions' => ['*'],
+        'class' => 'common\components\AccessControl',
+        'allowActions' => [
+            'site/*',
+        ],
     ],
-//        'class' => 'common\components\AccessControl',
-//        'allowActions' => [
-//            'site/logout',
-//            'site/captcha',
-//            'site/index',
-//            'site/register',
-//        ]
     'components' => [
         'user' => [
             'identityClass' => 'common\models\User',
