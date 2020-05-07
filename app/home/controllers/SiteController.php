@@ -94,7 +94,7 @@ class SiteController extends BaseController
 
         $ofUserLogin = new UserLoginForm();
         if ($ofUserLogin->load(Yii::$app->request->post()) && $ofUserLogin->login()) {
-            return $this->goBack();
+            return $this->redirect('/user/base-info');
         }
 
         $ofUserLogin->password = '';

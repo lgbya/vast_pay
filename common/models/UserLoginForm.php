@@ -54,8 +54,10 @@ class UserLoginForm extends Model
 
             if (!$user || !$user->validatePassword($this->password)) {
                 $this->addError($attribute, '用户名或密码错误.');
+                return false;
             }
         }
+        return true;
     }
 
     public function login()
