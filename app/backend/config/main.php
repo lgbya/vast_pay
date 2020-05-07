@@ -36,6 +36,7 @@ return [
         'class' => 'mdm\admin\components\AccessControl',
         'allowActions' => [
             'site/captcha',
+            'data-report/*',
         ]
     ],
 ];

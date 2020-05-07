@@ -18,7 +18,7 @@ use yii\filters\VerbFilter;
 /**
  * PayOrderController implements the CRUD actions for PayOrder model.
  */
-class PayOrderController extends Controller
+class PayOrderController extends BaseController
 {
 
     public function behaviors()

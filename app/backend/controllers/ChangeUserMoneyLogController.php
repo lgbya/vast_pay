@@ -12,7 +12,7 @@ use yii\filters\VerbFilter;
 /**
  * ChangeUserMoneyLogController implements the CRUD actions for ChangeUserMoneyLog model.
  */
-class ChangeUserMoneyLogController extends Controller
+class ChangeUserMoneyLogController extends BaseController
 {
 
     public function behaviors()
