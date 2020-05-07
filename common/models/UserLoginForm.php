@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 use yii\base\Model;
+use common\helper\Helper;
 
 /**
  * LoginForm is the model behind the login form.

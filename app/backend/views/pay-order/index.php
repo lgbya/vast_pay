@@ -5,7 +5,7 @@ use yii\helpers\Url;
 use kartik\grid\GridView;
 use yii\widgets\Pjax;
 use common\models\PayOrder;
-use common\models\Helper;
+use common\helper\Helper;
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\PayOrderSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */

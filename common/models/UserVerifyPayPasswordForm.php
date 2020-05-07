@@ -5,6 +5,7 @@ namespace common\models;
 use Yii;
 use yii\base\Model;
 use yii\web\Controller;
+use common\helper\Helper;
 
 class UserVerifyPayPasswordForm extends Model
 {

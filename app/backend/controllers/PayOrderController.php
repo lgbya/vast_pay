@@ -3,7 +3,7 @@
 namespace backend\controllers;
 
 use common\models\ChangeUserMoneyLog;
-use common\models\Helper;
+use common\helper\Helper;
 use common\models\PayChannel;
 use common\models\Product;
 use common\models\User;

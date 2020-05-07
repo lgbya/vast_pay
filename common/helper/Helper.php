@@ -1,5 +1,5 @@
 <?php
-namespace common\models;
+namespace common\helper;
 
 use Yii;
 use yii\web\Response;

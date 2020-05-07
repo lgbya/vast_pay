@@ -6,6 +6,7 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\ChangeUserMoneyLog;
+use common\helper\Helper;
 
 /**
  * ChangeUserMoneyLogSearch represents the model behind the search form of `common\models\ChangeUserMoneyLog`.

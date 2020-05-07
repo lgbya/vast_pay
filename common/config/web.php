@@ -31,26 +31,23 @@ $config = [
             'errorAction' => 'site/error',
         ],
 
-//        'mailer' => [
-//            'class' => 'yii\swiftmailer\Mailer',
-//            'viewPath' => '@app/mailer',
-//            'useFileTransport' => false,
-//            'transport' => [
-//                'class' => 'Swift_SmtpTransport',
-//                'host' => 'smtp.live.com',
-//                'username' => 'jellybool@outlook.com',
-//                'password' => 'your-password',
-//                'port' => '587',
-//                'encryption' => 'tls',
-//            ],
-//        ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
-            // send all mails to a file by default. You have to set
-            // 'useFileTransport' to false and configure a transport
-            // for the mailer to send real emails.
-            'useFileTransport' => true,
+            'useFileTransport' => true, //这句一定有，false发送邮件，true只是生成邮件在runtime文件夹下，不发邮件
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'host' => 'smtp.163.com', //每种邮箱的host配置不一样
+                'username' => 'xxx',
+                'password' => 'xxx',
+                'port' => '25',
+                // 'encryption' => 'tls',
+            ],
+            'messageConfig' => [
+                'charset' => 'UTF-8',
+                'from' => ['xxx@163.com' => '发件人姓名'],
+            ],
         ],
+
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [

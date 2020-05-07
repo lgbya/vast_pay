@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use common\helper\Helper;
 
 /**
  * This is the model class for table "{{%pay_order}}".
