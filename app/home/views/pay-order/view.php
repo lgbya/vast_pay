@@ -44,7 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'format' => ['date', 'php:Y-m-d H:i:s'],
         ],
         [
-            'attribute' => 'notify_time',
+            'attribute' => 'notify_at',
             'label' => '支付时间',
             'format' => ['date', 'php:Y-m-d H:i:s'],
         ],

@@ -25,6 +25,8 @@ use common\helper\Helper;
 class PayChannel extends \yii\db\ActiveRecord
 {
 
+    const TABLE_NAME = 'pay_channel';
+
     const STATUS_ON = 1;
     const STATUS_OFF = 0;
 
@@ -36,7 +38,7 @@ class PayChannel extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%pay_channel}}';
+        return '{{%' . self::TABLE_NAME . '}}';
     }
 
     /**

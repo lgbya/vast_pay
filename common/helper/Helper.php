@@ -8,11 +8,12 @@ class Helper
 {
     public static function showJsonSuccess($data = [])
     {
-        return self::showJsonError(0, "success", $data);
+        return self::showJsonError(0, 'success', $data);
     }
 
-    public static  function showJsonError($error ,  $message = "", $data = [])
+    public static function showJsonError($error ,  $message = '', $data = [])
     {
+        $message = $message != ''?:ErrorCode::explain($error);
         Yii::$app->response->format = Response::FORMAT_JSON;
         return [
             'error'     =>  $error,

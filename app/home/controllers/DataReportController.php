@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\controllers;
+namespace home\controllers;
 
 use common\models\PayOrder;
 use common\models\PayOrderSearch;
@@ -17,7 +17,7 @@ class DataReportController extends BaseController
     {
 
         $osPayOrder = new PayOrderSearch();
-        $oqlPayOrderSum = $osPayOrder->getProductGroupMoneySum();
+        $oqlPayOrderSum = $osPayOrder->getProductGroupMoneySum($this->user_id);
 
         $lsProductMoneySum = [];
         foreach($oqlPayOrderSum as  $k => $v){
@@ -29,7 +29,7 @@ class DataReportController extends BaseController
         }
 
 
-        $oqlPayOrder = $osPayOrder->getBeforetimeOrder();
+        $oqlPayOrder = $osPayOrder->getBeforetimeOrder($this->user_id);
         $lsEverydayMoneySum = [];
         $lDate = [];
         foreach($oqlPayOrder as $k => $v){

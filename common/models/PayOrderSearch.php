@@ -18,7 +18,7 @@ class PayOrderSearch extends PayOrder
     public function rules()
     {
         return [
-            [['id', 'product_id', 'pay_channel_id', 'user_id',  'pay_money', 'profit_rate', 'cost_rate',  'status', 'created_at', 'notify_time', 'success_time', 'query_time', 'updated_at'], 'integer'],
+            [['id', 'product_id', 'pay_channel_id', 'user_id',  'pay_money', 'profit_rate', 'cost_rate',  'status', 'created_at', 'notify_at', 'success_at', 'query_at', 'updated_at'], 'integer'],
             [['channel_code', 'channel_account', 'user_account', 'sys_order_id', 'user_order_id', 'supplier_order_id'], 'safe'],
             [['user_money', 'cost_money', 'profit_money'], 'number'],
         ];
@@ -33,18 +33,12 @@ class PayOrderSearch extends PayOrder
         return Model::scenarios();
     }
 
-    /**
-     * Creates data provider instance with search query applied
-     *
-     * @param array $params
-     *
-     * @return ActiveDataProvider
-     */
     public function search($params)
     {
         $query = PayOrder::find();
+//        $query->with(Product::TABLE_NAME);
+//        $query->with(PayChannel::TABLE_NAME);
 
-        // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -68,19 +62,19 @@ class PayOrderSearch extends PayOrder
             $query->andFilterWhere(['between',  'updated_at',  $lUpdatedAt[0], $lUpdatedAt[1]]);
         }
 
-        $lSuccessTime = Helper::cuttingDateRange($this->success_time);
+        $lSuccessTime = Helper::cuttingDateRange($this->success_at);
         if ($lCreatedAt !== []){
-            $query->andFilterWhere(['between',  'success_time',  $lSuccessTime[0], $lSuccessTime[1]]);
+            $query->andFilterWhere(['between',  'success_at',  $lSuccessTime[0], $lSuccessTime[1]]);
         }
 
-        $lNotifyTime = Helper::cuttingDateRange($this->notify_time);
+        $lNotifyTime = Helper::cuttingDateRange($this->notify_at);
         if ($lNotifyTime !== []){
-            $query->andFilterWhere(['between',  'notify_time',  $lNotifyTime[0], $lNotifyTime[1]]);
+            $query->andFilterWhere(['between',  'notify_at',  $lNotifyTime[0], $lNotifyTime[1]]);
         }
 
-        $lQueryTime = Helper::cuttingDateRange($this->query_time);
-        if ($lUpdatedAt !== []){
-            $query->andFilterWhere(['between',  'updated_at',  $lQueryTime[0], $lQueryTime[1]]);
+        $lQueryTime = Helper::cuttingDateRange($this->query_at);
+        if ($lQueryTime !== []){
+            $query->andFilterWhere(['between',  'query_at',  $lQueryTime[0], $lQueryTime[1]]);
         }
 
         // grid filtering conditions
@@ -98,9 +92,6 @@ class PayOrderSearch extends PayOrder
             'profit_money' => $this->profit_money,
             'inform_num' => $this->inform_num,
             'status' => $this->status,
-            'notify_time' => $this->notify_time,
-            'success_time' => $this->success_time,
-            'query_time' => $this->query_time,
         ]);
 
         $query->andFilterWhere(['like', 'pay_channel_code', $this->pay_channel_code])
@@ -117,5 +108,32 @@ class PayOrderSearch extends PayOrder
             ->andFilterWhere(['like', 'user_extra_field', $this->user_extra_field]);
 
         return $dataProvider;
+    }
+
+
+    public function getProductGroupMoneySum($userId = null)
+    {
+
+        $select = [
+            'product_id',
+            'sum(`pay_money`) as pay_money','sum(`user_money`) as user_money',
+            'sum(`cost_money`) as cost_money', 'sum(`profit_money`) as profit_money',
+        ];
+        return self::find()
+            ->with(Product::TABLE_NAME)
+            ->select($select)
+            ->andFilterWhere(['user_id' => $userId])
+            ->andFilterWhere(['in','status', $this->userHavePayMoneyStatus()])
+            ->groupBy('product_id')->all();
+    }
+
+    public function getBeforetimeOrder($day = '-30 day',$userId = null)
+    {
+        return self::find()
+            ->andFilterWhere(['between',  'notify_at',  strtotime($day), time()])
+            ->andFilterWhere(['user_id'=>$userId])
+            ->andFilterWhere(['in', 'status', $this->userHavePayMoneyStatus()])
+            ->orderBy('notify_at')
+            ->all();
     }
 }

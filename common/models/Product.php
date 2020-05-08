@@ -19,6 +19,8 @@ use common\helper\Helper;
 class Product extends \yii\db\ActiveRecord
 {
 
+    const TABLE_NAME = 'product';
+
     const STATUS_ON = 1;
     const STATUS_OFF = 0;
 
@@ -30,8 +32,9 @@ class Product extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%product}}';
+        return '{{%'. self::TABLE_NAME .'}}';
     }
+
 
     /**
      * {@inheritdoc}

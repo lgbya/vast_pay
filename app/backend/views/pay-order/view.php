@@ -84,15 +84,15 @@ echo Dialog::widget();
                         'format' => ['date', 'php:Y-m-d H:i:s'],
                     ],
                     [
-                        'attribute' => 'notify_time',
+                        'attribute' => 'notify_at',
                         'format' => ['date', 'php:Y-m-d H:i:s'],
                     ],
                     [
-                        'attribute' => 'success_time',
+                        'attribute' => 'success_at',
                         'format' => ['date', 'php:Y-m-d H:i:s'],
                     ],
                     [
-                        'attribute' => 'query_time',
+                        'attribute' => 'query_at',
                         'format' => ['date', 'php:Y-m-d H:i:s'],
                     ],
                 ],

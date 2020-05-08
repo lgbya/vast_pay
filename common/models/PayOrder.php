@@ -35,9 +35,9 @@ use common\helper\Helper;
  * @property int $status
  * @property int $created_at
  * @property int $updated_at
- * @property int $notify_time
- * @property int $success_time
- * @property int $query_time
+ * @property int $notify_at
+ * @property int $success_at
+ * @property int $query_at
  */
 class PayOrder extends \yii\db\ActiveRecord
 {
@@ -54,10 +54,30 @@ class PayOrder extends \yii\db\ActiveRecord
         return '{{%pay_order}}';
     }
 
+    public static function enumState($type = null, $field = null)
+    {
+        $lsEnum =  [
+            'status'=>[
+                self::STATUS_NON_PAYMENT    => '未支付',
+                self::STATUS_HAVE_PAID      => '已支付',
+                self::STATUS_NOTIFY_SUCCESS => '通知下游成功',
+                self::STATUS_QUERY_SUCCESS  => '系统查询成功',
+                self::STATUS_TURN_DOWN      => '手动驳回',
+                self::STATUS_CORRECTION     => '手动校正',
+            ],
+        ];
+
+        if (isset($lsEnum[$type])){
+            return $lsEnum[$type][$field] ? : $lsEnum[$type] ;
+        }
+
+        return $lsEnum;
+    }
+
     public function rules()
     {
         return [
-            [['product_id', 'pay_channel_id', 'user_id', 'user_account', 'pay_money', 'profit_rate', 'cost_rate', 'inform_num', 'status',  'notify_time', 'success_time', 'query_time'], 'integer'],
+            [['product_id', 'pay_channel_id', 'user_id', 'user_account', 'pay_money', 'profit_rate', 'cost_rate', 'inform_num', 'status',  'notify_at', 'success_at', 'query_at'], 'integer'],
             [['pay_channel_code', 'pay_channel_account', 'pay_channel_account_extra', 'md5_key', 'public_key', 'private_key', 'user_id', 'user_account', 'sys_order_id', 'user_order_id', 'supplier_order_id', 'cost_rate', 'user_notify_url', 'user_callback_url', 'user_extra_field'], 'required'],
             [['user_money', 'cost_money', 'profit_money'], 'number'],
             [['pay_channel_code', 'pay_channel_account', 'pay_channel_account_extra', 'md5_key', 'public_key', 'private_key', 'user_notify_url', 'user_callback_url', 'user_extra_field'], 'string', 'max' => 255],
@@ -95,9 +115,9 @@ class PayOrder extends \yii\db\ActiveRecord
             'status' => '状态',
             'created_at' => '创建时间',
             'updated_at' => '修改时间',
-            'notify_time' => '上游回调成功时间',
-            'success_time' => '下游返回成功时间',
-            'query_time' => '查询上游成功时间',
+            'notify_at' => '上游回调成功时间',
+            'success_at' => '下游返回成功时间',
+            'query_at' => '查询上游成功时间',
         ];
     }
 
@@ -112,10 +132,10 @@ class PayOrder extends \yii\db\ActiveRecord
     }
 
     public function checkHaveAddMoney(){
-        return in_array($this->status, $this->haveAddMoneyStatus());
+        return in_array($this->status, $this->userHavePayMoneyStatus());
     }
 
-    protected function haveAddMoneyStatus()
+    public function userHavePayMoneyStatus()
     {
         return [
             self::STATUS_HAVE_PAID,
@@ -125,22 +145,9 @@ class PayOrder extends \yii\db\ActiveRecord
         ];
     }
 
-    public static function enumState($type = null, $field = null){
-        $lsEnum =  [
-            'status'=>[
-                self::STATUS_NON_PAYMENT    => '未支付',
-                self::STATUS_HAVE_PAID      => '已支付',
-                self::STATUS_NOTIFY_SUCCESS => '通知下游成功',
-                self::STATUS_QUERY_SUCCESS  => '系统查询成功',
-                self::STATUS_TURN_DOWN      => '手动驳回',
-                self::STATUS_CORRECTION     => '手动校正',
-            ],
-        ];
-
-        if (isset($lsEnum[$type])){
-            return $lsEnum[$type][$field] ? : $lsEnum[$type] ;
-        }
-
-        return $lsEnum;
+    public static function findByUserOrder($userId, $userOrderId)
+    {
+        return self::findOne(['user_id'=>$userId, 'user_order_id' => $userOrderId]);
     }
+
 }

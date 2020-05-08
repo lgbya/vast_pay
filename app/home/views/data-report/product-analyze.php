@@ -1,0 +1,112 @@
+<?php
+use Hisune\EchartsPHP\ECharts;
+$this->title = Yii::t('app', '产品分析');
+$this->params['breadcrumbs'][] = $this->title;
+
+$chart = new ECharts();
+$options = [
+    'title' => [
+        'text' => '产品总统计',
+    ],
+    'tooltip' => ['show' => true],
+    'legend'  => ['data' => ['原支付金额', '用户获取金额', '利润', '成本']],
+    'grid' => [
+        'left' => '3%',
+        'right' => '4%',
+        'bottom' => '3%',
+        'containLabel' => true,
+    ],
+    'xAxis'   => [
+        [
+            'type' => 'category',
+            'data' => $lsProductMoneySum['product_name'],
+        ]
+    ],
+    'yAxis'   => [
+        ['type' => 'value']
+    ],
+    'series'  => [
+        [
+            'name' => '原支付金额',
+            'type' => 'bar',
+            'data' => $lsProductMoneySum['pay_money'],
+        ],
+        [
+            'name' => '用户获取金额',
+            'type' => 'bar',
+            'data' => $lsProductMoneySum['user_money'],
+        ],
+        [
+            'name' => '成本',
+            'type' => 'bar',
+            'data' => $lsProductMoneySum['cost_money'],
+        ],
+        [
+            'name' => '利润',
+            'type' => 'bar',
+            'data' => $lsProductMoneySum['profit_money'],
+        ],
+    ]
+];
+$chart->setOption($options);
+echo $chart->render('simple-custom-id');
+$chart = new ECharts();
+$options = [
+    'title' => [
+        'text' => '30天金额折线',
+    ],
+    'tooltip' => [
+        'trigger' => 'axis',
+    ],
+    'legend' => [
+        'data' => ['原支付金额', '用户获取金额', '利润', '成本']
+    ],
+    'grid' => [
+        'left' => '3%',
+        'right' => '4%',
+        'bottom' => '3%',
+        'containLabel' => true,
+    ],
+    'toolbox'   =>  [
+        'feature' => [
+            'saveAsImage' => [],
+        ],
+    ],
+    'xAxis' => [
+        'type' => 'category',
+        'boundaryGap' => false,
+        'data' => array_values($lDate),
+    ],
+    'yAxis' => [
+        'type' => 'value'
+    ],
+    'series' => [
+        [
+            'name' =>'原支付金额',
+            'type' => 'line',
+            'stack'=> '总量',
+            'data' => array_values($lsEverydayMoneySum['pay_money']),
+        ],
+        [
+            'name' =>'用户获取金额',
+            'type' => 'line',
+            'stack'=> '总量',
+            'data' => array_values($lsEverydayMoneySum['user_money']),
+        ],
+        [
+            'name' =>'利润',
+            'type' => 'line',
+            'stack'=> '总量',
+            'data' => array_values($lsEverydayMoneySum['profit_money']),
+        ],
+        [
+            'name' =>'成本',
+            'type' => 'line',
+            'stack'=> '总量',
+            'data' => array_values($lsEverydayMoneySum['cost_money']),
+        ],
+    ]
+];
+$chart->setOption($options);
+echo $chart->render('simple-custom-id2');
+

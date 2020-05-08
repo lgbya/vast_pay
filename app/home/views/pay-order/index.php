@@ -66,7 +66,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filterWidgetOptions'=> Yii::$app->params['filterDateRangeOptions'],
             ],
             [
-                'attribute' => 'notify_time',
+                'attribute' => 'notify_at',
                 'label'=>'支付时间',
                 'format' => ['date', 'php:Y-m-d H:i:s'],
                 'filterType' =>GridView::FILTER_DATE_RANGE,

@@ -214,4 +214,8 @@ class User extends ActiveRecord implements IdentityInterface
         return static::findOne(['username' => $username]);
     }
 
+    public static function findByAccount($account)
+    {
+        return static::findOne(['account' => $account, 'status'=>self::STATUS_ACTIVE]);
+    }
 }

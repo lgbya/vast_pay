@@ -68,7 +68,7 @@ class UserToPayChannel extends \yii\db\ActiveRecord
         return $lsChannelIds;
     }
 
-    public function getNormalUserChannels($userId )
+    public function getNormalUserChannels($userId, $productId = null )
     {
 
         $payChannelTableName = PayChannel::tableName();
@@ -76,9 +76,10 @@ class UserToPayChannel extends \yii\db\ActiveRecord
             ->alias('u')
             ->select('c.*')
             ->leftJoin( "{$payChannelTableName} c", 'c.id = u.pay_channel_id ')
-            ->andWhere(['u.user_id'=>$userId])
-            ->andWhere(['c.status'=>PayChannel::STATUS_ON])
-            ->andWhere(['c.is_del'=>PayChannel::DEL_STATE_NO])
+            ->andFilterWhere(['u.user_id'=>$userId])
+            ->andFilterWhere(['c.status'=>PayChannel::STATUS_ON])
+            ->andFilterWhere(['c.is_del'=>PayChannel::DEL_STATE_NO])
+            ->andFilterWhere(['c.product_id' => $productId])
             ->asArray()
             ->all();
     }
@@ -130,5 +131,10 @@ class UserToPayChannel extends \yii\db\ActiveRecord
             return false;
         }
 
+    }
+
+    public static function findUserPayChannel($userId)
+    {
+        return self::find()->with(PayChannel::TABLE_NAME)->andFilterWhere(['user_id'=>$userId])->one();
     }
 }
