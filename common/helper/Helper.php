@@ -31,7 +31,7 @@ class Helper
         return [strtotime($lDate[0]), strtotime($lDate[1])];
     }
 
-     public static function  formatMoney($money, $len=2, $sign='￥'){
+     public static function  formatMoney($money, $len=3, $sign='￥'){
          $money = $money/100;
          $negative = $money > 0 ? '' : '-';
          $intMoney = intval(abs($money));
@@ -51,4 +51,37 @@ class Helper
          $formatMoney = strrev($formatMoney);
          return $sign.$negative.$formatMoney.$decimal;
      }
+
+    public static function countWeight($lsData){
+        $lsTemp = [];
+        foreach($lsData as $v){
+            for($i = 0; $i < $v['weight']; $i++){
+                $lsTemp[] = $v;//放大数组
+            }
+        }
+        $int=mt_rand(0, count($lsTemp)-1);
+        return $lsTemp[$int];
+    }
+
+    public static function joinToUppercase($str, $symbol = '-')
+    {
+        $lsStr = preg_split('/(?=[A-Z])/',$str);
+        $string = '';
+        foreach($lsStr as $v){
+            $string .= strtolower($v) . $symbol;
+        }
+        return trim($string, $symbol);
+    }
+
+
+    public static function restoreUppercase($str, $symbol = '-')
+    {
+        $lsStr = explode($symbol, $str);
+
+        $string = '';
+        foreach($lsStr as $v){
+            $string .= ucfirst($v) ;
+        }
+        return $string;
+    }
 }

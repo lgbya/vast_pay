@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use common\models\Product;
 use common\models\UserToPayChannel;
+use common\models\UserToPayChannelSearch;
 use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 use Yii;
 use common\models\User;
@@ -45,7 +46,10 @@ class UserController extends BaseController
 
     public function actionView($id)
     {
-        $dataProvider = new ActiveDataProvider(['query' => UserToPayChannel::find()]);
+        $osUserToPayChannel = new UserToPayChannelSearch();
+        $lsPost = Yii::$app->request->queryParams;
+        $lsPost['UserToPayChannelSearch']['user_id'] = $id;
+        $dataProvider = $osUserToPayChannel->search($lsPost);
         return $this->render('view', [
             'model' => $this->findModel($id),
             'dataProvider' => $dataProvider,

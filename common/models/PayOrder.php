@@ -2,8 +2,10 @@
 
 namespace common\models;
 
+use linslin\yii2\curl\Curl;
 use Yii;
 use common\helper\Helper;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "{{%pay_order}}".
@@ -49,9 +51,19 @@ class PayOrder extends \yii\db\ActiveRecord
     const STATUS_TURN_DOWN = 4;
     const STATUS_CORRECTION = 5;
 
+    public $sys_notify_url;
+    public $sys_callback_url;
+
     public static function tableName()
     {
         return '{{%pay_order}}';
+    }
+
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+        ];
     }
 
     public static function enumState($type = null, $field = null)
@@ -77,8 +89,8 @@ class PayOrder extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['product_id', 'pay_channel_id', 'user_id', 'user_account', 'pay_money', 'profit_rate', 'cost_rate', 'inform_num', 'status',  'notify_at', 'success_at', 'query_at'], 'integer'],
-            [['pay_channel_code', 'pay_channel_account', 'pay_channel_account_extra', 'md5_key', 'public_key', 'private_key', 'user_id', 'user_account', 'sys_order_id', 'user_order_id', 'supplier_order_id', 'cost_rate', 'user_notify_url', 'user_callback_url', 'user_extra_field'], 'required'],
+            [['product_id', 'pay_channel_id', 'user_id', 'pay_money', 'profit_rate', 'cost_rate', 'inform_num', 'status',  'notify_at', 'success_at', 'query_at'], 'integer'],
+            [['pay_channel_code', 'pay_channel_account', 'md5_key', 'public_key', 'private_key', 'user_id', 'user_account', 'sys_order_id', 'user_order_id', 'cost_rate', 'user_notify_url', 'user_callback_url'], 'required'],
             [['user_money', 'cost_money', 'profit_money'], 'number'],
             [['pay_channel_code', 'pay_channel_account', 'pay_channel_account_extra', 'md5_key', 'public_key', 'private_key', 'user_notify_url', 'user_callback_url', 'user_extra_field'], 'string', 'max' => 255],
             [['sys_order_id', 'user_order_id', 'supplier_order_id'], 'string', 'max' => 100],
@@ -131,6 +143,11 @@ class PayOrder extends \yii\db\ActiveRecord
         return $this->hasOne(Product::className(), ['id'=>'product_id']);
     }
 
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id'=>'user_id']);
+    }
+
     public function checkHaveAddMoney(){
         return in_array($this->status, $this->userHavePayMoneyStatus());
     }
@@ -143,6 +160,94 @@ class PayOrder extends \yii\db\ActiveRecord
             self::STATUS_QUERY_SUCCESS,
             self::STATUS_CORRECTION,
         ];
+    }
+
+    public  function generateOrder($oqUser, $ofPayment, $lChannel, $lAccount)
+    {
+        $this->sys_order_id = $this->generateSysOrderId($oqUser->id);
+        $this->user_order_id = $ofPayment->order_id;
+        $this->product_id = $lChannel['product_id'];
+        $this->pay_channel_id = $lChannel['id'];
+        $this->pay_channel_code = $lChannel['code'];
+        $this->cost_rate = $lChannel['cost_rate'];
+        $this->profit_rate = $lChannel['profit_rate'];
+        $this->pay_channel_account = $lAccount['account'];
+        $this->pay_channel_account_extra = $lAccount['extra'];
+        $this->md5_key = $lAccount['md5_key'];
+        $this->public_key = $lAccount['public_key'];
+        $this->private_key = $lAccount['private_key'];
+
+        $this->user_id = $oqUser->id;
+        $this->user_account = $oqUser->account;
+        $this->user_extra_field = $ofPayment->extra;
+        $this->user_notify_url = $ofPayment->notify_url;
+        $this->user_callback_url = $ofPayment->callback_url;
+        $this->user_sign_type = $ofPayment->sign_type;
+
+        $this->pay_money = $ofPayment->money;
+        $this->cost_money = $this->countCostMoney($ofPayment->money, $lChannel['profit_rate']);
+        $this->profit_money = $this->countProfitMoney($ofPayment->money, $lChannel['profit_rate']);
+        $this->user_money = $this->countUserMoney($this->pay_money, $this->profit_money);
+
+        $this->status = PayOrder::STATUS_NON_PAYMENT;
+        if ($this->save()){
+
+            $hostInfo = Yii::$app->request->hostInfo;
+            $this->sys_notify_url = $hostInfo . '/payment/notify/'. $this->sys_order_id ;
+            $this->sys_callback_url = $hostInfo . '/payment/callback/'. $this->sys_order_id;
+
+            return $this;
+        }
+
+        return false;
+    }
+
+    public function countCostMoney($money, $costRate)
+    {
+        return bcmul($money, $costRate/1000, 3);
+    }
+
+    public function countProfitMoney($money, $profitRate)
+    {
+        return bcmul($money, $profitRate/1000, 3);
+    }
+
+    public function countUserMoney($payMoney, $profitMoney)
+    {
+        return bcsub($payMoney, $profitMoney, 3);
+
+    }
+
+    public function generateSysOrderId($userId)
+    {
+        return $userId . date('YmdHis') . str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT);
+    }
+
+    public function notifyUser($userSignType = null)
+    {
+        $ocCurl = new Curl();
+        $params = [
+            'account' => $this->user_account,
+            'sys_order_id' => $this->sys_order_id,
+            'user_order_id' => $this->user_order_id,
+            'money' => $this->pay_money,
+            'extra' => $this->user_extra_field,
+            'create_at'=> $this->created_at,
+            'success_at'=>$this->notify_at,
+            'status' => $this->checkHaveAddMoney()?'1':'0',
+        ];
+        $userSignType = isset($userSignType) ? : $this->user_sign_type;
+        $params['sign'] = (new PaymentForm())->sign($params, $this->user, $userSignType);
+
+        $response = $ocCurl->setPostParams($params)->post($this->user_notify_url);
+        if ($ocCurl->responseCode == '200' && $response == 'SUCCESS'){
+            $this->status = PayOrder::STATUS_NOTIFY_SUCCESS;
+            $this->success_at = time();
+            $this->inform_num += 1;
+            if(!$this->save()){
+                Yii::warning(['message' =>'通知下游成功，订单修改状态失败！！！', 'sys_order_id' => $this->sys_order_id ,'errors'=> $oqPayOrder->errors]);
+            }
+        }
     }
 
     public static function findByUserOrder($userId, $userOrderId)

@@ -24,6 +24,7 @@ class ChangeUserMoneyLog extends \yii\db\ActiveRecord
 
     const TYPE_PAY_ORDER_CORRECTION = 1;
     const TYPE_PAY_ORDER_TURN_DOWN = 2;
+    const TYPE_PAY_ORDER_SUCCESS = 3;
 
     /**
      * {@inheritdoc}
@@ -40,7 +41,7 @@ class ChangeUserMoneyLog extends \yii\db\ActiveRecord
     {
         return [
             [['user_id', 'change_money', 'before_money', 'after_money', 'type'], 'required'],
-            [['user_id', 'change_money', 'before_money', 'after_money'], 'integer'],
+            [['user_id', 'change_money', 'before_money', 'after_money'], 'number'],
         ];
     }
 
@@ -77,6 +78,7 @@ class ChangeUserMoneyLog extends \yii\db\ActiveRecord
             'type'=>[
                 self::TYPE_PAY_ORDER_CORRECTION    => '支付订单校正',
                 self::TYPE_PAY_ORDER_TURN_DOWN      => '支付订单驳回',
+                self::TYPE_PAY_ORDER_SUCCESS    => '订单支付成功',
             ],
         ];
 

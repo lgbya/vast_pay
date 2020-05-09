@@ -74,7 +74,8 @@ class PayOrderController extends BaseController
         $oqPayOrder = $this->findModel($id);
         $transaction = Yii::$app->db->beginTransaction();
         if (!$oqPayOrder->checkHaveAddMoney()){
-            if(!User::addMoney($id, $oqPayOrder->user_money, ChangeUserMoneyLog::TYPE_PAY_ORDER_CORRECTION, $oqPayOrder->sys_order_id)) {
+            $oqUser = User::findOne($oqPayOrder->user_id);
+            if(!$oqUser->addMoney($oqPayOrder->user_money, ChangeUserMoneyLog::TYPE_PAY_ORDER_CORRECTION, $oqPayOrder->sys_order_id)) {
                 $transaction->rollBack();
                 throw new NotFoundHttpException(Yii::t('app', '订单校正失败！用户增加金额无效'));
             }
@@ -93,7 +94,8 @@ class PayOrderController extends BaseController
         $oqPayOrder = $this->findModel($id);
         $transaction = Yii::$app->db->beginTransaction();
         if ($oqPayOrder->checkHaveAddMoney()){
-            if(!User::subMoney($id, $oqPayOrder->user_money, ChangeUserMoneyLog::TYPE_PAY_ORDER_TURN_DOWN, $oqPayOrder->sys_order_id)) {
+            $oqUser = User::findOne($oqPayOrder->user_id);
+            if(!$oqUser->subMoney($id, $oqPayOrder->user_money, ChangeUserMoneyLog::TYPE_PAY_ORDER_TURN_DOWN, $oqPayOrder->sys_order_id)) {
                 $transaction->rollBack();
                 throw new NotFoundHttpException(Yii::t('app', '订单校正失败！用户增加金额无效'));
             }

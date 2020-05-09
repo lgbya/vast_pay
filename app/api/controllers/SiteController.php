@@ -10,7 +10,7 @@ class SiteController extends BaseController
 {
     public function actionError()
     {
-        return Helper::showJsonError(ErrorCode::NOT_FOUND);
+        return Helper::showJsonError(ErrorCode::NOT_FOUND_ERR);
     }
 
 }

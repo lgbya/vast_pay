@@ -17,7 +17,7 @@ class PaymentForm extends Model
     public $callback_url;   //同步回调地址
     public $random_string;  //随机字符
     public $ip;             //请求的ip
-    public $extra;          //额外字段
+    public $extra = '';          //额外字段
     public $sign_type;      //签名方式：默认md5
     public $sign;           //签名
     protected $_user = false;
@@ -28,7 +28,7 @@ class PaymentForm extends Model
         return [
             [[ 'account', 'product_id', 'order_id', 'money', 'notify_url', 'callback_url','random_string', 'ip', 'sign_type','sign'], 'required'],
             [[ 'product_id',  'money',], 'number'],
-            ['order_id', 'string', 'length'=>[10, 18], 'message'=>'订单长度10-18位'],
+            ['order_id', 'string', 'length'=>[10, 32], 'message'=>'订单长度10-32'],
             ['random_string', 'string', 'length'=>32, 'message'=>'随机字符32位'],
             ['notify_url', 'url', 'defaultScheme' => 'http'],
             ['callback_url', 'url', 'defaultScheme' => 'http'],
@@ -50,8 +50,8 @@ class PaymentForm extends Model
 
 
         if(!$this->verifySign()){
-            $this->addError('sign', '签名错误！');
-            return false;
+//            $this->addError('sign', '签名错误！');
+//            return false;
         }
 
 
@@ -80,15 +80,18 @@ class PaymentForm extends Model
             'sign_type' => $this->sign_type ,
         ];
 
+        return $this->sign($lData, $oqUser, $this->sign_type) == strtolower($this->sign);
+    }
+
+    public function sign($lData, $oqUser, $signType = 'md5')
+    {
         ksort($lData);
         $signString = '';
         foreach($lData as $k => $v){
             $signString .= $k . '=' . $v . '&';
         }
-        $sign = md5($signString . 'key='. $oqUser->pay_md5_key);
-        return $sign == strtolower($this->sign);
+        return md5($signString . 'key='. $oqUser->pay_md5_key);
     }
-
 
     public function getUser()
     {

@@ -32,13 +32,15 @@ use common\helper\Helper;
 class User extends ActiveRecord implements IdentityInterface
 {
 
+    const TABLE_NAME = 'user';
+
     const STATUS_INACTIVE = 0;
     const STATUS_REGISTER_AUDIT = 1;
     const STATUS_ACTIVE = 10;
 
     public static function tableName()
     {
-        return '{{%user}}';
+        return '{{%'. self::TABLE_NAME . '}}';
     }
 
     public function rules()
@@ -155,17 +157,17 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
 
-    public static function addMoney($id, $money, $type, $extra='')
+    public function addMoney( $money, $type, $extra='')
     {
-        return self::changeMoney($id, abs($money), $type, $extra);
+        return $this->changeMoney( abs($money), $type, $extra);
     }
 
-    public static function subMoney($id,  $money, $type, $extra='')
+    public function subMoney(  $money, $type, $extra='')
     {
-        return self::changeMoney($id, -abs($money), $type, $extra);
+        return $this->changeMoney( -abs($money), $type, $extra);
     }
 
-    protected static function changeMoney($id,  $money, $type, $extra)
+    protected  function changeMoney($money, $type, $extra)
     {
         //判断调用方法是否开启事务
         $transaction = Yii::$app->db->getTransaction();
@@ -174,28 +176,41 @@ class User extends ActiveRecord implements IdentityInterface
             $transaction = Yii::$app->db->beginTransaction();
         }
 
-        $oqUser = self::findOne($id);
-        if ($oqUser === null){
-            $transaction->rollBack();
-            return false;
-        }
 
         $omChangeUserMoneyLog = new ChangeUserMoneyLog();
-        $omChangeUserMoneyLog->user_id = $id;
+        $omChangeUserMoneyLog->user_id = $this->id;
         $omChangeUserMoneyLog->change_money = $money;
-        $omChangeUserMoneyLog->before_money = $oqUser->money;
-        $omChangeUserMoneyLog->after_money = $oqUser->money + $money;
+        $omChangeUserMoneyLog->before_money = $this->money;
+        $omChangeUserMoneyLog->after_money = $this->money + $money;
         $omChangeUserMoneyLog->type = $type;
         $omChangeUserMoneyLog->extra = $extra;
         if ($omChangeUserMoneyLog->save() === false){
+            Yii::warning([
+                'message' =>'用户金额更改日志失败！！！',
+                'type'=>$type,
+                'extra'=>$extra,
+                'errors'=> $omChangeUserMoneyLog->errors
+            ]);
             $transaction->rollBack();
             return false;
         }
+
+        $result = $this->updateCounters(['money' => $money]);
+        if (!$result){
+            Yii::warning([
+                'message' =>'用户金额添加失败！！！',
+                'type'=>$type,
+                'extra'=>$extra,
+                'errors'=> $this->errors
+            ]);
+            $transaction->rollBack();
+            return false;
+        }
+
         if ($transaction === null){
             $transaction->commit();
         }
-
-        return $oqUser->updateCounters(['money' => $money]);
+        return true;
     }
 
     public static function findIdentity($id)

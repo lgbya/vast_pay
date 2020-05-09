@@ -53,15 +53,23 @@ $config = [
             'targets' => [
                 [
                     'class' => 'yii\log\FileTarget',
-                    'levels' => ['error', 'warning'],
-                    'logFile' => '@runtime/logs/'.$main['id'].'/'.date('Ym').'/app.error.log',
+                    'levels' => ['warning'],
+                    'logFile' => '@runtime/logs/'. $main['id']. '/'.date('Ymd').'/app.warning.log',
                     'logVars' => [],
                     'prefix' => $logPrefix,
                 ],
                 [
                     'class' => 'yii\log\FileTarget',
+                    'levels' => ['error'],
+                    'logFile' => '@runtime/logs/'.$main['id'].'/'.date('Ymd').'/app.error.log',
+                    'logVars' => [],
+                    'prefix' => $logPrefix,
+                ],
+
+                [
+                    'class' => 'yii\log\FileTarget',
                     'levels' => ['info'],
-                    'logFile' => '@runtime/logs/'. $main['id']. '/'.date('Ym').'/app.info.log',
+                    'logFile' => '@runtime/logs/'. $main['id']. '/'.date('Ymd').'/app.info.log',
                     'logVars' => [],
                     'prefix' => $logPrefix,
                 ],
@@ -75,6 +83,7 @@ $config = [
             'rules' => [
                 '/' => 'site/index',
                 '<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
+                '<controller:\w+>/<action:\w+>/<sysOrderId:\w+>'=>'payment/notify',
                 '<module:\w+>/<controller:\w+>/<action:\w+>'=>'<module>/<controller>/<action>',
                 '<module:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>'=>'<module>/<controller>/<action>',
             ],
