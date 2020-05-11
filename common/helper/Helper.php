@@ -73,6 +73,15 @@ class Helper
         return trim($string, $symbol);
     }
 
+    public static function createForm($url, $lData = [])
+    {
+        $formStr = '<form action="' . $url . '" method="post">';
+        foreach ($lData as $k => $v){
+            $formStr .= '<input type="hidden" name="' . $k . '" value="' . $v . '">';
+        }
+        $formStr .= '</form>';
+        return $formStr;
+    }
 
     public static function restoreUppercase($str, $symbol = '-')
     {

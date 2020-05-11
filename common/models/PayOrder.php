@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\helper\Sign;
 use linslin\yii2\curl\Curl;
 use Yii;
 use common\helper\Helper;
@@ -226,19 +227,7 @@ class PayOrder extends \yii\db\ActiveRecord
     public function notifyUser($userSignType = null)
     {
         $ocCurl = new Curl();
-        $params = [
-            'account' => $this->user_account,
-            'sys_order_id' => $this->sys_order_id,
-            'user_order_id' => $this->user_order_id,
-            'money' => $this->pay_money,
-            'extra' => $this->user_extra_field,
-            'create_at'=> $this->created_at,
-            'success_at'=>$this->notify_at,
-            'status' => $this->checkHaveAddMoney()?'1':'0',
-        ];
-        $userSignType = isset($userSignType) ? : $this->user_sign_type;
-        $params['sign'] = (new PaymentForm())->sign($params, $this->user, $userSignType);
-
+        $params = $this->notifyUserParams($userSignType);
         $response = $ocCurl->setPostParams($params)->post($this->user_notify_url);
         if ($ocCurl->responseCode == '200' && $response == 'SUCCESS'){
             $this->status = PayOrder::STATUS_NOTIFY_SUCCESS;
@@ -250,9 +239,39 @@ class PayOrder extends \yii\db\ActiveRecord
         }
     }
 
+
+    public function callbackUser($userSignType = null)
+    {
+        $params = $this->notifyUserParams($userSignType);
+        $params['sign'] = (new PaymentForm())->sign($params, $this->user, $userSignType);
+        return Helper::createForm($this->user_callback_url, $params);
+    }
+
+    public function notifyUserParams($userSignType = null)
+    {
+        $params = [
+            'account' => $this->user_account,
+            'sys_order_id' => $this->sys_order_id,
+            'user_order_id' => $this->user_order_id,
+            'money' => $this->pay_money,
+            'extra' => $this->user_extra_field,
+            'create_at'=> $this->created_at,
+            'success_at'=>$this->notify_at,
+            'status' => $this->checkHaveAddMoney()?'1':'0',
+        ];
+        $userSignType = isset($userSignType) ? $userSignType : $this->user_sign_type;
+        $params['sign'] = (new Sign($userSignType))->encrypt($params, $this->user);
+        return $params;
+    }
+
     public static function findByUserOrder($userId, $userOrderId)
     {
         return self::findOne(['user_id'=>$userId, 'user_order_id' => $userOrderId]);
+    }
+
+    public static function findBySysOrderId($sysOrderId)
+    {
+        return self::find()->with(User::TABLE_NAME)->andFilterWhere(['sys_order_id'=>$sysOrderId])->one();
     }
 
 }
