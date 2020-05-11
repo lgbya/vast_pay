@@ -10,10 +10,34 @@ Target Server Type    : MYSQL
 Target Server Version : 50726
 File Encoding         : 65001
 
-Date: 2020-05-09 18:49:47
+Date: 2020-05-11 18:58:06
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `draw_money_order`
+-- ----------------------------
+DROP TABLE IF EXISTS `draw_money_order`;
+CREATE TABLE `draw_money_order` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL,
+  `sys_order_id` varchar(255) COLLATE utf8mb4_bin NOT NULL,
+  `account_name` varchar(255) COLLATE utf8mb4_bin NOT NULL,
+  `account_number` varchar(255) COLLATE utf8mb4_bin NOT NULL,
+  `receipt_number` varchar(255) COLLATE utf8mb4_bin NOT NULL,
+  `money` int(11) NOT NULL,
+  `remark` varchar(255) COLLATE utf8mb4_bin NOT NULL,
+  `status` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `created_at` int(11) unsigned NOT NULL DEFAULT '0',
+  `updated_at` int(10) unsigned NOT NULL DEFAULT '0',
+  `success_at` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+-- ----------------------------
+-- Records of draw_money_order
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `p_admin`
