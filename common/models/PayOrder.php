@@ -149,10 +149,16 @@ class PayOrder extends \yii\db\ActiveRecord
         return $this->hasOne(User::className(), ['id'=>'user_id']);
     }
 
+    /**
+     * 检查订单是否已加钱
+     */
     public function checkHaveAddMoney(){
         return in_array($this->status, $this->userHavePayMoneyStatus());
     }
 
+    /**
+     * 用户已支付的订单状态列表
+     */
     public function userHavePayMoneyStatus()
     {
         return [
@@ -163,6 +169,9 @@ class PayOrder extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+     * 生成支付订单
+     */
     public  function generateOrder($oqUser, $ofPayment, $lChannel, $lAccount)
     {
         $this->sys_order_id = $this->generateSysOrderId($oqUser->id);
@@ -203,27 +212,42 @@ class PayOrder extends \yii\db\ActiveRecord
         return false;
     }
 
+    /**
+     * 计算成本
+     */
     public function countCostMoney($money, $costRate)
     {
         return bcmul($money, $costRate/1000, 3);
     }
 
+    /**
+     * 计算利润
+     */
     public function countProfitMoney($money, $profitRate)
     {
         return bcmul($money, $profitRate/1000, 3);
     }
 
+    /**
+     * 计算用户获得
+     */
     public function countUserMoney($payMoney, $profitMoney)
     {
         return bcsub($payMoney, $profitMoney, 3);
 
     }
 
+    /**
+     * 生成订单号
+     */
     public function generateSysOrderId($userId)
     {
         return $userId . date('YmdHis') . str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT);
     }
 
+    /**
+     * 回调通知用户
+     */
     public function notifyUser($userSignType = null)
     {
         $ocCurl = new Curl();
@@ -239,7 +263,9 @@ class PayOrder extends \yii\db\ActiveRecord
         }
     }
 
-
+    /**
+     * 同步通知用户
+     */
     public function callbackUser($userSignType = null)
     {
         $params = $this->notifyUserParams($userSignType);
@@ -247,6 +273,9 @@ class PayOrder extends \yii\db\ActiveRecord
         return Helper::createForm($this->user_callback_url, $params);
     }
 
+    /**
+     * 通知用户的基本公共参数
+     */
     public function notifyUserParams($userSignType = null)
     {
         $params = [
@@ -264,11 +293,17 @@ class PayOrder extends \yii\db\ActiveRecord
         return $params;
     }
 
+    /**
+     * 查询用户的用户订单号对应的订单
+     */
     public static function findByUserOrder($userId, $userOrderId)
     {
         return self::findOne(['user_id'=>$userId, 'user_order_id' => $userOrderId]);
     }
 
+    /**
+     * 查询系统订单号对应的订单
+     */
     public static function findBySysOrderId($sysOrderId)
     {
         return self::find()->with(User::TABLE_NAME)->andFilterWhere(['sys_order_id'=>$sysOrderId])->one();

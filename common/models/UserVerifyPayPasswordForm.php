@@ -22,7 +22,7 @@ class UserVerifyPayPasswordForm extends Model
     public function attributeLabels()
     {
         return [
-            'password' => '验证支付密码',
+            'password' => '验证支付密码(初次设置与登录密码一致)',
         ];
     }
 

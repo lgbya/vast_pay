@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\helper\Helper;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\DrawMoneyOrder;
@@ -51,9 +52,23 @@ class DrawMoneyOrderSearch extends DrawMoneyOrder
         $this->load($params);
 
         if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
+
             return $dataProvider;
+        }
+
+        $lCreatedAt = Helper::cuttingDateRange($this->created_at);
+        if ($lCreatedAt !== []){
+            $query->andFilterWhere(['between',  'created_at',  $lCreatedAt[0], $lCreatedAt[1]]);
+        }
+
+        $lUpdatedAt = Helper::cuttingDateRange($this->updated_at);
+        if ($lUpdatedAt !== []){
+            $query->andFilterWhere(['between',  'updated_at',  $lUpdatedAt[0], $lUpdatedAt[1]]);
+        }
+
+        $lSuccessAt = Helper::cuttingDateRange($this->success_at);
+        if ($lUpdatedAt !== []){
+            $query->andFilterWhere(['between',  'success_at',  $lSuccessAt[0], $lSuccessAt[1]]);
         }
 
         // grid filtering conditions
@@ -62,9 +77,6 @@ class DrawMoneyOrderSearch extends DrawMoneyOrder
             'user_id' => $this->user_id,
             'money' => $this->money,
             'status' => $this->status,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-            'success_at' => $this->success_at,
         ]);
 
         $query->andFilterWhere(['like', 'sys_order_id', $this->sys_order_id])

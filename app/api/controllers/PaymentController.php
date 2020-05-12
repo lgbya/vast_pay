@@ -64,7 +64,6 @@ class PaymentController extends BaseController
 
     }
 
-
     /**
      *  回调接口
      */
@@ -88,12 +87,12 @@ class PaymentController extends BaseController
 
             if (($channelObject = $this->newChannelObject($oqPayOrder->pay_channel_code)) === false){
                 Yii::warning($lWarningLog['message']='接口文件不存在！！！');
-                return false;
+                return $channelObject->failShow;
             }
 
             if (!$channelObject->notify($oqPayOrder)){
                 Yii::warning($lWarningLog['message']='验签失败！！！');
-                return false;
+                return $channelObject->failShow;
             }
 
 
@@ -104,24 +103,23 @@ class PaymentController extends BaseController
             if (!$oqPayOrder->save()){
                 Yii::warning(['message' =>'订单修改状态失败！！！','sys_order_id' => $sysOrderId , 'errors'=> $oqPayOrder->errors]);
                 $transaction->rollBack();
-                return false;
+                return $channelObject->failShow;
             }
             $oqUser = User::findOne($oqPayOrder->user_id);
             if(!$oqUser->addMoney( $oqPayOrder->user_money, ChangeUserMoneyLog::TYPE_PAY_ORDER_SUCCESS, $oqPayOrder->sys_order_id)) {
                 $transaction->rollBack();
-                return false;
+                return $channelObject->failShow;
             }
             $transaction->commit();
 
             $oqPayOrder->notifyUser();
 
-            return $channelObject->show;
+            return $channelObject->successShow;
         }catch (\Error $e){
             Yii::error($e);
             return Helper::showJsonError(ErrorCode::SYSTEM_ERR);
         }
     }
-
 
     /**
      *  同步接口
@@ -161,7 +159,6 @@ class PaymentController extends BaseController
         }
     }
 
-
     /**
      *  查询订单接口
      */
@@ -178,7 +175,7 @@ class PaymentController extends BaseController
             }
 
             if(($oqPayOrder = PayOrder::findByUserOrder($ofQueryPayOrder->getUser()->id, $ofQueryPayOrder->order_id)) === null){
-                return Helper::showJsonError(ErrorCode::PAYMENT_FORM_ERR);
+                return Helper::showJsonError(ErrorCode::CHANNEL_ORDER_NOT_FOUND_ERR);
             }
 
             return Helper::showJsonSuccess($oqPayOrder->notifyUserParams($ofQueryPayOrder->sign_type));

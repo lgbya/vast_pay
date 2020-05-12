@@ -1,6 +1,7 @@
 <?php
 namespace api\payment\channel;
 
+use Yii;
 use api\payment\Channel;
 use api\payment\Payment;
 
@@ -10,14 +11,13 @@ class DemoChannel extends Channel implements Payment
     public function index($oqPayOrder)
     {
 
-        echo '我是支付';
-//        return $this->responseJson('我是支付');
+        echo '我是支付！';
     }
 
     public function notify()
     {
-
-        return $this->notifySuccess('SUCCESS', '1234567890');
+        $lPost = Yii::$app->request->post();
+        return $this->notifySuccess('SUCCESS', $lPost['supplier_order_id']);
     }
 
     public function callback()

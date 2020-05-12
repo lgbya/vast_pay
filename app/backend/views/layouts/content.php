@@ -8,7 +8,7 @@ use dmstr\widgets\Alert;
         <a href="" class="rfHeaderFont">
             <i class="glyphicon glyphicon-refresh"></i> 刷新
         </a>
-        <a href="javascript:history.go(-1)" class="rfHeaderFont">
+        <a href="<?=Yii::$app->request->referrer;?>" class="rfHeaderFont">
             <i class="fa fa-mail-reply"></i> 返回
         </a>
 <!--        --><?php //if (isset($this->blocks['content-header'])) { ?>

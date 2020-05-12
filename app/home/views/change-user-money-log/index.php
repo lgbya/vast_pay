@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use kartik\grid\GridView;
 use yii\widgets\Pjax;
 use common\models\ChangeUserMoneyLog;
+use common\helper\Helper;
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\ChangeUserMoneyLogSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -23,9 +24,24 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'change_money',
-            'before_money',
-            'after_money',
+            [
+                'attribute'=>'change_money',
+                'value' => function($data) {
+                    return Helper::formatMoney($data->change_money);
+                },
+            ],
+            [
+                'attribute'=>'before_money',
+                'value' => function($data) {
+                    return Helper::formatMoney($data->before_money);
+                },
+            ],
+            [
+                'attribute'=>'after_money',
+                'value' => function($data) {
+                    return Helper::formatMoney($data->after_money);
+                },
+            ],
             [
                 'attribute'=>'type',
                 'value' => function($data){

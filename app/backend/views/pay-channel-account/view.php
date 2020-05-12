@@ -8,10 +8,10 @@ use common\models\PayChannelAccount;
 /* @var $this yii\web\View */
 /* @var $model common\models\PayChannelAccount */
 
-$this->title = $model->id;
+$this->title = $model->account;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', '支付通道列表'), 'url' => Url::to(['/pay-channel/index'])];
 $this->params['breadcrumbs'][] = [
-        'label' => Yii::t('app', '支付子账号列表: {pay_channel_name}', ['pay_channel_name'=>$model->payChannel->name]),
+        'label' => Yii::t('app', '{pay_channel_name} 子账号列表', ['pay_channel_name'=>$model->payChannel->name]),
         'url' => ['index', 'pay_channel_id'=>$model->pay_channel_id],
 ];
 $this->params['breadcrumbs'][] = $this->title;
@@ -37,7 +37,6 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= DetailView::widget([
                 'model' => $model,
                 'attributes' => [
-                    'id',
                     [
                         'attribute' => 'pay_channel_id',
                         'value' => function($model){

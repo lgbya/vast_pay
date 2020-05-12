@@ -1,0 +1,10 @@
+actor: ApiTester
+modules:
+    enabled:
+        - \Helper\Api
+        - REST:
+              url: http://api.localhost
+              depends: PhpBrowser
+              part: Json
+        - Yii2:
+              transaction: false

@@ -27,7 +27,9 @@
         "kartik-v/yii2-widgets": "^3.4",
         "kartik-v/yii2-date-range": "^1.7",
         "hisune/echarts-php": "^1.0",
-        "linslin/yii2-curl": "^1.4"
+        "linslin/yii2-curl": "^1.4",
+        "codeception/module-rest": "^1.2",
+        "codeception/module-phpbrowser": "^1.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

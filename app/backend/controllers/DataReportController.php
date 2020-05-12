@@ -25,7 +25,7 @@ class DataReportController extends BaseController
             $lsProductMoneySum['pay_money'][] = $v->pay_money;
             $lsProductMoneySum['user_money'][] = $v->user_money;
             $lsProductMoneySum['cost_money'][] = $v->cost_money;
-            $lsProductMoneySum['profit_money'][] = $v->profit_money;
+            $lsProductMoneySum['profit_money'][] = $v->pay_money - $v->user_money - $v->cost_money;
         }
 
 
@@ -38,7 +38,7 @@ class DataReportController extends BaseController
             $lsEverydayMoneySum['pay_money'][$date] += $v->pay_money;
             $lsEverydayMoneySum['user_money'][$date] += $v->user_money;
             $lsEverydayMoneySum['cost_money'][$date] += $v->cost_money;
-            $lsEverydayMoneySum['profit_money'][$date] += $v->profit_money;
+            $lsEverydayMoneySum['profit_money'][$date] += ($v->pay_money - $v->user_money - $v->cost_money);
         }
 
         return $this->render('product-analyze',[

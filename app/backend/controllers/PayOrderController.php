@@ -41,8 +41,8 @@ class PayOrderController extends BaseController
         $payMoneyCount = $dataProvider->query->sum('pay_money');
         $userMoneyCount = $dataProvider->query->sum('user_money');
         $costMoneyCount = $dataProvider->query->sum('cost_money');
-        $profitMoneyCount = $dataProvider->query->sum('profit_money');
-
+//        $profitMoneyCount = $dataProvider->query->sum('profit_money');
+        $profitMoneyCount = $payMoneyCount - $userMoneyCount - $costMoneyCount;
         $omProduct = new Product();
         $lProductIdToName = $omProduct->getIdToNameList();
 

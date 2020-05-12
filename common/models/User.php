@@ -47,7 +47,8 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             [['username'], 'required'],
-            [['money', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['money'], 'number'],
+            [['status', 'created_at', 'updated_at'], 'integer'],
             [['username', 'auth_key'], 'string', 'max' => 32],
             [['password_hash', 'password_reset_token', 'email'], 'string', 'max' => 256],
         ];
@@ -164,7 +165,12 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function subMoney(  $money, $type, $extra='')
     {
-        return $this->changeMoney( -abs($money), $type, $extra);
+        if ($this->money >= abs($money)){
+            return $this->changeMoney( -abs($money), $type, $extra);
+        }else{
+            $this->addError('money', '扣除金额不能高于用户拥有的金额');
+            return false;
+        }
     }
 
     protected  function changeMoney($money, $type, $extra)

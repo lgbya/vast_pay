@@ -11,6 +11,7 @@ class ErrorCode
     const CHANNEL_ACCOUNT_NOT_FOUNT = 408;
     const GENERATE_ORDER_ERR = 409;
     const CHANNEL_FILE_ERR = 410;
+    const CHANNEL_ORDER_NOT_FOUND_ERR = 411;
 
 
     public static function explain($code)
@@ -24,7 +25,7 @@ class ErrorCode
             self::CHANNEL_ACCOUNT_NOT_FOUNT => '支付账号错误',
             self::GENERATE_ORDER_ERR => '生成订单错误！！！',
             self::CHANNEL_FILE_ERR => '接口文件不存在',
-
+            self::CHANNEL_ORDER_NOT_FOUND_ERR => '订单不存在',
         ];
         return $lErrorCode[$code];
     }

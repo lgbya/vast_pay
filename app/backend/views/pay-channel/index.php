@@ -26,7 +26,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="box-tools">
                     <?= Html::a('新增支付通道', ['create'], ['class' => 'btn btn-primary']) ?>
                 </div>
-
                 <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
                 <?= GridView::widget([

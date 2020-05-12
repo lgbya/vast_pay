@@ -32,7 +32,8 @@ class ProductController extends BaseController
     {
         $omUserToPayChannel = new UserToPayChannel();
         $lsUserChannel = $omUserToPayChannel->getNormalUserChannels($this->user_id);
-        $oqlProduct = (new Product())->getAllNormalProducts();
+        $omProduct = new Product();
+        $oqlProduct = $omProduct->getAllNormalProducts();
 
         $lsProduct = [];
         foreach ($oqlProduct as $k => $v){
@@ -55,6 +56,7 @@ class ProductController extends BaseController
 
         return $this->render('index', [
             'lsProduct' => $lsProduct,
+            'omProduct' =>$omProduct,
         ]);
     }
 

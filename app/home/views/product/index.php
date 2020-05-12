@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <tbody>
         <tr>
             <th>产品名称</th>
-            <th>费率(单位:万分之一)</th>
+            <th>费率(单位:千分之一)</th>
         </tr>
         <? foreach ($lsProduct as $k => $v):?>
 

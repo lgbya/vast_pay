@@ -20,6 +20,11 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="pay-channel-view">
             <p>
                 <?= Html::a('更新', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+                <?= Html::a('子账号列表', [
+                    '/pay-channel-account/index',
+                    'pay_channel_id'=>$model->id,
+                    'pay_channel_name'=>$model->name,
+                ], ['class' => 'btn btn-success']) ?>
                 <?= Html::a('删除', ['delete', 'id' => $model->id], [
                     'class' => 'btn btn-danger',
                     'data' => [

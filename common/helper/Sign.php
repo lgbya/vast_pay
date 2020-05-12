@@ -28,7 +28,9 @@ class Sign
         ksort($lData);
         $signString = '';
         foreach($lData as $k => $v){
+            if($v !== ''){
             $signString .= $k . '=' . $v . '&';
+            }
         }
         return strtolower(md5($signString . 'key='. $oqUser->pay_md5_key));
     }
