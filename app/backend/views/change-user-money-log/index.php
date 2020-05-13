@@ -23,9 +23,8 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
             <div class="box-body">
                 <div class="box-tools">
+                    <?= Html::a('导出订单excel', ['export',Yii::$app->request->queryParams], ['class' => 'btn btn-primary']) ?>
                 </div>
-
-                <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
                     'filterModel' => $searchModel,

@@ -33,8 +33,12 @@ class DrawMoneyOrderController extends BaseController
      */
     public function actionIndex()
     {
+
+        $lsQueryParam = Yii::$app->request->queryParams;
+        $lsQueryParam['DrawMoneyOrderSearch']['user_id'] = $this->user_id;
+
         $searchModel = new DrawMoneyOrderSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search($lsQueryParam);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -70,6 +74,19 @@ class DrawMoneyOrderController extends BaseController
         return $this->render('create', [
             'model' => $omDrawMoneyOrder,
         ]);
+    }
+
+    /**
+     * 导出excel
+     */
+    public function actionExport()
+    {
+        $lsQueryParam = Yii::$app->request->queryParams;
+        $lsQueryParam['DrawMoneyOrderSearch']['user_id'] = $this->user_id;
+
+        header('Content-Type: application/vnd.ms-excel;');
+        $osDrawMoneyOrder = new DrawMoneyOrderSearch();
+        $osDrawMoneyOrder->export($lsQueryParam);
     }
 
 

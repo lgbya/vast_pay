@@ -2,6 +2,8 @@
 
 namespace common\models;
 
+use moonland\phpexcel\Excel;
+use phpDocumentor\Reflection\Types\Self_;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -87,5 +89,40 @@ class ChangeUserMoneyLogSearch extends ChangeUserMoneyLog
         $query->andFilterWhere(['like', 'extra', $this->extra]);
 
         return $dataProvider;
+    }
+
+    /**
+     * 导出订单
+     */
+    public function export($params)
+    {
+
+        $dataProvider = $this->search($params);
+        return Excel::export([
+            'models' => $dataProvider->query->all(),
+            'fileName'=> [date('Ymd') . '_' . 'Export'],
+            'columns'=>[
+                'user_id',
+                'change_money',
+                'before_money',
+                'after_money',
+                'extra',
+                [
+                    'attribute' => 'created_at',
+                    'format' => ['date', 'php:Y-m-d H:i:s'],
+                ],
+                [
+                    'attribute' => 'updated_at',
+                    'format' => ['date', 'php:Y-m-d H:i:s'],
+                ],
+                [
+                    'attribute'=>'type',
+                    'value' => function($data){
+                        return ChangeUserMoneyLog::enumState('type', $data->type);
+                    },
+                ],
+            ],
+            'headers'=> $this->attributeLabels(),
+        ]);
     }
 }

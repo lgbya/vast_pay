@@ -139,6 +139,18 @@ class UserController extends BaseController
         ]);
     }
 
+    /**
+     * 导出excel
+     */
+    public function actionExport()
+    {
+        $lsQueryParam = Yii::$app->request->queryParams;
+
+        header('Content-Type: application/vnd.ms-excel;');
+        $osUser = new UserSearch();
+        $osUser->export($lsQueryParam);
+    }
+
     protected function findModel($id)
     {
         if (($oqUser = User::findOne($id)) !== null) {

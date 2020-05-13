@@ -2,6 +2,8 @@
 
 namespace common\models;
 
+use Yii;
+use moonland\phpexcel\Excel;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\PayOrder;
@@ -110,6 +112,87 @@ class PayOrderSearch extends PayOrder
         return $dataProvider;
     }
 
+
+    /**
+     * 导出订单
+     */
+    public function export($params)
+    {
+        $omProduct = new Product();
+        $lProductIdToName = $omProduct->getIdToNameList();
+
+        $omPayChannel = new PayChannel();
+        $lChannelIdToName = $omPayChannel->getIdToNameList();
+
+        $dataProvider = $this->search($params);
+
+        return Excel::export([
+            'models' => $dataProvider->query->all(),
+            'fileName'=> [date('Ymd') . '_' . 'Export'],
+            'columns'=>[
+                [
+                    'attribute'=>'sys_order_id',
+                    'value' => function($data){
+                        return $data->sys_order_id . ' ';
+                    },
+                ],
+                [
+                    'attribute'=>'user_order_id',
+                    'value' => function($data){
+                        return $data->user_order_id . ' ';
+                    },
+                ],
+                [
+                    'attribute'=>'supplier_order_id',
+                    'value' => function($data){
+                        return $data->supplier_order_id . ' ';
+                    },
+                ],
+                'user_id',
+                [
+                    'attribute'=>'product_id',
+                    'value' => function($data) use ($lProductIdToName){
+                        return $lProductIdToName[$data->product_id];
+                    },
+                ],
+                [
+                    'attribute'=>'pay_channel_id',
+                    'value' => function($data) use ($lChannelIdToName){
+                        return $lChannelIdToName[$data->pay_channel_id];
+                    },
+                ],
+                'pay_money',
+                'user_money',
+                'cost_money',
+                'profit_money',
+                'profit_rate',
+                'cost_rate',
+                [
+                    'attribute' => 'created_at',
+                    'format' => ['date', 'php:Y-m-d H:i:s'],
+                ],
+                [
+                    'attribute' => 'updated_at',
+                    'format' => ['date', 'php:Y-m-d H:i:s'],
+                ],
+                [
+                    'attribute' => 'notify_at',
+                    'format' => ['date', 'php:Y-m-d H:i:s'],
+                ],
+                [
+                    'attribute' => 'success_at',
+                    'format' => ['date', 'php:Y-m-d H:i:s'],
+                ],
+                [
+                    'attribute'=>'status',
+                    'value' => function($data){
+                        return PayOrder::enumState('status', $data->status);
+                    },
+                ],
+            ],
+            'headers'=> $this->attributeLabels(),
+        ]);
+    }
 
     public function getProductGroupMoneySum($userId = null)
     {

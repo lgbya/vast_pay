@@ -31,8 +31,7 @@ class PayOrderController extends BaseController
     }
 
     /**
-     * Lists all PayOrder models.
-     * @return mixed
+     * 订单列表.
      */
     public function actionIndex()
     {
@@ -40,7 +39,7 @@ class PayOrderController extends BaseController
         $lsQueryParam['PayOrderSearch']['user_id'] = $this->user_id;
 
         $searchModel = new PayOrderSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search($lsQueryParam);
 
         $omProduct = new Product();
         $lProductIdToName = $omProduct->getIdToNameList();
@@ -51,6 +50,9 @@ class PayOrderController extends BaseController
         ]);
     }
 
+    /**
+     * 订单详情.
+     */
     public function actionView($id)
     {
         return $this->render('view', [
@@ -58,6 +60,19 @@ class PayOrderController extends BaseController
         ]);
     }
 
+    /**
+     * 导出excel
+     */
+    public function actionExport()
+    {
+        header('Content-Type: application/vnd.ms-excel;');
+
+        $lsQueryParam = Yii::$app->request->queryParams;
+        $lsQueryParam['PayOrderSearch']['user_id'] = $this->user_id;
+
+        $osPayOrder = new PayOrderSearch();
+        $osPayOrder->export($lsQueryParam);
+    }
 
     protected function findModel($id)
     {

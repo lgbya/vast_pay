@@ -20,6 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="box-header with-border">
                 <h3 class="box-title"><?= $this->title; ?></h3>
             </div>
+
             <div class="login-info-box">
                 <div class="login-info-box1">
                     <h4>
@@ -36,6 +37,9 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
 
             <div class="box-body ">
+                <div class="box-tools">
+                    <?= Html::a('导出订单excel', ['export',Yii::$app->request->queryParams], ['class' => 'btn btn-primary']) ?>
+                </div>
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
                     'filterModel' => $searchModel,

@@ -46,6 +46,19 @@ class ChangeUserMoneyLogController extends BaseController
         ]);
     }
 
+    /**
+     * 导出excel
+     */
+    public function actionExport()
+    {
+        header('Content-Type: application/vnd.ms-excel;');
+
+        $lsQueryParam = Yii::$app->request->queryParams;
+        $lsQueryParam['ChangeUserMoneyLogSearch']['user_id'] = $this->user_id;
+
+        $osChangeUserMoneyLog = new ChangeUserMoneyLogSearch();
+        $osChangeUserMoneyLog->export($lsQueryParam);
+    }
 
     protected function findModel($id)
     {

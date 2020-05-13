@@ -4,6 +4,7 @@ namespace common\models;
 
 use common\helper\Sign;
 use linslin\yii2\curl\Curl;
+use moonland\phpexcel\Excel;
 use Yii;
 use common\helper\Helper;
 use yii\behaviors\TimestampBehavior;
@@ -120,7 +121,7 @@ class PayOrder extends \yii\db\ActiveRecord
             'pay_money' => '原金额',
             'user_money' => '用户获得',
             'cost_money' => '成本',
-            'profit_money' => '利润',
+            'profit_money' => '收取费用',
             'inform_num' => '下游通知次数',
             'user_notify_url' => '用户回调Url地址',
             'user_callback_url' => '用户同步跳转Url地址',
@@ -308,5 +309,6 @@ class PayOrder extends \yii\db\ActiveRecord
     {
         return self::find()->with(User::TABLE_NAME)->andFilterWhere(['sys_order_id'=>$sysOrderId])->one();
     }
+
 
 }

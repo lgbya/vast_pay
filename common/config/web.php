@@ -82,8 +82,8 @@ $config = [
 //            'enableStrictParsing' => true,
             'rules' => [
                 '/' => 'site/index',
+                'payment/notify/<sysOrderId:\w+>'=>'payment/notify',
                 '<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
-                '<controller:\w+>/<action:\w+>/<sysOrderId:\w+>'=>'payment/notify',
                 '<module:\w+>/<controller:\w+>/<action:\w+>'=>'<module>/<controller>/<action>',
                 '<module:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>'=>'<module>/<controller>/<action>',
             ],

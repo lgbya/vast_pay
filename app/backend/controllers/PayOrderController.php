@@ -7,13 +7,14 @@ use common\helper\Helper;
 use common\models\PayChannel;
 use common\models\Product;
 use common\models\User;
-use phpDocumentor\Reflection\Types\Null_;
+//use moonland\phpexcel\Excel;
+use moonland\phpexcel\Excel;
 use Yii;
 use common\models\PayOrder;
 use common\models\PayOrderSearch;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 
 /**
  * PayOrderController implements the CRUD actions for PayOrder model.
@@ -33,6 +34,9 @@ class PayOrderController extends BaseController
         ];
     }
 
+    /**
+     * 订单列表
+     */
     public function actionIndex()
     {
         $osPayOrder = new PayOrderSearch();
@@ -62,6 +66,9 @@ class PayOrderController extends BaseController
         ]);
     }
 
+    /**
+     * 订单详情
+     */
     public function actionView($id)
     {
         return $this->render('view', [
@@ -69,6 +76,9 @@ class PayOrderController extends BaseController
         ]);
     }
 
+    /**
+     * 订单状态手动校正
+     */
     public function actionCorrection($id)
     {
         $oqPayOrder = $this->findModel($id);
@@ -86,9 +96,13 @@ class PayOrderController extends BaseController
             throw new NotFoundHttpException(Yii::t('app', '订单校正失败！修改状态无效'));
         }
         $transaction->commit();
+        $oqPayOrder->notifyUser();
         return $this->redirect(['view','id'=>$id]);
     }
 
+    /**
+     * 订单状态手动驳回
+     */
     public function actionTurnDown($id)
     {
         $oqPayOrder = $this->findModel($id);
@@ -107,6 +121,16 @@ class PayOrderController extends BaseController
         }
         $transaction->commit();
         return $this->redirect(['view','id'=>$id]);
+    }
+
+    /**
+     * 导出excel
+     */
+    public function actionExport()
+    {
+        header('Content-Type: application/vnd.ms-excel;');
+        $osPayOrder = new PayOrderSearch();
+        $osPayOrder->export(Yii::$app->request->queryParams);
     }
 
     protected function findModel($id)

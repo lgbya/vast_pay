@@ -12,7 +12,7 @@ use common\models\User;
 $this->title = Yii::t('app', '用户列表');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<?php Pjax::begin(); ?>
+
 <div class="row">
     <div class="col-xs-12">
         <div class="box">
@@ -20,8 +20,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 <h3 class="box-title"><?= $this->title; ?></h3>
             </div>
             <div class="box-body">
-                <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
+                <div class="box-tools">
+                    <?= Html::a('导出订单excel', ['export',Yii::$app->request->queryParams], ['class' => 'btn btn-primary']) ?>
+                </div>
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
                     'filterModel' => $searchModel,
@@ -121,4 +122,4 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 </div>
-<?php Pjax::end(); ?>
+

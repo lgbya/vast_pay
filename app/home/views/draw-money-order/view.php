@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'account_name',
             'account_number',
             [
-                'attribute' => 'remark',
+                'attribute' => 'receipt_number',
                 'value' => function($data) {
                     return $data->receipt_number == '' ? null :$data->receipt_number;
                 },

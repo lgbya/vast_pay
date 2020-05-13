@@ -15,11 +15,12 @@ $this->title = Yii::t('app', '提款订单列表');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<?php Pjax::begin(); ?>
 
 <div class="draw-money-index" >
     <h1 ><?= $this->title; ?></h1>
-
+    <div class="box-tools">
+        <?= Html::a('导出订单excel', ['export',Yii::$app->request->queryParams], ['class' => 'btn btn-primary']) ?>
+    </div>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -76,4 +77,3 @@ $this->params['breadcrumbs'][] = $this->title;
     ]); ?>
 
 </div>
-<?php Pjax::end(); ?>

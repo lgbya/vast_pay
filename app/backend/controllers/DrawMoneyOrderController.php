@@ -29,6 +29,9 @@ class DrawMoneyOrderController extends Controller
         ];
     }
 
+    /**
+     * 提款订单列表
+     */
     public function actionIndex()
     {
         $osDrawMoneyOrder = new DrawMoneyOrderSearch();
@@ -40,6 +43,9 @@ class DrawMoneyOrderController extends Controller
         ]);
     }
 
+    /**
+     * 提款订单详情
+     */
     public function actionView($id)
     {
         return $this->render('view', [
@@ -47,6 +53,9 @@ class DrawMoneyOrderController extends Controller
         ]);
     }
 
+    /**
+     * 修改提款订单
+     */
     public function actionUpdate($id)
     {
         $oqDrawMoney = $this->findModel($id);
@@ -58,6 +67,17 @@ class DrawMoneyOrderController extends Controller
             'model' => $oqDrawMoney,
         ]);
     }
+
+    /**
+     * 导出excel
+     */
+    public function actionExport()
+    {
+        header('Content-Type: application/vnd.ms-excel;');
+        $osDrawMoneyOrder = new DrawMoneyOrderSearch();
+        $osDrawMoneyOrder->export(Yii::$app->request->queryParams);
+    }
+
 
     protected function findModel($id)
     {

@@ -14,7 +14,6 @@ use common\helper\Helper;
 $this->title = Yii::t('app', '提款订单列表');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<?php Pjax::begin(); ?>
 
 <div class="row">
     <div class="col-xs-12">
@@ -23,8 +22,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 <h3 class="box-title"><?= $this->title; ?></h3>
             </div>
             <div class="box-body">
-
-                <h1><?= Html::encode($this->title) ?></h1>
+                <div class="box-tools">
+                    <?= Html::a('导出订单excel', ['export',Yii::$app->request->queryParams], ['class' => 'btn btn-primary']) ?>
+                </div>
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
                     'filterModel' => $searchModel,
@@ -100,7 +100,3 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 </div>
 
-
-
-
-<?php Pjax::end(); ?>

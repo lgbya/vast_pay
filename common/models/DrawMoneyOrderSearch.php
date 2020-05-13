@@ -3,6 +3,7 @@
 namespace common\models;
 
 use common\helper\Helper;
+use moonland\phpexcel\Excel;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\DrawMoneyOrder;
@@ -87,4 +88,44 @@ class DrawMoneyOrderSearch extends DrawMoneyOrder
 
         return $dataProvider;
     }
+
+    /**
+     * 导出订单
+     */
+    public function export($params)
+    {
+        $dataProvider = $this->search($params);
+        return Excel::export([
+            'models' => $dataProvider->query->all(),
+            'columns'=>[
+                'user_id',
+                'sys_order_id',
+                'account_name',
+                'account_number',
+                'receipt_number',
+                'money',
+                'remark',
+                [
+                    'attribute' => 'status',
+                    'value' => function($data) {
+                        return DrawMoneyOrder::enumState('status', $data->status) ;
+                    },
+                ],
+                [
+                    'attribute' => 'success_at',
+                    'format' => ['date', 'php:Y-m-d H:i:s'],
+                ],
+                [
+                    'attribute' => 'created_at',
+                    'format' => ['date', 'php:Y-m-d H:i:s'],
+                ],
+                [
+                    'attribute' => 'updated_at',
+                    'format' => ['date', 'php:Y-m-d H:i:s'],
+                ],
+            ],
+            'headers'=> $this->attributeLabels(),
+        ]);
+    }
+
 }
