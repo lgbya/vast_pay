@@ -2,9 +2,12 @@
 
 namespace home\controllers;
 
+use common\models\EmailCode;
+use common\models\User;
 use common\models\UserRegisterForm;
 use Yii;
 use yii\filters\AccessControl;
+use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use common\models\UserLoginForm;
@@ -59,12 +62,19 @@ class SiteController extends BaseController
         ];
     }
 
+
+    /**
+     * 首页
+     */
     public function actionIndex()
     {
         return $this->render('index');
     }
 
 
+    /**
+     * 注册
+     */
     public function actionRegister()
     {
 
@@ -75,7 +85,7 @@ class SiteController extends BaseController
         $registerHint = false;
         $ofUserRegister = new UserRegisterForm();
         if ($ofUserRegister->load(Yii::$app->request->post()) && $ofUserRegister->register()) {
-            $registerHint = '注册成功，等待管理员审核中!!!';
+            $registerHint = '注册成功, 激活邮件已发送注册邮箱, 请到邮箱激活账号以正常使用本系统!!!';
         }
 
         $ofUserRegister->password = '';
@@ -85,9 +95,11 @@ class SiteController extends BaseController
         ]);
     }
 
+    /**
+     * 登录
+     */
     public function actionLogin()
     {
-
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
@@ -103,6 +115,9 @@ class SiteController extends BaseController
         ]);
     }
 
+    /**
+     * 注销
+     */
     public function actionLogout()
     {
         Yii::$app->user->logout();
@@ -110,4 +125,27 @@ class SiteController extends BaseController
         return $this->goHome();
     }
 
+    public function actionEmailActivate($code)
+    {
+
+        if(($oqEmailCode = EmailCode::findOne(['code' => $code])) === null){
+            throw new NotFoundHttpException(Yii::t('app', '请点击有效的激活码'));
+        }
+
+        if(($oqUser = User::findOne(['email' => $oqEmailCode->email])) === null){
+            throw new NotFoundHttpException(Yii::t('app', '该邮箱未注册用户'));
+        }
+
+
+        $transaction = Yii::$app->db->beginTransaction();
+        $oqUser->status = User::STATUS_ACTIVE;
+        if ($oqUser->save() && $oqEmailCode->delete()){
+            $transaction->commit();
+            return $this->render('email-activate');
+        }
+
+        $transaction->rollBack();
+        throw new NotFoundHttpException(Yii::t('app', '激活失败'));
+
+    }
 }

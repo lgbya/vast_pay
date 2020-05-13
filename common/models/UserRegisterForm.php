@@ -61,6 +61,7 @@ class UserRegisterForm extends Model
             return false;
         }
 
+        $transaction = Yii::$app->db->beginTransaction();
         $omUser = new User();
         $omUser->username = $this->username;
         $omUser->generateLoginPassword($this->password);
@@ -70,10 +71,20 @@ class UserRegisterForm extends Model
         $omUser->pay_md5_key = $omUser->generatePayMd5Key();
         $omUser->status = User::STATUS_REGISTER_AUDIT;
 
+        $omEmailCode = new EmailCode();
+        if(!$omEmailCode->sendCode($this->email)){
+            $transaction->rollBack();
+            $this->addError('email', '邮箱发送失败！！！');
+            return false;
+        }
+
         if ($omUser->save() === false){
+            $transaction->rollBack();
             $this->addError('username', '注册失败，请联系管理员！！！');
             return false;
         }
+
+        $transaction->commit();
         return true;
     }
 

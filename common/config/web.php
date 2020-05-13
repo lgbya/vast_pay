@@ -33,18 +33,18 @@ $config = [
 
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
-            'useFileTransport' => true, //这句一定有，false发送邮件，true只是生成邮件在runtime文件夹下，不发邮件
+            'useFileTransport' => false, //这句一定有，false发送邮件，true只是生成邮件在runtime文件夹下，不发邮件
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
-                'host' => 'smtp.163.com', //每种邮箱的host配置不一样
-                'username' => 'xxx',
-                'password' => 'xxx',
+                'host' => 'smtp.aliyun.com', //每种邮箱的host配置不一样
+                'username' => 'xxx@aliyun.com',
+                'password' => 'xxxx',
                 'port' => '25',
-                // 'encryption' => 'tls',
+                 'encryption' => 'tls',
             ],
             'messageConfig' => [
                 'charset' => 'UTF-8',
-                'from' => ['xxx@163.com' => '发件人姓名'],
+                'from' => ['xxx@aliyun.com' => 'admin'],
             ],
         ],
 
@@ -83,9 +83,11 @@ $config = [
             'rules' => [
                 '/' => 'site/index',
                 'payment/notify/<sysOrderId:\w+>'=>'payment/notify',
-                '<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
-                '<module:\w+>/<controller:\w+>/<action:\w+>'=>'<module>/<controller>/<action>',
-                '<module:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>'=>'<module>/<controller>/<action>',
+                'site/email-activate/<code:\w+>' => 'site/email-activate',
+//                '<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
+//                '<controller:\w+>/<action:\w+>/<code:\w+>'=>'<controller>/<action>',
+//                '<module:\w+>/<controller:\w+>/<action:\w+>'=>'<module>/<controller>/<action>',
+//                '<module:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>'=>'<module>/<controller>/<action>',
             ],
         ],
     ],

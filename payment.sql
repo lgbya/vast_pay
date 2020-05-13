@@ -10,34 +10,10 @@ Target Server Type    : MYSQL
 Target Server Version : 50726
 File Encoding         : 65001
 
-Date: 2020-05-11 18:58:06
+Date: 2020-05-13 18:17:05
 */
 
 SET FOREIGN_KEY_CHECKS=0;
-
--- ----------------------------
--- Table structure for `draw_money_order`
--- ----------------------------
-DROP TABLE IF EXISTS `draw_money_order`;
-CREATE TABLE `draw_money_order` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(10) unsigned NOT NULL,
-  `sys_order_id` varchar(255) COLLATE utf8mb4_bin NOT NULL,
-  `account_name` varchar(255) COLLATE utf8mb4_bin NOT NULL,
-  `account_number` varchar(255) COLLATE utf8mb4_bin NOT NULL,
-  `receipt_number` varchar(255) COLLATE utf8mb4_bin NOT NULL,
-  `money` int(11) NOT NULL,
-  `remark` varchar(255) COLLATE utf8mb4_bin NOT NULL,
-  `status` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `created_at` int(11) unsigned NOT NULL DEFAULT '0',
-  `updated_at` int(10) unsigned NOT NULL DEFAULT '0',
-  `success_at` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
-
--- ----------------------------
--- Records of draw_money_order
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for `p_admin`
@@ -163,6 +139,10 @@ INSERT INTO `p_auth_item` VALUES ('/batch/models', '2', null, null, null, '14878
 INSERT INTO `p_auth_item` VALUES ('/change-user-money-log/index', '2', null, null, null, '1588151587', '1588151587');
 INSERT INTO `p_auth_item` VALUES ('/data-report/*', '2', null, null, null, '1588919018', '1588919018');
 INSERT INTO `p_auth_item` VALUES ('/data-report/product-analyze', '2', null, null, null, '1588919034', '1588919034');
+INSERT INTO `p_auth_item` VALUES ('/draw-money-order/*', '2', null, null, null, '1589349948', '1589349948');
+INSERT INTO `p_auth_item` VALUES ('/draw-money-order/index', '2', null, null, null, '1589349930', '1589349930');
+INSERT INTO `p_auth_item` VALUES ('/draw-money-order/update', '2', null, null, null, '1589349942', '1589349942');
+INSERT INTO `p_auth_item` VALUES ('/draw-money-order/view', '2', null, null, null, '1589349936', '1589349936');
 INSERT INTO `p_auth_item` VALUES ('/gii/*', '2', null, null, null, '1487816732', '1487816732');
 INSERT INTO `p_auth_item` VALUES ('/gii/default/*', '2', null, null, null, '1487816732', '1487816732');
 INSERT INTO `p_auth_item` VALUES ('/gii/default/action', '2', null, null, null, '1487816732', '1487816732');
@@ -311,12 +291,89 @@ CREATE TABLE `p_change_user_money_log` (
   `updated_at` int(10) unsigned NOT NULL DEFAULT '0',
   `extra` varchar(255) COLLATE utf8mb4_bin NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of p_change_user_money_log
 -- ----------------------------
-INSERT INTO `p_change_user_money_log` VALUES ('1', '10', '99.900', '0.000', '99.900', '3', '1589021126', '1589021126', '102020050918442689392');
+INSERT INTO `p_change_user_money_log` VALUES ('1', '1', '9900.000', '0.000', '9900.000', '3', '1589279385', '1589279385', '12020051218294537692');
+INSERT INTO `p_change_user_money_log` VALUES ('2', '1', '9900.000', '9900.000', '19800.000', '3', '1589279525', '1589279525', '12020051218320541533');
+INSERT INTO `p_change_user_money_log` VALUES ('3', '1', '9900.000', '19800.000', '29700.000', '3', '1589279621', '1589279621', '12020051218334121522');
+INSERT INTO `p_change_user_money_log` VALUES ('4', '1', '9900.000', '29700.000', '39600.000', '3', '1589280112', '1589280112', '12020051218415215585');
+INSERT INTO `p_change_user_money_log` VALUES ('5', '1', '9900.000', '39600.000', '49500.000', '3', '1589280287', '1589280287', '12020051218444796988');
+INSERT INTO `p_change_user_money_log` VALUES ('6', '1', '9900.000', '49500.000', '59400.000', '3', '1589280685', '1589280685', '12020051218512515842');
+INSERT INTO `p_change_user_money_log` VALUES ('7', '1', '9900.000', '59400.000', '69300.000', '3', '1589280696', '1589280696', '12020051218513532975');
+INSERT INTO `p_change_user_money_log` VALUES ('8', '1', '9900.000', '69300.000', '79200.000', '3', '1589280761', '1589280761', '12020051218524163662');
+INSERT INTO `p_change_user_money_log` VALUES ('9', '1', '9900.000', '79200.000', '89100.000', '3', '1589280783', '1589280783', '12020051218530321078');
+INSERT INTO `p_change_user_money_log` VALUES ('10', '1', '9900.000', '89100.000', '99000.000', '3', '1589281065', '1589281065', '12020051218574428474');
+INSERT INTO `p_change_user_money_log` VALUES ('11', '1', '9900.000', '99000.000', '108900.000', '3', '1589281068', '1589281068', '12020051218574866857');
+INSERT INTO `p_change_user_money_log` VALUES ('12', '1', '9900.000', '108900.000', '118800.000', '3', '1589281121', '1589281121', '12020051218584102302');
+INSERT INTO `p_change_user_money_log` VALUES ('13', '1', '9900.000', '118800.000', '128700.000', '3', '1589281125', '1589281125', '12020051218584553832');
+INSERT INTO `p_change_user_money_log` VALUES ('14', '1', '9900.000', '128700.000', '138600.000', '3', '1589281127', '1589281127', '12020051218584788529');
+INSERT INTO `p_change_user_money_log` VALUES ('15', '1', '9900.000', '138600.000', '148500.000', '3', '1589281129', '1589281129', '12020051218584932329');
+INSERT INTO `p_change_user_money_log` VALUES ('16', '1', '9900.000', '148500.000', '158400.000', '3', '1589281132', '1589281132', '12020051218585222268');
+INSERT INTO `p_change_user_money_log` VALUES ('17', '1', '9900.000', '158400.000', '168300.000', '3', '1589281198', '1589281198', '12020051218595808887');
+INSERT INTO `p_change_user_money_log` VALUES ('18', '1', '9900.000', '168300.000', '178200.000', '3', '1589281228', '1589281228', '12020051219002823048');
+INSERT INTO `p_change_user_money_log` VALUES ('19', '1', '9900.000', '178200.000', '188100.000', '3', '1589281312', '1589281312', '12020051219015296542');
+INSERT INTO `p_change_user_money_log` VALUES ('20', '1', '9900.000', '188100.000', '198000.000', '3', '1589281408', '1589281408', '12020051219032804845');
+INSERT INTO `p_change_user_money_log` VALUES ('21', '1', '9900.000', '198000.000', '207900.000', '3', '1589281436', '1589281436', '12020051219035604725');
+INSERT INTO `p_change_user_money_log` VALUES ('22', '1', '9900.000', '207900.000', '217800.000', '3', '1589281815', '1589281815', '12020051219101565319');
+INSERT INTO `p_change_user_money_log` VALUES ('23', '1', '9900.000', '217800.000', '227700.000', '3', '1589334907', '1589334907', '12020051309550759219');
+INSERT INTO `p_change_user_money_log` VALUES ('24', '1', '9900.000', '227700.000', '237600.000', '3', '1589334923', '1589334923', '12020051309552352811');
+INSERT INTO `p_change_user_money_log` VALUES ('25', '1', '9900.000', '237600.000', '247500.000', '3', '1589336372', '1589336372', '12020051310193267237');
+INSERT INTO `p_change_user_money_log` VALUES ('26', '1', '9900.000', '247500.000', '257400.000', '3', '1589336449', '1589336449', '12020051310204933584');
+INSERT INTO `p_change_user_money_log` VALUES ('27', '1', '9900.000', '257400.000', '267300.000', '3', '1589336500', '1589336500', '12020051310213955272');
+INSERT INTO `p_change_user_money_log` VALUES ('28', '1', '9900.000', '267300.000', '277200.000', '3', '1589336522', '1589336522', '12020051310220276969');
+INSERT INTO `p_change_user_money_log` VALUES ('29', '1', '9900.000', '277200.000', '287100.000', '3', '1589336581', '1589336581', '12020051310230156888');
+INSERT INTO `p_change_user_money_log` VALUES ('30', '1', '9900.000', '287100.000', '297000.000', '3', '1589336636', '1589336636', '12020051310235672038');
+INSERT INTO `p_change_user_money_log` VALUES ('31', '1', '9900.000', '297000.000', '306900.000', '3', '1589336749', '1589336749', '12020051310254972667');
+INSERT INTO `p_change_user_money_log` VALUES ('32', '1', '9900.000', '306900.000', '316800.000', '3', '1589336790', '1589336790', '12020051310262973229');
+INSERT INTO `p_change_user_money_log` VALUES ('33', '1', '9900.000', '316800.000', '326700.000', '3', '1589336870', '1589336870', '12020051310275067390');
+INSERT INTO `p_change_user_money_log` VALUES ('34', '1', '9900.000', '326700.000', '336600.000', '3', '1589336926', '1589336926', '12020051310284642300');
+INSERT INTO `p_change_user_money_log` VALUES ('35', '1', '9900.000', '336600.000', '346500.000', '3', '1589336935', '1589336935', '12020051310285413471');
+INSERT INTO `p_change_user_money_log` VALUES ('36', '1', '9900.000', '346500.000', '356400.000', '3', '1589336979', '1589336979', '12020051310293804159');
+INSERT INTO `p_change_user_money_log` VALUES ('37', '1', '9900.000', '356400.000', '366300.000', '1', '1589349353', '1589349353', '12020051218084046695');
+INSERT INTO `p_change_user_money_log` VALUES ('38', '1', '-100.000', '366300.000', '366200.000', '4', '1589350066', '1589350066', '12020051314074607545');
+
+-- ----------------------------
+-- Table structure for `p_draw_money_order`
+-- ----------------------------
+DROP TABLE IF EXISTS `p_draw_money_order`;
+CREATE TABLE `p_draw_money_order` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL,
+  `sys_order_id` varchar(255) COLLATE utf8mb4_bin NOT NULL,
+  `account_name` varchar(255) COLLATE utf8mb4_bin NOT NULL,
+  `account_number` varchar(255) COLLATE utf8mb4_bin NOT NULL,
+  `receipt_number` varchar(255) COLLATE utf8mb4_bin NOT NULL DEFAULT '',
+  `money` int(11) NOT NULL,
+  `remark` varchar(255) COLLATE utf8mb4_bin NOT NULL DEFAULT '',
+  `status` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `created_at` int(11) unsigned NOT NULL DEFAULT '0',
+  `updated_at` int(10) unsigned NOT NULL DEFAULT '0',
+  `success_at` int(11) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+-- ----------------------------
+-- Records of p_draw_money_order
+-- ----------------------------
+INSERT INTO `p_draw_money_order` VALUES ('1', '1', '12020051314074607545', '123456', '123456', '', '100', '', '0', '1589350066', '1589350066', '0');
+
+-- ----------------------------
+-- Table structure for `p_email_code`
+-- ----------------------------
+DROP TABLE IF EXISTS `p_email_code`;
+CREATE TABLE `p_email_code` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `email` varchar(255) COLLATE utf8mb4_bin NOT NULL,
+  `code` varchar(255) COLLATE utf8mb4_bin NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+-- ----------------------------
+-- Records of p_email_code
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `p_menu`
@@ -332,7 +389,7 @@ CREATE TABLE `p_menu` (
   PRIMARY KEY (`id`),
   KEY `parent` (`parent`),
   CONSTRAINT `p_menu_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `p_menu` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of p_menu
@@ -345,20 +402,21 @@ INSERT INTO `p_menu` VALUES ('5', '权限列表', '1', '/admin/permission/index'
 INSERT INTO `p_menu` VALUES ('6', '路由列表', '1', '/admin/route/index', '4', 0x696E7465726E65742D6578706C6F726572);
 INSERT INTO `p_menu` VALUES ('7', '规则列表', '1', '/admin/rule/index', '5', 0x6C697374);
 INSERT INTO `p_menu` VALUES ('8', '分配权限', '1', '/admin/assignment/index', '7', 0x756E6C6F636B);
-INSERT INTO `p_menu` VALUES ('9', '产品管理', null, null, '100', 0x70726F647563742D68756E74);
+INSERT INTO `p_menu` VALUES ('9', '产品管理', null, null, '3', 0x70726F647563742D68756E74);
 INSERT INTO `p_menu` VALUES ('10', '产品列表', '9', '/product/index', null, 0x706965642D70697065722D7070);
 INSERT INTO `p_menu` VALUES ('11', '支付通道列表', '9', '/pay-channel/index', null, 0x62616E6B20);
 INSERT INTO `p_menu` VALUES ('12', '产品回收站', '9', '/product/recycle-bin', null, 0x72656379636C65);
 INSERT INTO `p_menu` VALUES ('13', '支付通道回收站', '9', '/pay-channel/recycle-bin', null, 0x72656379636C65);
-INSERT INTO `p_menu` VALUES ('14', '用户管理', null, null, '100', 0x7573657273);
+INSERT INTO `p_menu` VALUES ('14', '用户管理', null, null, '2', 0x7573657273);
 INSERT INTO `p_menu` VALUES ('15', '用户列表', '14', '/user/index', null, 0x75736572);
-INSERT INTO `p_menu` VALUES ('16', '订单管理', null, null, null, 0x627269656663617365);
+INSERT INTO `p_menu` VALUES ('16', '订单管理', null, null, '4', 0x627269656663617365);
 INSERT INTO `p_menu` VALUES ('17', '支付订单列表', '16', '/pay-order/index', null, 0x72656F7264657220);
 INSERT INTO `p_menu` VALUES ('18', '用户资金日志', '16', '/change-user-money-log/index', null, 0x726D62);
 INSERT INTO `p_menu` VALUES ('19', '数据分析', null, null, '99', 0x6C696E652D6368617274);
-INSERT INTO `p_menu` VALUES ('20', '网站管理', null, null, null, 0x6465736B746F70);
+INSERT INTO `p_menu` VALUES ('20', '网站管理', null, null, '1', 0x6465736B746F70);
 INSERT INTO `p_menu` VALUES ('21', '服务器信息', '20', '/site/index', null, 0x736572766572);
 INSERT INTO `p_menu` VALUES ('22', '产品分析', '19', '/data-report/product-analyze', '99', 0x617265612D6368617274);
+INSERT INTO `p_menu` VALUES ('23', '提款订单列表', '16', '/draw-money-order/index', null, 0x62616E6B);
 
 -- ----------------------------
 -- Table structure for `p_migration`
@@ -394,18 +452,12 @@ CREATE TABLE `p_pay_channel` (
   `is_del` tinyint(3) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `product_id` (`product_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of p_pay_channel
 -- ----------------------------
-INSERT INTO `p_pay_channel` VALUES ('1', '3', 'a2222', 'Demo', '1', '1', '1', 'http://www.a.com', '1', '1587117867', '1588994375', '0');
-INSERT INTO `p_pay_channel` VALUES ('2', '5', 'd44', '12', '12321', '312', '31', 'http://www.a.com', '1', '1588039184', '1588236044', '1');
-INSERT INTO `p_pay_channel` VALUES ('3', '3', 'a222', 'Test', '12321', '312', '31', 'http://www.a.com', '1', '1588039216', '1588994320', '0');
-INSERT INTO `p_pay_channel` VALUES ('4', '3', 'a22', 'a2', '1', '1', '1', 'http://www.a.com', '1', '1588044444', '1588235959', '0');
-INSERT INTO `p_pay_channel` VALUES ('5', '3', 'a2', '3131', '31', '321', '131', 'http://www.a.com', '1', '1588044493', '1588235937', '0');
-INSERT INTO `p_pay_channel` VALUES ('6', '5', 'd4', '31', '31', '321', '31', 'http://www.a.com', '1', '1588044530', '1588236041', '1');
-INSERT INTO `p_pay_channel` VALUES ('7', '4', 'd3', '12332333', '31', '31', '32', 'http://www.a.com', '1', '1588044604', '1588236035', '1');
+INSERT INTO `p_pay_channel` VALUES ('1', '1', 'demo通道', 'Demo', '10', '10', '100', 'http://www.a.com', '1', '1589266730', '1589266730', '0');
 
 -- ----------------------------
 -- Table structure for `p_pay_channel_account`
@@ -432,7 +484,7 @@ CREATE TABLE `p_pay_channel_account` (
 -- ----------------------------
 -- Records of p_pay_channel_account
 -- ----------------------------
-INSERT INTO `p_pay_channel_account` VALUES ('1', '1', '3333', '3212', '321', '312', '312', '', '312', '1', '1587366595', '1587367774', '1');
+INSERT INTO `p_pay_channel_account` VALUES ('1', '1', '123456', '123456', '123456', '123456', '123456', '', '123', '1', '1589267202', '1589267202', '0');
 
 -- ----------------------------
 -- Table structure for `p_pay_order`
@@ -471,12 +523,58 @@ CREATE TABLE `p_pay_order` (
   `success_at` int(10) unsigned NOT NULL DEFAULT '0',
   `query_at` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of p_pay_order
 -- ----------------------------
-INSERT INTO `p_pay_order` VALUES ('2', '3', '1', 'Demo', '3333', '', '321', '312', '312', '10', 'lXxfn20200506190108', '102020050918442689392', 'abcdefjhijk123456', '1234567890', '1', '1', '100', '99.900', '0.100', '0.100', '1', 'http://api.localhostz/payment/test', 'http://api.localhost/payment/index', '', 'md5', '2', '1589021066', '1589021127', '1589021126', '1589021127', '0');
+INSERT INTO `p_pay_order` VALUES ('1', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051218084046695', '1589278120', '', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '5', '1589278120', '1589349353', '0', '0', '0');
+INSERT INTO `p_pay_order` VALUES ('2', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051218100162489', '1589278201', '', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '0', '1589278201', '1589278201', '0', '0', '0');
+INSERT INTO `p_pay_order` VALUES ('3', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051218144507459', '1589278485', '', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '0', '1589278485', '1589278485', '0', '0', '0');
+INSERT INTO `p_pay_order` VALUES ('4', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051218175925061', '1589278679', '', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '0', '1589278679', '1589278679', '0', '0', '0');
+INSERT INTO `p_pay_order` VALUES ('5', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051218294537692', '1589279385', '1234567890', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '1', '1589279385', '1589279385', '1589279385', '0', '0');
+INSERT INTO `p_pay_order` VALUES ('6', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051218315363431', '1589279513', '', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '0', '1589279513', '1589279513', '0', '0', '0');
+INSERT INTO `p_pay_order` VALUES ('7', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051218320541533', '1589279525', 'test1589279525', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '1', '1589279525', '1589279525', '1589279525', '0', '0');
+INSERT INTO `p_pay_order` VALUES ('8', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051218334121522', '1589279621', 'test1589279621', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '1', '1589279621', '1589279621', '1589279621', '0', '0');
+INSERT INTO `p_pay_order` VALUES ('9', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051218415215585', '1589280112', 'test1589280112', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '1', '1589280112', '1589280112', '1589280112', '0', '0');
+INSERT INTO `p_pay_order` VALUES ('10', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051218444796988', '1589280287', 'test1589280287', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '1', '1589280287', '1589280287', '1589280287', '0', '0');
+INSERT INTO `p_pay_order` VALUES ('11', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051218512515842', '1589280685', 'test1589280685', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '1', '1589280685', '1589280685', '1589280685', '0', '0');
+INSERT INTO `p_pay_order` VALUES ('12', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051218513532975', '1589280695', 'test1589280696', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '1', '1589280695', '1589280696', '1589280696', '0', '0');
+INSERT INTO `p_pay_order` VALUES ('13', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051218524163662', '1589280761', 'test1589280761', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '1', '1589280761', '1589280761', '1589280761', '0', '0');
+INSERT INTO `p_pay_order` VALUES ('14', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051218530321078', '1589280783', 'test1589280783', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '1', '1589280783', '1589280783', '1589280783', '0', '0');
+INSERT INTO `p_pay_order` VALUES ('15', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051218573884409', '1589281058', '', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '0', '1589281058', '1589281058', '0', '0', '0');
+INSERT INTO `p_pay_order` VALUES ('16', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051218574428474', '1589281064', 'test1589281064', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '1', '1589281064', '1589281065', '1589281065', '0', '0');
+INSERT INTO `p_pay_order` VALUES ('17', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051218574866857', '1589281068', 'test1589281068', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '1', '1589281068', '1589281068', '1589281068', '0', '0');
+INSERT INTO `p_pay_order` VALUES ('18', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051218575129851', '1589281070', '', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '0', '1589281071', '1589281071', '0', '0', '0');
+INSERT INTO `p_pay_order` VALUES ('19', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051218584102302', '1589281121', 'test1589281121', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '1', '1589281121', '1589281121', '1589281121', '0', '0');
+INSERT INTO `p_pay_order` VALUES ('20', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051218584553832', '1589281125', 'test1589281125', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '1', '1589281125', '1589281125', '1589281125', '0', '0');
+INSERT INTO `p_pay_order` VALUES ('21', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051218584788529', '1589281127', 'test1589281127', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '1', '1589281127', '1589281127', '1589281127', '0', '0');
+INSERT INTO `p_pay_order` VALUES ('22', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051218584932329', '1589281129', 'test1589281129', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '1', '1589281129', '1589281129', '1589281129', '0', '0');
+INSERT INTO `p_pay_order` VALUES ('23', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051218585222268', '1589281132', 'test1589281132', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '1', '1589281132', '1589281132', '1589281132', '0', '0');
+INSERT INTO `p_pay_order` VALUES ('24', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051218591103199', '1589281151', '', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '0', '1589281151', '1589281151', '0', '0', '0');
+INSERT INTO `p_pay_order` VALUES ('25', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051218595642794', '1589281195', '', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '0', '1589281196', '1589281196', '0', '0', '0');
+INSERT INTO `p_pay_order` VALUES ('26', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051218595808887', '1589281198', 'test1589281198', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '1', '1589281198', '1589281198', '1589281198', '0', '0');
+INSERT INTO `p_pay_order` VALUES ('27', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051219002823048', '1589281228', 'test1589281228', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '1', '1589281228', '1589281228', '1589281228', '0', '0');
+INSERT INTO `p_pay_order` VALUES ('28', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051219003381338', '1589281232', '', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '0', '1589281233', '1589281233', '0', '0', '0');
+INSERT INTO `p_pay_order` VALUES ('29', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051219015296542', '1589281312', 'test1589281312', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '1', '1589281312', '1589281312', '1589281312', '0', '0');
+INSERT INTO `p_pay_order` VALUES ('30', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051219032804845', '1589281408', 'test1589281408', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '1', '1589281408', '1589281408', '1589281408', '0', '0');
+INSERT INTO `p_pay_order` VALUES ('31', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051219035604725', '1589281436', 'test1589281436', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '1', '1589281436', '1589281436', '1589281436', '0', '0');
+INSERT INTO `p_pay_order` VALUES ('32', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051219093373551', '1589281773', '', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '0', '1589281773', '1589281773', '0', '0', '0');
+INSERT INTO `p_pay_order` VALUES ('33', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051219101565319', '1589281815', 'test1589281815', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '1', '1589281815', '1589281815', '1589281815', '0', '0');
+INSERT INTO `p_pay_order` VALUES ('34', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051309550759219', '1589334907', 'test1589334907', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '1', '1589334907', '1589334907', '1589334907', '0', '0');
+INSERT INTO `p_pay_order` VALUES ('35', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051309552352811', '1589334923', 'test1589334923', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '1', '1589334923', '1589334923', '1589334923', '0', '0');
+INSERT INTO `p_pay_order` VALUES ('36', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051310193267237', '1589336372', 'test1589336372', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '1', '1589336372', '1589336372', '1589336372', '0', '0');
+INSERT INTO `p_pay_order` VALUES ('37', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051310204933584', '1589336448', 'test1589336449', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '1', '1589336449', '1589336449', '1589336449', '0', '0');
+INSERT INTO `p_pay_order` VALUES ('38', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051310213955272', '1589336499', 'test1589336500', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '1', '1589336499', '1589336500', '1589336500', '0', '0');
+INSERT INTO `p_pay_order` VALUES ('39', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051310220276969', '1589336522', 'test1589336522', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '1', '1589336522', '1589336522', '1589336522', '0', '0');
+INSERT INTO `p_pay_order` VALUES ('40', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051310230156888', '1589336581', 'test1589336581', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '1', '1589336581', '1589336581', '1589336581', '0', '0');
+INSERT INTO `p_pay_order` VALUES ('41', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051310235672038', '1589336635', 'test1589336636', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '1', '1589336636', '1589336636', '1589336636', '0', '0');
+INSERT INTO `p_pay_order` VALUES ('42', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051310254972667', '1589336749', 'test1589336749', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '1', '1589336749', '1589336749', '1589336749', '0', '0');
+INSERT INTO `p_pay_order` VALUES ('43', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051310262973229', '1589336789', 'test1589336790', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '1', '1589336789', '1589336790', '1589336790', '0', '0');
+INSERT INTO `p_pay_order` VALUES ('44', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051310275067390', '1589336869', 'test1589336870', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '1', '1589336870', '1589336870', '1589336870', '0', '0');
+INSERT INTO `p_pay_order` VALUES ('45', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051310284642300', '1589336926', 'test1589336926', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '1', '1589336926', '1589336926', '1589336926', '0', '0');
+INSERT INTO `p_pay_order` VALUES ('46', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051310285413471', '1589336934', 'test1589336935', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '1', '1589336934', '1589336935', '1589336935', '0', '0');
+INSERT INTO `p_pay_order` VALUES ('47', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051310293804159', '1589336978', 'test1589336978', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '1', '1589336978', '1589336979', '1589336979', '0', '0');
 
 -- ----------------------------
 -- Table structure for `p_product`
@@ -490,15 +588,12 @@ CREATE TABLE `p_product` (
   `updated_at` int(11) unsigned NOT NULL DEFAULT '0',
   `is_del` tinyint(3) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of p_product
 -- ----------------------------
-INSERT INTO `p_product` VALUES ('3', '测试产品2', '0', '1587088514', '1587104640', '0');
-INSERT INTO `p_product` VALUES ('4', '测试产品3', '1', '1587106040', '1587106040', '0');
-INSERT INTO `p_product` VALUES ('5', '测试产品4', '1', '1587106054', '1587376020', '0');
-INSERT INTO `p_product` VALUES ('6', '测试产品5', '1', '1587373410', '1587376027', '1');
+INSERT INTO `p_product` VALUES ('1', '测试支付1', '1', '1589266681', '1589266681', '0');
 
 -- ----------------------------
 -- Table structure for `p_user`
@@ -522,16 +617,13 @@ CREATE TABLE `p_user` (
   `created_at` int(11) NOT NULL,
   `updated_at` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of p_user
 -- ----------------------------
-INSERT INTO `p_user` VALUES ('1', 'demo', 'Aqfq6YB47dhhM6JVqILP9BOVqRjZ3Ir5', '$2y$13$7vGMopJaq1pdGyr0TKEfcedVNH0TskmemAmEpFjqJGlMJsGASqrQy', 'blM_lP6OwLFmioDUGnZct8KLWhaP35nE_1588817982', '$2y$13$SuXdUDDknev0wU1EE7hPLeO3KJ6F8iyQkMSJP3p4QnLnBji/XuqSi', '0D4unvf9l6t2biMBCshOqqhOv6qP1DSP_1588731553', 'test@test.com', 'abcdefghijklmnopqrstuvwxyz', '10ebebdad7f7f3aa424372942633db8d', '11111.000', '10', '', '1588820170', '0', '1588820170');
-INSERT INTO `p_user` VALUES ('7', 'demo2', '1I8x_Bg8a2f3AelwzXj-j1aaNK_c2Zdt', '$2y$13$YRgTMvOVrVELCkUoZ.Qb3eOUzoUNwR0UzkleoKIS6ezyf.KJf2ohu', 'yDxRUVVfLzDJkDTGZ4HyGLsRYxkzPpXU_1588212892', '', null, 'aaa@a.com', 'qzk2h20200430101454', '10ebebdad7f7f3aa424372942633db8f', '0.000', '10', '', '1588729504', '1588212892', '1588729504');
-INSERT INTO `p_user` VALUES ('8', 'demo3', 'e9IS3Z6yNUBos1d4bhbI-r8mEaTEPWyZ', '$2y$13$j.lsYcvKPkkRADQr71HO5u90udCiOU6DYtauJwGPpy4tYIWQMFpia', 'VmoV-AeDvv1do9AW5EfPd9wXDmgjEycp_1588213911', '', null, 'aaa2@a.com', 'cAaZh20200430103154', '8fafdd316542a68d3794c663bf3a80a8', '0.000', '1', '', '0', '1588213911', '1588213911');
-INSERT INTO `p_user` VALUES ('9', 'demo2333', 'dgc2VjRBE7AhG-GqAd9hpjX2cpdmPxnF', '$2y$13$syLvF/v9F5P7.ARLD84DPe5k/2i4tYbTofgLscUFvHSBkuybzpc2i', 'xLTv8LqoXt-SYKqN9bCQVNwVrZyVkgUD_1588762456', '$2y$13$9CjsNp3UqM72gweBhObAku1Yt/1Du/saWlwUSH6o5vONv6Iy5EXyO', '3tK6dTm7F5ZhfPycOc0PTNHjVnJZtLCJ_1588762457', 'aaa2333@a.com', 'hyM5420200506185421', '8fb5e2b6fce2eb91c1d7459e7245ad08', '0.000', '1', '', '0', '1588762457', '1588762457');
-INSERT INTO `p_user` VALUES ('10', 'demob', 'M6QULc7Js0gpKnvrDfJpzTSMriv3m2AE', '$2y$13$2lbvSB038XTo8w1Tubarj.3UMDwYcKhUmCF/V5inslAkeO2/23kXu', 'dV5eSbd3uj_FI0EIB97JU5gvDSM8iWDk_1588762862', '$2y$13$lUOUzgp80qrhL1a6uaCJauedG5UbXcx3L0JgsWAJp9cBaRC1C2k6K', 'c4-ar59jKuZwngK3x8XnANEpoCUyJUZb_1588762863', 'bbb@a.com', 'lXxfn20200506190108', '3025ecc65c6882f1fcbbfee867c09731', '99.900', '10', '', '1588764217', '1588762863', '1588764217');
+INSERT INTO `p_user` VALUES ('1', 'demo', 'Hz26a-IM-SB0vonQen9pN43DwQUbhp-Y', '$2y$13$PuMu8nWAVU/gDYFBjSk5aesVtdEd2lt8ZrP0wNwx4DT5DEwSo/F26', 'q2hzuPbyL9IsSiZWEbUa21bm26BlYgSW_1589266577', '$2y$13$/OjUyUZ9Qbi9Rf3QKmb4KOgbj0/qVu0fLEWLgbaKtRnjw7Zsmzos.', '3d6IwRQoO4f_XjTvIIlKbmUCXnOGu4hB_1589266577', 'demo@a.com', '3LqeO20200512145618', 'd02521f72e0b9367ec9067976e803dab', '366200.000', '10', '', '1589267819', '1589266577', '1589267819');
+INSERT INTO `p_user` VALUES ('2', 'lgbya', 'PhGmfTfrWuPR7fZUIUrYGM7BHN1j_E1M', '$2y$13$zzOyIYDmBpXtaLV1zFWoHeS7nY0.x2nv0VzZs75QPPnQ5XvmPdM7W', '0v3erd6V38ty3oRMRwguESM-dLbB3nMv_1589362203', '$2y$13$101b2F8KkQiFhAgEnjqDMeGX4YmHHyCv..HBoI7qMfgWbjwxLvzyK', '24hNQM8g8i5zCP2DCbnf3YcEEwVqPvQ0_1589362204', '1105882406@qq.com', 'eO0BK20200513173006', '8ca8dd96041c24fc716d1b04f792339b', '0.000', '10', '', '1589365006', '1589362204', '1589365006');
 
 -- ----------------------------
 -- Table structure for `p_user_to_pay_channel`
@@ -546,11 +638,9 @@ CREATE TABLE `p_user_to_pay_channel` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `pay_channel_id` (`pay_channel_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of p_user_to_pay_channel
 -- ----------------------------
-INSERT INTO `p_user_to_pay_channel` VALUES ('4', '1', '1', '1588237754', '1588237754');
-INSERT INTO `p_user_to_pay_channel` VALUES ('5', '1', '3', '1588237754', '1588237754');
-INSERT INTO `p_user_to_pay_channel` VALUES ('11', '10', '1', '1588990320', '1588990320');
+INSERT INTO `p_user_to_pay_channel` VALUES ('1', '1', '1', '1589267800', '1589267800');

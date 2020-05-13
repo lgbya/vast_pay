@@ -96,4 +96,24 @@ class Helper
         }
         return $string;
     }
+
+    public static function randomStr($n = 32)
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $randomString = '';
+        for ($i = 0; $i < $n; $i++) {
+            $index = rand(0, strlen($characters) - 1);
+            $randomString .= $characters[$index];
+        }
+        return $randomString;
+    }
+
+    public static function sendEmail($email, $subject='', $htmlBody='')
+    {
+        $mail = Yii::$app->mailer->compose();
+        $mail->setTo($email);
+        $mail->setSubject($subject);
+        $mail->setHtmlBody($htmlBody);    //发布可以带html标签的文本
+        return $mail->send();
+    }
 }

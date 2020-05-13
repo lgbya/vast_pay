@@ -68,7 +68,7 @@ AppAsset::register($this);
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= Alert::widget() ?>
-            <? if (Yii::$app->controller->action->id !== 'login' && Yii::$app->controller->action->id !== 'register'):?>
+            <? if (Yii::$app->controller->action->id !== 'login' && Yii::$app->controller->action->id !== 'register' && Yii::$app->controller->action->id !== 'email-activate'):?>
                 <?= $this->render('left.php') ?>
                 <div class="col-sm-10">
                     <div class = "box">

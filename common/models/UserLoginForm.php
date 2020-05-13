@@ -49,7 +49,7 @@ class UserLoginForm extends Model
         if (!$this->hasErrors()) {
             $user = $this->getUser();
             if (!$user || $user->status === User::STATUS_REGISTER_AUDIT){
-                $this->addError($attribute, '账号未通过审核！！！');
+                $this->addError($attribute, User::enumState('status', $user->status));
                 return false;
             }
 

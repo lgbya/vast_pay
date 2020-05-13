@@ -136,7 +136,7 @@ class User extends ActiveRecord implements IdentityInterface
             'status'=>[
                 self::STATUS_INACTIVE=>'封禁',
                 self::STATUS_ACTIVE=>'正常',
-                self::STATUS_REGISTER_AUDIT =>'注册审核中',
+                self::STATUS_REGISTER_AUDIT =>'账号未激活',
             ],
         ];
 
