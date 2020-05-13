@@ -13,7 +13,7 @@ class Helper
 
     public static function showJsonError($error ,  $message = '', $data = [])
     {
-        $message = $message != ''?:ErrorCode::explain($error);
+        $message = $message != ''? $message : ErrorCode::explain($error);
         Yii::$app->response->format = Response::FORMAT_JSON;
         return [
             'error'     =>  $error,
@@ -33,7 +33,7 @@ class Helper
 
      public static function  formatMoney($money, $len=3, $sign='￥'){
          $money = $money/100;
-         $negative = $money > 0 ? '' : '-';
+         $negative = $money >= 0 ? '' : '-';
          $intMoney = intval(abs($money));
          $len = intval(abs($len));
          $decimal = '';//小数
@@ -59,18 +59,11 @@ class Helper
                 $lsTemp[] = $v;//放大数组
             }
         }
+        if ($lsTemp == []){
+            return [];
+        }
         $int=mt_rand(0, count($lsTemp)-1);
         return $lsTemp[$int];
-    }
-
-    public static function joinToUppercase($str, $symbol = '-')
-    {
-        $lsStr = preg_split('/(?=[A-Z])/',$str);
-        $string = '';
-        foreach($lsStr as $v){
-            $string .= strtolower($v) . $symbol;
-        }
-        return trim($string, $symbol);
     }
 
     public static function createForm($url, $lData = [])
@@ -81,6 +74,16 @@ class Helper
         }
         $formStr .= '</form>';
         return $formStr;
+    }
+
+    public static function joinToUppercase($str, $symbol = '-')
+    {
+        $lsStr = preg_split('/(?=[A-Z])/',$str);
+        $string = '';
+        foreach($lsStr as $v){
+            $string .= strtolower($v) . $symbol;
+        }
+        return trim($string, $symbol);
     }
 
     public static function restoreUppercase($str, $symbol = '-')

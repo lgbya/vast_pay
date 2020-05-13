@@ -27,6 +27,6 @@ class ErrorCode
             self::CHANNEL_FILE_ERR => '接口文件不存在',
             self::CHANNEL_ORDER_NOT_FOUND_ERR => '订单不存在',
         ];
-        return $lErrorCode[$code];
+        return isset($lErrorCode[$code]) ? $lErrorCode[$code]:'';
     }
 }
