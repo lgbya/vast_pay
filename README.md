@@ -43,6 +43,7 @@ nginx的配置放在根目录的vagrant\nginx下的app.conf 请根据实际自�
     * * * * * php yii pay-order/notify-user
     
 ###四,下版本优化
+
     1,增加redis缓存
     2,将现有的models层分离出Repository 和业务逻辑层Service
     3,优化定时任务
