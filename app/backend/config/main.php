@@ -12,6 +12,7 @@ return [
             'identityClass' => 'common\models\Admin',
             'enableAutoLogin' => true,
         ],
+
     ],
     'aliases' => [
         '@mdm/admin' => '@vendor/mdmsoft/yii2-admin',
@@ -32,11 +33,13 @@ return [
         ]
 
     ],
+    'on beforeRequest' => function($event) {
+        common\components\AdminLogControl::write($event);
+    },
     'as access' => [
         'class' => 'mdm\admin\components\AccessControl',
         'allowActions' => [
             'site/captcha',
-            'data-report/*',
         ]
     ],
 ];
