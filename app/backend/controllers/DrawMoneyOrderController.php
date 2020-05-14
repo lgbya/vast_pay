@@ -4,7 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\DrawMoneyOrder;
-use common\models\DrawMoneyOrderSearch;
+use common\models\search\DrawMoneyOrderSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

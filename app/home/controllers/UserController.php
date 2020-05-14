@@ -6,14 +6,10 @@ use common\models\UserSavePasswordForm;
 use common\models\UserVerifyPayPasswordForm;
 use Yii;
 use common\models\User;
-use common\models\UserSearch;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
-/**
- * UserController implements the CRUD actions for User model.
- */
+
 class UserController extends BaseController
 {
     /**
@@ -31,7 +27,9 @@ class UserController extends BaseController
         ];
     }
 
-
+    /**
+     * 用户基础信息
+     */
     public function actionBaseInfo()
     {
         return $this->render('base-info', [
@@ -39,6 +37,9 @@ class UserController extends BaseController
         ]);
     }
 
+    /**
+     * 用户支付信息
+     */
     public function actionPayInfo()
     {
         $ofUserVerifyPayPassword = new UserVerifyPayPasswordForm();
@@ -49,6 +50,9 @@ class UserController extends BaseController
         },Yii::$app->request->post(), $this);
     }
 
+    /**
+     * 修改登录密码
+     */
     public function actionSaveLoginPassword()
     {
         $successHint = false;
@@ -63,6 +67,9 @@ class UserController extends BaseController
         ]);
     }
 
+    /**
+     * 修改支付密码
+     */
     public function actionSavePayPassword()
     {
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace common\models;
+namespace common\models\search;
 
 use common\helper\Helper;
 use moonland\phpexcel\Excel;

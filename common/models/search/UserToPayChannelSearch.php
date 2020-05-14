@@ -1,11 +1,10 @@
 <?php
 
-namespace common\models;
+namespace common\models\search;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\PayOrder;
-use common\helper\Helper;
+use common\models\UserToPayChannel;
 
 /**
  * PayOrderSearch represents the model behind the search form of `common\models\PayOrder`.

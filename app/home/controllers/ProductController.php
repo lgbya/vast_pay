@@ -2,16 +2,13 @@
 
 namespace home\controllers;
 
-use common\models\PayChannel;
+
 use common\models\UserToPayChannel;
 use Yii;
 use common\models\Product;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
-/**
- * ProductController implements the CRUD actions for Product model.
- */
 class ProductController extends BaseController
 {
 
@@ -27,7 +24,9 @@ class ProductController extends BaseController
         ];
     }
 
-
+    /**
+     * 用户开通产品的基本信息
+     */
     public function actionIndex()
     {
         $omUserToPayChannel = new UserToPayChannel();

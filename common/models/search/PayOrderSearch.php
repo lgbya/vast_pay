@@ -1,13 +1,13 @@
 <?php
 
-namespace common\models;
+namespace common\models\search;
 
-use Yii;
 use moonland\phpexcel\Excel;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\PayOrder;
 use common\helper\Helper;
+use common\models\Product;
 
 /**
  * PayOrderSearch represents the model behind the search form of `common\models\PayOrder`.
@@ -213,8 +213,8 @@ class PayOrderSearch extends PayOrder
     public function getBeforetimeOrder($day = '-30 day',$userId = null)
     {
         return self::find()
-            ->andFilterWhere(['between',  'notify_at',  strtotime($day), time()])
             ->andFilterWhere(['user_id'=>$userId])
+            ->andFilterWhere(['between',  'notify_at',  strtotime($day), time()])
             ->andFilterWhere(['in', 'status', $this->userHavePayMoneyStatus()])
             ->orderBy('notify_at')
             ->all();

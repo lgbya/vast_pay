@@ -4,8 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\ChangeUserMoneyLog;
-use common\models\ChangeUserMoneyLogSearch;
-use yii\web\Controller;
+use common\models\search\ChangeUserMoneyLogSearch;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 

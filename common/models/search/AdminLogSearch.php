@@ -1,17 +1,17 @@
 <?php
 
-namespace common\models;
+namespace common\models\search;
 
+use common\helper\Helper;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\PayChannelAccount;
-use common\helper\Helper;
+use common\models\AdminLog;
 
 /**
- * PayChannelAccountSearch represents the model behind the search form of `common\models\PayChannelAccount`.
+ * AdminLogSearch represents the model behind the search form of `common\models\AdminLog`.
  */
-class PayChannelAccountSearch extends PayChannelAccount
+class AdminLogSearch extends AdminLog
 {
     /**
      * {@inheritdoc}
@@ -19,8 +19,8 @@ class PayChannelAccountSearch extends PayChannelAccount
     public function rules()
     {
         return [
-            [['id', 'pay_channel_id', 'weight', 'status', 'created_at', 'updated_at', 'is_del'], 'integer'],
-            [['account', 'appid', 'md5_key', 'private_key', 'public_key'], 'safe'],
+            [['id', 'created_at', 'admin_id'], 'integer'],
+            [['route', 'admin_ip', 'admin_agent', 'admin_name'], 'safe'],
         ];
     }
 
@@ -42,7 +42,7 @@ class PayChannelAccountSearch extends PayChannelAccount
      */
     public function search($params)
     {
-        $query = PayChannelAccount::find();
+        $query = AdminLog::find();
 
         // add conditions that should always apply here
 
@@ -59,18 +59,14 @@ class PayChannelAccountSearch extends PayChannelAccount
         $this->load($params);
 
         if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
+
             return $dataProvider;
         }
 
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'pay_channel_id' => $this->pay_channel_id,
-            'account' => $this->account,
-            'status' => $this->status,
-            'is_del' => $this->is_del,
+            'admin_id' => $this->admin_id,
         ]);
 
         $lCreatedAt = Helper::cuttingDateRange($this->created_at);
@@ -78,11 +74,10 @@ class PayChannelAccountSearch extends PayChannelAccount
             $query->andFilterWhere(['between',  'created_at',  $lCreatedAt[0], $lCreatedAt[1]]);
         }
 
-        $lUpdatedAt = Helper::cuttingDateRange($this->updated_at);
-        if ($lUpdatedAt !== []){
-            $query->andFilterWhere(['between',  'updated_at',  $lUpdatedAt[0], $lUpdatedAt[1]]);
-        }
-
+        $query->andFilterWhere(['like', 'route', $this->route])
+            ->andFilterWhere(['like', 'admin_ip', $this->admin_ip])
+            ->andFilterWhere(['like', 'admin_agent', $this->admin_agent])
+            ->andFilterWhere(['like', 'admin_name', $this->admin_name]);
 
         return $dataProvider;
     }

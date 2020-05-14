@@ -8,7 +8,6 @@ use common\models\UserRegisterForm;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
-use yii\web\Response;
 use yii\filters\VerbFilter;
 use common\models\UserLoginForm;
 

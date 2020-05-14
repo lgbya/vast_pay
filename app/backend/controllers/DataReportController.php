@@ -2,12 +2,7 @@
 
 namespace backend\controllers;
 
-use common\models\PayOrder;
-use common\models\PayOrderSearch;
-use common\models\Product;
-use Yii;
-
-
+use common\models\search\PayOrderSearch;
 /**
  * ChangeUserMoneyLogController implements the CRUD actions for ChangeUserMoneyLog model.
  */

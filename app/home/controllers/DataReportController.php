@@ -2,17 +2,14 @@
 
 namespace home\controllers;
 
-use common\models\PayOrder;
-use common\models\PayOrderSearch;
-use common\models\Product;
-use Yii;
+use common\models\search\PayOrderSearch;
 
-
-/**
- * ChangeUserMoneyLogController implements the CRUD actions for ChangeUserMoneyLog model.
- */
 class DataReportController extends BaseController
 {
+
+    /**
+     * 支付产品的图表分析
+     */
     public function actionProductAnalyze()
     {
 
@@ -28,8 +25,7 @@ class DataReportController extends BaseController
             $lsProductMoneySum['profit_money'][] = $v->profit_money;
         }
 
-
-        $oqlPayOrder = $osPayOrder->getBeforetimeOrder($this->user_id);
+        $oqlPayOrder = $osPayOrder->getBeforetimeOrder('-30 day',$this->user_id);
         $lsEverydayMoneySum = [];
         $lDate = [];
         foreach($oqlPayOrder as $k => $v){

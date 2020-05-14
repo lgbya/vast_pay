@@ -4,14 +4,12 @@ namespace home\controllers;
 
 use Yii;
 use common\models\ChangeUserMoneyLog;
-use common\models\ChangeUserMoneyLogSearch;
+use common\models\search\ChangeUserMoneyLogSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
-/**
- * ChangeUserMoneyLogController implements the CRUD actions for ChangeUserMoneyLog model.
- */
+
 class ChangeUserMoneyLogController extends BaseController
 {
     /**
@@ -30,8 +28,7 @@ class ChangeUserMoneyLogController extends BaseController
     }
 
     /**
-     * Lists all ChangeUserMoneyLog models.
-     * @return mixed
+     * 资金更改日志
      */
     public function actionIndex()
     {

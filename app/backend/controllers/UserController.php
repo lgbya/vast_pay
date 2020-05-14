@@ -4,14 +4,10 @@ namespace backend\controllers;
 
 use common\models\Product;
 use common\models\UserToPayChannel;
-use common\models\UserToPayChannelSearch;
-use phpDocumentor\Reflection\DocBlock\Tags\Var_;
+use common\models\search\UserToPayChannelSearch;
 use Yii;
 use common\models\User;
-use common\models\UserSearch;
-use yii\data\ActiveDataProvider;
-use yii\helpers\ArrayHelper;
-use yii\web\Controller;
+use common\models\search\UserSearch;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 

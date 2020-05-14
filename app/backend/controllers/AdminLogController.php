@@ -4,7 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\AdminLog;
-use common\models\AdminLogSearch;
+use common\models\search\AdminLogSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

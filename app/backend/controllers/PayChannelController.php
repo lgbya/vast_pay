@@ -4,13 +4,11 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\PayChannel;
-use common\models\PayChannelSearch;
+use common\models\search\PayChannelSearch;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
-/**
- * PayChannelController implements the CRUD actions for PayChannel model.
- */
+
 class PayChannelController extends BaseController
 {
     /**

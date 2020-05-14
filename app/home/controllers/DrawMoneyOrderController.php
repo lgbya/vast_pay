@@ -4,13 +4,10 @@ namespace home\controllers;
 
 use Yii;
 use common\models\DrawMoneyOrder;
-use common\models\DrawMoneyOrderSearch;
+use common\models\search\DrawMoneyOrderSearch;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
-/**
- * DrawMoneyOrderController implements the CRUD actions for DrawMoneyOrder model.
- */
 class DrawMoneyOrderController extends BaseController
 {
     /**

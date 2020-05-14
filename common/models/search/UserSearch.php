@@ -1,19 +1,18 @@
 <?php
 
-namespace common\models;
+namespace common\models\Search;
 
 use moonland\phpexcel\Excel;
-use phpDocumentor\Reflection\Types\Self_;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\ChangeUserMoneyLog;
+use common\models\User;
 use common\helper\Helper;
 
 /**
- * ChangeUserMoneyLogSearch represents the model behind the search form of `common\models\ChangeUserMoneyLog`.
+ * UserSearch represents the model behind the search form of `common\models\User`.
  */
-class ChangeUserMoneyLogSearch extends ChangeUserMoneyLog
+class UserSearch extends User
 {
     /**
      * {@inheritdoc}
@@ -21,8 +20,8 @@ class ChangeUserMoneyLogSearch extends ChangeUserMoneyLog
     public function rules()
     {
         return [
-            [['id', 'user_id', 'change_money', 'before_money', 'after_money', 'type', 'created_at', 'updated_at'], 'integer'],
-            [['extra'], 'safe'],
+            [['id', 'money', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['username', 'email', 'account'], 'safe'],
         ];
     }
 
@@ -44,7 +43,7 @@ class ChangeUserMoneyLogSearch extends ChangeUserMoneyLog
      */
     public function search($params)
     {
-        $query = ChangeUserMoneyLog::find();
+        $query = User::find();
 
         // add conditions that should always apply here
 
@@ -79,17 +78,19 @@ class ChangeUserMoneyLogSearch extends ChangeUserMoneyLog
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'user_id' => $this->user_id,
-            'change_money' => $this->change_money,
-            'before_money' => $this->before_money,
-            'after_money' => $this->after_money,
-            'type' => $this->type,
+            'money' => $this->money,
+            'status' => $this->status,
         ]);
 
-        $query->andFilterWhere(['like', 'extra', $this->extra]);
+        $query->andFilterWhere(['like', 'username', $this->username])
+            ->andFilterWhere(['like', 'auth_key', $this->auth_key])
+            ->andFilterWhere(['like', 'password_hash', $this->password_hash])
+            ->andFilterWhere(['like', 'password_reset_token', $this->password_reset_token])
+            ->andFilterWhere(['like', 'email', $this->email]);
 
         return $dataProvider;
     }
+
 
     /**
      * 导出订单
@@ -98,15 +99,20 @@ class ChangeUserMoneyLogSearch extends ChangeUserMoneyLog
     {
 
         $dataProvider = $this->search($params);
+
         return Excel::export([
             'models' => $dataProvider->query->all(),
             'fileName'=> [date('Ymd') . '_' . 'Export'],
             'columns'=>[
-                'user_id',
-                'change_money',
-                'before_money',
-                'after_money',
-                'extra',
+
+                'id',
+                'username',
+                'email',
+                'money',
+                [
+                    'attribute' => 'pre_login_at',
+                    'format' => ['date', 'php:Y-m-d H:i:s'],
+                ],
                 [
                     'attribute' => 'created_at',
                     'format' => ['date', 'php:Y-m-d H:i:s'],
@@ -116,9 +122,9 @@ class ChangeUserMoneyLogSearch extends ChangeUserMoneyLog
                     'format' => ['date', 'php:Y-m-d H:i:s'],
                 ],
                 [
-                    'attribute'=>'type',
+                    'attribute'=>'status',
                     'value' => function($data){
-                        return ChangeUserMoneyLog::enumState('type', $data->type);
+                        return User::enumState('status', $data->status);
                     },
                 ],
             ],

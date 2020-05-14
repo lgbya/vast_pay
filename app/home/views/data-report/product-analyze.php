@@ -75,7 +75,7 @@ $options = [
     'xAxis' => [
         'type' => 'category',
         'boundaryGap' => false,
-        'data' => array_values($lDate),
+        'data' => $lDate?array_values($lDate):[],
     ],
     'yAxis' => [
         'type' => 'value'
@@ -85,25 +85,25 @@ $options = [
             'name' =>'原支付金额',
             'type' => 'line',
             'stack'=> '总量',
-            'data' => array_values($lsEverydayMoneySum['pay_money']),
+            'data' => $lsEverydayMoneySum['pay_money']?array_values($lsEverydayMoneySum['pay_money']):[],
         ],
         [
             'name' =>'用户获取金额',
             'type' => 'line',
             'stack'=> '总量',
-            'data' => array_values($lsEverydayMoneySum['user_money']),
+            'data' => $lsEverydayMoneySum['user_money']?array_values($lsEverydayMoneySum['user_money']):[],
         ],
         [
             'name' =>'利润',
             'type' => 'line',
             'stack'=> '总量',
-            'data' => array_values($lsEverydayMoneySum['profit_money']),
+            'data' => $lsEverydayMoneySum['profit_money']?array_values($lsEverydayMoneySum['profit_money']):[],
         ],
         [
             'name' =>'成本',
             'type' => 'line',
             'stack'=> '总量',
-            'data' => array_values($lsEverydayMoneySum['cost_money']),
+            'data' => $lsEverydayMoneySum['cost_money']?array_values($lsEverydayMoneySum['cost_money']):[],
         ],
     ]
 ];

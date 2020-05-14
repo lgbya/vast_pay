@@ -5,14 +5,10 @@ namespace home\controllers;
 use common\models\Product;
 use Yii;
 use common\models\PayOrder;
-use common\models\PayOrderSearch;
-use yii\web\Controller;
+use common\models\search\PayOrderSearch;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
-/**
- * PayOrderController implements the CRUD actions for PayOrder model.
- */
 class PayOrderController extends BaseController
 {
     /**
