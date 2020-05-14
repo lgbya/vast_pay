@@ -2,8 +2,8 @@
 
 namespace common\models;
 
-use common\helper\Helper;
 use Yii;
+use common\helper\Helper;
 
 /**
  * This is the model class for table "{{%email_code}}".

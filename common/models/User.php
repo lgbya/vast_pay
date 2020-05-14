@@ -2,13 +2,11 @@
 
 namespace common\models;
 
-use Faker\Provider\Uuid;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 use yii\behaviors\TimestampBehavior;
-use common\helper\Helper;
 
 /**
  * This is the model class for table "{{%user}}".

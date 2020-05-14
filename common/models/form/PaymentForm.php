@@ -1,12 +1,11 @@
 <?php
 
-namespace common\models;
+namespace common\models\form;
 
-use common\helper\Sign;
-use Yii;
 use yii\base\Model;
-use yii\web\Controller;
-use common\helper\Helper;
+use common\helper\Sign;
+use common\models\PayOrder;
+use common\models\User;
 
 class PaymentForm extends Model
 {
@@ -38,6 +37,9 @@ class PaymentForm extends Model
         ];
     }
 
+    /**
+     * 检测数据
+     */
     public function checkData()
     {
         if(!$this->validate()){
@@ -64,8 +66,10 @@ class PaymentForm extends Model
         return true;
     }
 
-
-    public function verifySign()
+    /**
+     * 验证签名
+     */
+    protected function verifySign()
     {
         $oqUser = $this->getUser();
         $lData = [

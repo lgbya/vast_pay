@@ -1,9 +1,10 @@
 <?php
 
-namespace common\models;
+namespace common\models\form;
 
 use common\helper\Sign;
 use yii\base\Model;
+use common\models\User;
 
 class QueryPayOrderForm extends Model
 {

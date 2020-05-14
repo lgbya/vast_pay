@@ -2,17 +2,16 @@
 namespace api\controllers;
 
 use Yii;
-use yii\base\ErrorException;
 use api\payment\Payment;
 use common\helper\ErrorCode;
 use common\helper\Helper;
 use common\models\ChangeUserMoneyLog;
 use common\models\PayChannelAccount;
 use common\models\PayOrder;
-use common\models\QueryPayOrderForm;
+use common\models\form\QueryPayOrderForm;
 use common\models\User;
 use common\models\UserToPayChannel;
-use common\models\PaymentForm;
+use common\models\form\PaymentForm;
 
 class PaymentController extends BaseController
 {

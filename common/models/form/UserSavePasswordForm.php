@@ -1,10 +1,9 @@
 <?php
 
-namespace common\models;
+namespace common\models\form;
 
-use Yii;
 use yii\base\Model;
-use common\helper\Helper;
+use common\models\User;
 
 class UserSavePasswordForm extends Model
 {
@@ -28,7 +27,9 @@ class UserSavePasswordForm extends Model
         ];
     }
 
-
+    /**
+     * 修改登录密码
+     */
     public function saveLoginPassword($userId)
     {
         if (!$this->validate()) {
@@ -43,6 +44,9 @@ class UserSavePasswordForm extends Model
         return true;
     }
 
+    /**
+     * 修改支付密码
+     */
     public function savePayPassword($userId)
     {
         if (!$this->validate()) {

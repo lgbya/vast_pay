@@ -2,8 +2,8 @@
 
 namespace home\controllers;
 
-use common\models\UserSavePasswordForm;
-use common\models\UserVerifyPayPasswordForm;
+use common\models\form\UserSavePasswordForm;
+use common\models\form\UserVerifyPayPasswordForm;
 use Yii;
 use common\models\User;
 use yii\web\NotFoundHttpException;

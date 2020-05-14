@@ -1,18 +1,11 @@
 <?php
 
-namespace common\models;
+namespace common\models\form;
 
 use Yii;
 use yii\base\Model;
 use common\models\Admin;
-use common\helper\Helper;
 
-/**
- * AdminLoginForm is the model behind the login form.
- *
- * @property Admin|null $user This property is read-only.
- *
- */
 class AdminLoginForm extends Model
 {
     public $username;

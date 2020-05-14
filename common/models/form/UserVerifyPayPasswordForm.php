@@ -1,11 +1,11 @@
 <?php
 
-namespace common\models;
+namespace common\models\form;
 
 use Yii;
 use yii\base\Model;
 use yii\web\Controller;
-use common\helper\Helper;
+use common\models\User;
 
 class UserVerifyPayPasswordForm extends Model
 {
@@ -26,6 +26,9 @@ class UserVerifyPayPasswordForm extends Model
         ];
     }
 
+    /**
+     * 验证支付密码
+     */
     public function validatePassword($attribute, $params)
     {
         $user = User::findOne(Yii::$app->user->getId());

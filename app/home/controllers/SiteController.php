@@ -4,12 +4,12 @@ namespace home\controllers;
 
 use common\models\EmailCode;
 use common\models\User;
-use common\models\UserRegisterForm;
+use common\models\form\UserRegisterForm;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use common\models\UserLoginForm;
+use common\models\form\UserLoginForm;
 
 class SiteController extends BaseController
 {

@@ -1,17 +1,11 @@
 <?php
 
-namespace common\models;
+namespace common\models\form;
 
 use Yii;
 use yii\base\Model;
-use common\helper\Helper;
+use common\models\User;
 
-/**
- * LoginForm is the model behind the login form.
- *
- * @property User|null $user This property is read-only.
- *
- */
 class UserLoginForm extends Model
 {
     public $username;
@@ -44,6 +38,9 @@ class UserLoginForm extends Model
         ];
     }
 
+    /**
+     * 验证登录密码
+     */
     public function validatePassword($attribute, $params)
     {
         if (!$this->hasErrors()) {
@@ -61,6 +58,9 @@ class UserLoginForm extends Model
         return true;
     }
 
+    /**
+     * 用户登录操作
+     */
     public function login()
     {
         if ($this->validate()) {

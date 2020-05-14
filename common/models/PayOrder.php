@@ -4,7 +4,6 @@ namespace common\models;
 
 use common\helper\Sign;
 use linslin\yii2\curl\Curl;
-use moonland\phpexcel\Excel;
 use Yii;
 use common\helper\Helper;
 use yii\behaviors\TimestampBehavior;
