@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50726
 File Encoding         : 65001
 
-Date: 2020-05-13 18:17:05
+Date: 2020-05-14 11:41:09
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -37,7 +37,26 @@ CREATE TABLE `p_admin` (
 -- ----------------------------
 -- Records of p_admin
 -- ----------------------------
-INSERT INTO `p_admin` VALUES ('1', 'admin', 'eb2ceSlO_HduMj9dQWzk9rPJt2P0L-bJ', '$2y$13$X1i.6iOS61RMBKjAItz.8uAyVeaH7EiEJOqgs8ozvj7UM5rSkIe1W', '_N78d_egne3rxC-OPuCblPSXO8yZPJgK_1586831793', '1588751144', '127.0.0.1', 'test@test.com', '10', '1586831793', '1588751144');
+INSERT INTO `p_admin` VALUES ('1', 'admin', 'eb2ceSlO_HduMj9dQWzk9rPJt2P0L-bJ', '$2y$13$X1i.6iOS61RMBKjAItz.8uAyVeaH7EiEJOqgs8ozvj7UM5rSkIe1W', '_N78d_egne3rxC-OPuCblPSXO8yZPJgK_1586831793', '1589427074', '127.0.0.1', 'test@test.com', '10', '1586831793', '1589427074');
+
+-- ----------------------------
+-- Table structure for `p_admin_log`
+-- ----------------------------
+DROP TABLE IF EXISTS `p_admin_log`;
+CREATE TABLE `p_admin_log` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `route` varchar(255) COLLATE utf8mb4_bin NOT NULL DEFAULT '',
+  `created_at` int(10) NOT NULL,
+  `admin_id` int(10) NOT NULL DEFAULT '0',
+  `admin_ip` char(15) COLLATE utf8mb4_bin NOT NULL DEFAULT '',
+  `admin_agent` varchar(255) COLLATE utf8mb4_bin NOT NULL DEFAULT '',
+  `admin_name` varchar(255) COLLATE utf8mb4_bin NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+-- ----------------------------
+-- Records of p_admin_log
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `p_auth_assignment`
@@ -79,6 +98,7 @@ CREATE TABLE `p_auth_item` (
 -- Records of p_auth_item
 -- ----------------------------
 INSERT INTO `p_auth_item` VALUES ('/*', '2', null, null, null, '1487816675', '1487816675');
+INSERT INTO `p_auth_item` VALUES ('/admin-log/index', '2', null, null, null, '1589424850', '1589424850');
 INSERT INTO `p_auth_item` VALUES ('/admin/*', '2', null, null, null, '1487816732', '1487816732');
 INSERT INTO `p_auth_item` VALUES ('/admin/assignment/*', '2', null, null, null, '1487816732', '1487816732');
 INSERT INTO `p_auth_item` VALUES ('/admin/assignment/assign', '2', null, null, null, '1487816732', '1487816732');
@@ -291,7 +311,7 @@ CREATE TABLE `p_change_user_money_log` (
   `updated_at` int(10) unsigned NOT NULL DEFAULT '0',
   `extra` varchar(255) COLLATE utf8mb4_bin NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of p_change_user_money_log
@@ -334,6 +354,7 @@ INSERT INTO `p_change_user_money_log` VALUES ('35', '1', '9900.000', '336600.000
 INSERT INTO `p_change_user_money_log` VALUES ('36', '1', '9900.000', '346500.000', '356400.000', '3', '1589336979', '1589336979', '12020051310293804159');
 INSERT INTO `p_change_user_money_log` VALUES ('37', '1', '9900.000', '356400.000', '366300.000', '1', '1589349353', '1589349353', '12020051218084046695');
 INSERT INTO `p_change_user_money_log` VALUES ('38', '1', '-100.000', '366300.000', '366200.000', '4', '1589350066', '1589350066', '12020051314074607545');
+INSERT INTO `p_change_user_money_log` VALUES ('39', '1', '9900.000', '366200.000', '376100.000', '3', '1589427112', '1589427112', '12020051411315195840');
 
 -- ----------------------------
 -- Table structure for `p_draw_money_order`
@@ -369,7 +390,7 @@ CREATE TABLE `p_email_code` (
   `email` varchar(255) COLLATE utf8mb4_bin NOT NULL,
   `code` varchar(255) COLLATE utf8mb4_bin NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of p_email_code
@@ -389,7 +410,7 @@ CREATE TABLE `p_menu` (
   PRIMARY KEY (`id`),
   KEY `parent` (`parent`),
   CONSTRAINT `p_menu_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `p_menu` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of p_menu
@@ -417,6 +438,7 @@ INSERT INTO `p_menu` VALUES ('20', '网站管理', null, null, '1', 0x6465736B74
 INSERT INTO `p_menu` VALUES ('21', '服务器信息', '20', '/site/index', null, 0x736572766572);
 INSERT INTO `p_menu` VALUES ('22', '产品分析', '19', '/data-report/product-analyze', '99', 0x617265612D6368617274);
 INSERT INTO `p_menu` VALUES ('23', '提款订单列表', '16', '/draw-money-order/index', null, 0x62616E6B);
+INSERT INTO `p_menu` VALUES ('24', '管理员日志', '20', '/admin-log/index', null, 0x757365722D636972636C652D6F);
 
 -- ----------------------------
 -- Table structure for `p_migration`
@@ -523,7 +545,7 @@ CREATE TABLE `p_pay_order` (
   `success_at` int(10) unsigned NOT NULL DEFAULT '0',
   `query_at` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of p_pay_order
@@ -575,6 +597,7 @@ INSERT INTO `p_pay_order` VALUES ('44', '1', '1', 'Demo', '123456', '', '123456'
 INSERT INTO `p_pay_order` VALUES ('45', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051310284642300', '1589336926', 'test1589336926', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '1', '1589336926', '1589336926', '1589336926', '0', '0');
 INSERT INTO `p_pay_order` VALUES ('46', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051310285413471', '1589336934', 'test1589336935', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '1', '1589336934', '1589336935', '1589336935', '0', '0');
 INSERT INTO `p_pay_order` VALUES ('47', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051310293804159', '1589336978', 'test1589336978', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '1', '1589336978', '1589336979', '1589336979', '0', '0');
+INSERT INTO `p_pay_order` VALUES ('48', '1', '1', 'Demo', '123456', '', '123456', '123456', '123456', '1', '3LqeO20200512145618', '12020051411315195840', '1589427111', 'test1589427112', '10', '10', '10000', '9900.000', '100.000', '100.000', '0', 'http://www.bbb.com', 'http://www.bbb.com', '', 'md5', '1', '1589427111', '1589427112', '1589427112', '0', '0');
 
 -- ----------------------------
 -- Table structure for `p_product`
@@ -588,12 +611,13 @@ CREATE TABLE `p_product` (
   `updated_at` int(11) unsigned NOT NULL DEFAULT '0',
   `is_del` tinyint(3) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of p_product
 -- ----------------------------
 INSERT INTO `p_product` VALUES ('1', '测试支付1', '1', '1589266681', '1589266681', '0');
+INSERT INTO `p_product` VALUES ('2', '测试支付2', '1', '1589422478', '1589422478', '0');
 
 -- ----------------------------
 -- Table structure for `p_user`
@@ -622,7 +646,7 @@ CREATE TABLE `p_user` (
 -- ----------------------------
 -- Records of p_user
 -- ----------------------------
-INSERT INTO `p_user` VALUES ('1', 'demo', 'Hz26a-IM-SB0vonQen9pN43DwQUbhp-Y', '$2y$13$PuMu8nWAVU/gDYFBjSk5aesVtdEd2lt8ZrP0wNwx4DT5DEwSo/F26', 'q2hzuPbyL9IsSiZWEbUa21bm26BlYgSW_1589266577', '$2y$13$/OjUyUZ9Qbi9Rf3QKmb4KOgbj0/qVu0fLEWLgbaKtRnjw7Zsmzos.', '3d6IwRQoO4f_XjTvIIlKbmUCXnOGu4hB_1589266577', 'demo@a.com', '3LqeO20200512145618', 'd02521f72e0b9367ec9067976e803dab', '366200.000', '10', '', '1589267819', '1589266577', '1589267819');
+INSERT INTO `p_user` VALUES ('1', 'demo', 'Hz26a-IM-SB0vonQen9pN43DwQUbhp-Y', '$2y$13$PuMu8nWAVU/gDYFBjSk5aesVtdEd2lt8ZrP0wNwx4DT5DEwSo/F26', 'q2hzuPbyL9IsSiZWEbUa21bm26BlYgSW_1589266577', '$2y$13$/OjUyUZ9Qbi9Rf3QKmb4KOgbj0/qVu0fLEWLgbaKtRnjw7Zsmzos.', '3d6IwRQoO4f_XjTvIIlKbmUCXnOGu4hB_1589266577', 'demo@a.com', '3LqeO20200512145618', 'd02521f72e0b9367ec9067976e803dab', '376100.000', '10', '', '1589267819', '1589266577', '1589267819');
 INSERT INTO `p_user` VALUES ('2', 'lgbya', 'PhGmfTfrWuPR7fZUIUrYGM7BHN1j_E1M', '$2y$13$zzOyIYDmBpXtaLV1zFWoHeS7nY0.x2nv0VzZs75QPPnQ5XvmPdM7W', '0v3erd6V38ty3oRMRwguESM-dLbB3nMv_1589362203', '$2y$13$101b2F8KkQiFhAgEnjqDMeGX4YmHHyCv..HBoI7qMfgWbjwxLvzyK', '24hNQM8g8i5zCP2DCbnf3YcEEwVqPvQ0_1589362204', '1105882406@qq.com', 'eO0BK20200513173006', '8ca8dd96041c24fc716d1b04f792339b', '0.000', '10', '', '1589365006', '1589362204', '1589365006');
 
 -- ----------------------------

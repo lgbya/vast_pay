@@ -195,7 +195,7 @@ class PayOrder extends \yii\db\ActiveRecord
         $this->user_sign_type = $ofPayment->sign_type;
 
         $this->pay_money = $ofPayment->money;
-        $this->cost_money = $this->countCostMoney($ofPayment->money, $lChannel['profit_rate']);
+        $this->cost_money = $this->countCostMoney($ofPayment->money, $lChannel['cost_rate']);
         $this->profit_money = $this->countProfitMoney($ofPayment->money, $lChannel['profit_rate']);
         $this->user_money = $this->countUserMoney($this->pay_money, $this->profit_money);
 
