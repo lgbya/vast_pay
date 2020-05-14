@@ -93,7 +93,6 @@ class PayOrderController extends BaseController
             throw new NotFoundHttpException(Yii::t('app', '订单校正失败！修改状态无效'));
         }
         $transaction->commit();
-        $oqPayOrder->notifyUser();
         return $this->redirect(['view','id'=>$id]);
     }
 
