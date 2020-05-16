@@ -37,22 +37,22 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'name' => '原支付金额',
                         'type' => 'bar',
-                        'data' => $lsProductMoneySum['pay_money'],
+                        'data' => $lsProductMoneySum['pay_money']??0,
                     ],
                     [
                         'name' => '用户获取金额',
                         'type' => 'bar',
-                        'data' => $lsProductMoneySum['user_money'],
+                        'data' => $lsProductMoneySum['user_money']??0,
                     ],
                     [
                         'name' => '成本',
                         'type' => 'bar',
-                        'data' => $lsProductMoneySum['cost_money'],
+                        'data' => $lsProductMoneySum['cost_money']??0,
                     ],
                     [
                         'name' => '利润',
                         'type' => 'bar',
-                        'data' => $lsProductMoneySum['profit_money'],
+                        'data' => $lsProductMoneySum['profit_money']??0,
                     ],
                 ]
             ];
