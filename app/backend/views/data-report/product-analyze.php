@@ -83,7 +83,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'xAxis' => [
                     'type' => 'category',
                     'boundaryGap' => false,
-                    'data' => $lDate?array_values($lDate):[],
+                    'data' => isset($lDate)?array_values($lDate):[],
                 ],
                 'yAxis' => [
                     'type' => 'value'
@@ -93,25 +93,25 @@ $this->params['breadcrumbs'][] = $this->title;
                         'name' =>'原支付金额',
                         'type' => 'line',
                         'stack'=> '总量',
-                        'data' => $lsEverydayMoneySum['pay_money']?array_values($lsEverydayMoneySum['pay_money']):[],
+                        'data' => isset($lsEverydayMoneySum['pay_money'])?array_values($lsEverydayMoneySum['pay_money']):[],
                     ],
                     [
                         'name' =>'用户获取金额',
                         'type' => 'line',
                         'stack'=> '总量',
-                        'data' => $lsEverydayMoneySum['user_money']?array_values($lsEverydayMoneySum['user_money']):[],
+                        'data' => isset($lsEverydayMoneySum['user_money'])?array_values($lsEverydayMoneySum['user_money']):[],
                     ],
                     [
                         'name' =>'利润',
                         'type' => 'line',
                         'stack'=> '总量',
-                        'data' => $lsEverydayMoneySum['profit_money']?array_values($lsEverydayMoneySum['profit_money']):[],
+                        'data' => isset($lsEverydayMoneySum['profit_money'])?array_values($lsEverydayMoneySum['profit_money']):[],
                     ],
                     [
                         'name' =>'成本',
                         'type' => 'line',
                         'stack'=> '总量',
-                        'data' => $lsEverydayMoneySum['cost_money']?array_values($lsEverydayMoneySum['cost_money']):[],
+                        'data' => isset($lsEverydayMoneySum['cost_money'])?array_values($lsEverydayMoneySum['cost_money']):[],
                     ],
                 ]
             ];
