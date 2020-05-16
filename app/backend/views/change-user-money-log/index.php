@@ -13,8 +13,6 @@ $this->title = Yii::t('app', '用户资金日志');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<?php Pjax::begin(); ?>
-
 <div class="row">
     <div class="col-xs-12">
         <div class="box">
@@ -81,4 +79,3 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 </div>
 
-<?php Pjax::end(); ?>
