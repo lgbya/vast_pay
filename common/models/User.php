@@ -139,7 +139,7 @@ class User extends ActiveRecord implements IdentityInterface
         ];
 
         if (isset($lsEnum[$type])){
-            return $lsEnum[$type][$field] ? : $lsEnum[$type] ;
+            return $lsEnum[$type][$field] ?? $lsEnum[$type] ;
         }
 
         return $lsEnum;

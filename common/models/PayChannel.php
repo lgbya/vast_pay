@@ -116,7 +116,7 @@ class PayChannel extends \yii\db\ActiveRecord
         ];
 
         if (isset($lsEnum[$type])){
-            return $lsEnum[$type][$field] ? : $lsEnum[$type] ;
+            return $lsEnum[$type][$field] ?? $lsEnum[$type] ;
         }
 
         return $lsEnum;
