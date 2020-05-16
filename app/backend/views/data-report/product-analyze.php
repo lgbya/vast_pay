@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'xAxis'   => [
                     [
                         'type' => 'category',
-                        'data' => $lsProductMoneySum['product_name'],
+                        'data' => $lsProductMoneySum['product_name']??'',
                     ]
                 ],
                 'yAxis'   => [
