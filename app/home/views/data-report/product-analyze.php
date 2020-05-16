@@ -19,7 +19,7 @@ $options = [
     'xAxis'   => [
         [
             'type' => 'category',
-            'data' => $lsProductMoneySum['product_name'],
+            'data' => $lsProductMoneySum['product_name']??'',
         ]
     ],
     'yAxis'   => [
@@ -29,22 +29,22 @@ $options = [
         [
             'name' => '原支付金额',
             'type' => 'bar',
-            'data' => $lsProductMoneySum['pay_money'],
+            'data' => $lsProductMoneySum['pay_money']??0,
         ],
         [
             'name' => '用户获取金额',
             'type' => 'bar',
-            'data' => $lsProductMoneySum['user_money'],
+            'data' => $lsProductMoneySum['user_money']??0,
         ],
         [
             'name' => '成本',
             'type' => 'bar',
-            'data' => $lsProductMoneySum['cost_money'],
+            'data' => $lsProductMoneySum['cost_money']??0,
         ],
         [
             'name' => '利润',
             'type' => 'bar',
-            'data' => $lsProductMoneySum['profit_money'],
+            'data' => $lsProductMoneySum['profit_money']??0,
         ],
     ]
 ];
@@ -75,7 +75,7 @@ $options = [
     'xAxis' => [
         'type' => 'category',
         'boundaryGap' => false,
-        'data' => $lDate?array_values($lDate):[],
+        'data' => isset($lDate)?array_values($lDate):[],
     ],
     'yAxis' => [
         'type' => 'value'
@@ -85,25 +85,25 @@ $options = [
             'name' =>'原支付金额',
             'type' => 'line',
             'stack'=> '总量',
-            'data' => $lsEverydayMoneySum['pay_money']?array_values($lsEverydayMoneySum['pay_money']):[],
+            'data' => isset($lsEverydayMoneySum['pay_money'])?array_values($lsEverydayMoneySum['pay_money']):[],
         ],
         [
             'name' =>'用户获取金额',
             'type' => 'line',
             'stack'=> '总量',
-            'data' => $lsEverydayMoneySum['user_money']?array_values($lsEverydayMoneySum['user_money']):[],
+            'data' => isset($lsEverydayMoneySum['user_money'])?array_values($lsEverydayMoneySum['user_money']):[],
         ],
         [
             'name' =>'利润',
             'type' => 'line',
             'stack'=> '总量',
-            'data' => $lsEverydayMoneySum['profit_money']?array_values($lsEverydayMoneySum['profit_money']):[],
+            'data' => isset($lsEverydayMoneySum['profit_money'])?array_values($lsEverydayMoneySum['profit_money']):[],
         ],
         [
             'name' =>'成本',
             'type' => 'line',
             'stack'=> '总量',
-            'data' => $lsEverydayMoneySum['cost_money']?array_values($lsEverydayMoneySum['cost_money']):[],
+            'data' => isset($lsEverydayMoneySum['cost_money'])?array_values($lsEverydayMoneySum['cost_money']):[],
         ],
     ]
 ];
