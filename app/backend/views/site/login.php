@@ -69,7 +69,7 @@ $fieldOptions2 = [
 
 
 <!--        <a href="#">I forgot my password</a><br>-->
-<!--        <a href="register.html" class="text-center">Register a new membership</a>-->
+        <a href="#" class="text-center"> For learning only, no business activities</a>
 
     </div>
     <!-- /.login-box-body -->
